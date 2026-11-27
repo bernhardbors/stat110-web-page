@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>STAT110 · Eksamensøving</title>
+  <meta name="description" content="Prøveeksamener, tidligere eksamener og temasett for STAT110 Grunnkurs i statistikk (UiB).">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231f3a5f'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='Georgia'>σ</text></svg>">
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-head">
+    <div class="wrap head-inner">
+      <a class="brand" href="./"><span class="logo">σ</span> STAT110 <span class="muted">· Eksamensøving</span></a>
+      <nav class="top-links">
+        <a href="formelark.html" target="_blank" rel="noopener">Formelark og tabeller ↗</a>
+        <a href="#radar-sec">Studieradar</a>
+        <a href="#om">Om eksamen</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="hero">
+      <div>
+        <h1>Øv til eksamen i STAT110</h1>
+        <p class="lead">Skriftlig eksamen 7. desember 2026 kl. 09:00 · 4 timer · Inspera. Omtrent 60 % langsvar og 40 % flervalg med flere riktige svar.</p>
+        <p id="countdown" class="countdown"></p>
+      </div>
+    </section>
+
+    <section class="block" id="prove-sec">
+      <div class="block-head">
+        <h2>Prøveeksamener</h2>
+        <p class="muted">Nye sett med samme oppbygging som V26 og H25. Oppgave 1 følger foreleserens hint (Oblig 2a oppg. 8 og Oblig 3a oppg. 7).</p>
+      </div>
+      <div class="grid" id="prove"></div>
+    </section>
+
+    <section class="block" id="tidligere-sec">
+      <div class="block-head">
+        <h2>Tidligere eksamener</h2>
+        <p class="muted">Ekte eksamenssett, oppgave for oppgave, med løsningsforslag og poengmal.</p>
+      </div>
+      <div class="grid" id="tidligere"></div>
+    </section>
+
+    <section class="block" id="temasett-sec">
+      <div class="block-head">
+        <h2>Temasett</h2>
+        <p class="muted">Mange oppgaver innen ett tema, uten tidtaker. Bra for å drille svake punkter fra studieradaren.</p>
+      </div>
+      <div class="grid" id="temasett"></div>
+    </section>
+
+    <section class="block" id="runs-sec">
+      <div class="block-head">
+        <h2>Mine forsøk</h2>
+        <p class="muted">Lagres bare i denne nettleseren.</p>
+      </div>
+      <div id="runs"></div>
+    </section>
+
+    <section class="block" id="radar-sec">
+      <div class="block-head">
+        <h2>Studieradar</h2>
+      </div>
+      <div id="radar"></div>
+    </section>
+
+    <section class="block prose" id="om">
+      <h2>Om eksamen</h2>
+      <ul>
+        <li><strong>Langsvar</strong> (ca. 60 %): alle svar skal begrunnes, med mellomregning. Du kan skrive i tekstfeltet, på håndtegningsark eller begge deler. Hver deloppgave har sin egen kode, så 1a og 1b føres på <em>ulike</em> ark.</li>
+        <li><strong>Flervalg, flere svar</strong> (ca. 40 %): ett eller flere alternativ kan være riktige. Feil kryss gir minuspoeng, men aldri under 0 på oppgaven. Kryss bare av når du er rimelig sikker.</li>
+        <li><strong>Hjelpemidler:</strong> enkel kalkulator etter fakultetets regler. Formelsamling og tabeller ligger som vedlegg i Inspera, så du skal ikke ta med eget formelark.</li>
+        <li><strong>Hint fra foreleser (H26):</strong> oppgave 1 bygger på oppgave 8 i Oblig 2a og oppgave 7 i Oblig 3a, og minst et par oppgaver bygger på eksempler fra forelesningene. Vanskelighetsgrad og omfang blir som tidligere år.</li>
+      </ul>
+      <p class="muted small">Laget av studenter for studenter. Ikke en offisiell UiB-side. Løsningsforslagene er våre egne og kan ha feil. Si fra hvis du finner noe.</p>
+    </section>
+  </main>
+
+  <footer class="site-foot"><div class="wrap muted small">STAT110 eksamensøving · Oppgavetekster fra tidligere eksamener tilhører UiB · Fremgangen din lagres lokalt i nettleseren</div></footer>
+
+  <script defer src="vendor/katex/katex.min.js"></script>
+  <script defer src="vendor/katex/contrib/auto-render.min.js"></script>
+  <script type="module" src="js/home.js"></script>
+</body>
+</html>

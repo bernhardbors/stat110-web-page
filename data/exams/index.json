@@ -1,0 +1,24 @@
+[
+ {
+  "id": "v26",
+  "title": "Eksamen vår 2026",
+  "short": "V26",
+  "kind": "tidligere",
+  "order": 1,
+  "blurb": "Siste eksamen. 35 p langsvar + 24 p flervalg, akkurat den fordelingen foreleser sier H26 får.",
+  "totalPoints": 59,
+  "duration_min": 240,
+  "nTasks": 10,
+  "topics": [
+   "ki-test",
+   "normal",
+   "sannsynlighet",
+   "kontinuerlig",
+   "beskrivende",
+   "sgt",
+   "andel",
+   "kovarians",
+   "poisson-eksp"
+  ]
+ }
+]
