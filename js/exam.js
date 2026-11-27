@@ -27,6 +27,19 @@ async function init() {
 
   const active = store.active(examId);
   const wanted = params.get("modus");
+  const oppg = params.get("oppg");
+  if (oppg) {
+    const idx = tasks.findIndex((t) => t.id === oppg);
+    if (idx >= 0 && (!active || active.submitted)) {
+      begin("ovelse", idx);
+      return;
+    }
+    if (idx >= 0 && active?.mode === "ovelse") {
+      state = active;
+      showTask(idx);
+      return;
+    }
+  }
   if (active && !active.submitted) return showStart(active);
   showStart(null, wanted);
 }
@@ -80,7 +93,7 @@ function showStart(active, wanted) {
   }
 }
 
-function begin(mode) {
+function begin(mode, startAt = 0) {
   const now = Date.now();
   state = {
     mode,
@@ -88,10 +101,10 @@ function begin(mode) {
     deadline: mode === "eksamen" ? now + exam.duration_min * 60000 : null,
     answers: {},
     revealed: {},
-    current: 0,
+    current: startAt,
   };
   save();
-  showTask(0);
+  showTask(startAt);
 }
 
 function save() {
@@ -228,9 +241,17 @@ function feedbackHtml(t, ans) {
           (o, k) =>
             `<li class="${o.correct ? "ok" : "no"}"><span class="mark">${o.correct ? "✓ Riktig" : "✗ Galt"}</span>${sel.includes(k) ? ' <span class="chip">ditt kryss</span>' : ""} — ${md(o.text).replace(/^<p>|<\/p>$/g, "")}${o.why ? `<div class="muted">${md(o.why)}</div>` : ""}</li>`
         )
-        .join("")}</ul>${t.solution ? `<div class="prose solution">${md(t.solution)}</div>` : ""}</div>`;
+        .join("")}</ul>${t.solution ? `<div class="prose solution">${md(t.solution)}</div>` : ""}${manualLinks(t)}</div>`;
   }
-  return `<div class="feedback"><h3>Løsningsforslag</h3><div class="prose solution">${md(t.solution)}</div>${rubricPreview(t)}</div>`;
+  return `<div class="feedback"><h3>Løsningsforslag</h3><div class="prose solution">${md(t.solution)}</div>${rubricPreview(t)}${manualLinks(t)}</div>`;
+}
+
+function manualLinks(t) {
+  const links = (t.topics || [])
+    .map((id) => topics.find((x) => x.id === id))
+    .filter((x) => x && x.manual)
+    .map((x) => `<a href="manual.html#${x.manual}" target="_blank" rel="noopener">${esc(x.name)} ↗</a>`);
+  return links.length ? `<p class="manual-links"><span class="muted">Les i manualen:</span> ${links.join(" ")}</p>` : "";
 }
 
 function rubricPreview(t) {
@@ -246,6 +267,7 @@ function renderBar() {
       <a class="bar-title" href="./" title="Til forsiden">STAT110</a>
       <span class="bar-exam">${esc(exam.short || exam.title)} · ${state.mode === "eksamen" ? "Eksamen" : "Øving"}</span>
       <span class="timer" id="timer"></span>
+      ${state.mode === "ovelse" ? `<a class="btn small" href="manual.html" target="_blank" rel="noopener">Manual</a>` : ""}
       <button class="btn small" id="formelark">Formelark</button>
       <button class="btn small primary" id="submit">${state.mode === "eksamen" ? "Lever" : "Avslutt"}</button>
     </div>`;
@@ -441,5 +463,6 @@ function resultTaskHtml(t, run) {
     <details><summary>Vis oppgaven</summary>${exam.sections[t._section].intro ? `<div class="prose section-intro">${md(exam.sections[t._section].intro)}</div>` : ""}<div class="prose">${md(t.prompt)}</div></details>
     <h4>Ditt svar</h4>${yours}
     <h4>Løsningsforslag</h4><div class="prose solution">${md(t.solution)}</div>
+    ${manualLinks(t)}
     ${rubric}</article>`;
 }

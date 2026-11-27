@@ -1,4 +1,4 @@
-import { getJSON, md, typeset, store, fmtP, pct, fmtDate, fmtDuration, esc, EXAM_DATE, round2 } from "./common.js";
+import { getJSON, md, typeset, store, fmtP, pct, fmtDate, fmtDuration, esc, EXAM_DATE, round2, manualRead } from "./common.js";
 
 const $ = (s) => document.querySelector(s);
 
@@ -7,7 +7,11 @@ init().catch((e) => {
 });
 
 async function init() {
-  const [index, topics] = await Promise.all([getJSON("data/exams/index.json"), getJSON("data/topics.json")]);
+  const [index, topics, manual] = await Promise.all([
+    getJSON("data/exams/index.json"),
+    getJSON("data/topics.json"),
+    getJSON("data/manual.json").catch(() => null),
+  ]);
   countdown();
   setInterval(countdown, 60000);
   const runs = store.runs();
@@ -21,7 +25,7 @@ async function init() {
   renderList("#tidligere", index.filter((e) => e.kind === "tidligere"), runs, "Ingen ennå.");
   renderList("#temasett", index.filter((e) => e.kind === "temasett"), runs, "Temasettene kommer snart.");
   renderRuns(runs, index);
-  renderRadar(runs, topics, index);
+  renderRadar(runs, topics, index, manual);
   typeset(document.body);
 }
 
@@ -108,7 +112,10 @@ function renderRuns(runs, index) {
   );
 }
 
-function renderRadar(runs, topics, index) {
+function renderRadar(runs, topics, index, manual) {
+  const read = manualRead.all();
+  const secsByTopic = {};
+  for (const p of manual?.parts || []) for (const s of p.sections) for (const tp of s.topics || []) (secsByTopic[tp] ??= []).push(s.id);
   const el = $("#radar");
   const agg = {};
   for (const r of runs)
@@ -126,7 +133,9 @@ function renderRadar(runs, topics, index) {
     const p = a ? pct(a.s, a.m) : null;
     // Prioritet: høy eksamensfrekvens og lav score først; uøvd tema regnes som 40 %
     const prio = (tp.freq || 1) * (100 - (p ?? 40));
-    return { ...tp, p, n: a?.n || 0, prio };
+    const secs = secsByTopic[tp.id] || [];
+    const nRead = secs.filter((id) => read[id]).length;
+    return { ...tp, p, n: a?.n || 0, prio, nRead, nSecs: secs.length };
   });
   rows.sort((a, b) => b.prio - a.prio);
   const practiced = rows.filter((r) => r.p !== null).length;
@@ -144,7 +153,7 @@ function renderRadar(runs, topics, index) {
           <div class="radar-name">${esc(r.name)}<span class="freq" title="Antall av de sju siste eksamenene der temaet var med">${"●".repeat(r.freq)}${"○".repeat(7 - r.freq)}</span></div>
           <div class="radar-bar"><span style="width:${r.p ?? 0}%"></span></div>
           <div class="radar-val">${r.p === null ? "ikke øvd" : r.p + " %"}</div>
-          <div class="radar-go">${set ? `<a href="eksamen.html?id=${set.id}&modus=ovelse">Øv →</a>` : ""}</div>
+          <div class="radar-go">${r.manual ? `<a href="manual.html#${r.manual}" title="Lest ${r.nRead} av ${r.nSecs} manualseksjoner om temaet">${r.nSecs && r.nRead === r.nSecs ? "✓ " : ""}Les ${r.nRead}/${r.nSecs}</a>` : ""}${set ? ` · <a href="eksamen.html?id=${set.id}&modus=ovelse">Øv</a>` : ""}</div>
         </div>`;
       })
       .join("")}</div>`;

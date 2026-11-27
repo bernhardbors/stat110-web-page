@@ -1,15 +1,15 @@
 [
-  { "id": "ki-test", "name": "Konfidensintervall og hypotesetest for µ", "freq": 7 },
-  { "id": "simultan", "name": "Diskret simultanfordeling (tabell)", "freq": 7 },
-  { "id": "mle", "name": "MLE og estimatoregenskaper", "freq": 6 },
-  { "id": "poisson-eksp", "name": "Poisson, Poissonprosess og eksponential", "freq": 6 },
-  { "id": "sannsynlighet", "name": "Sannsynlighet, uavhengighet og kombinatorikk", "freq": 5 },
-  { "id": "kovarians", "name": "Kovarians, korrelasjon og lineærkombinasjoner", "freq": 5 },
-  { "id": "kontinuerlig", "name": "Kontinuerlige fordelinger og tettheter", "freq": 5 },
-  { "id": "diskrete", "name": "Binomisk, geometrisk og hypergeometrisk", "freq": 5 },
-  { "id": "beskrivende", "name": "Beskrivende statistikk og plott", "freq": 3 },
-  { "id": "andel", "name": "Andel p: intervall og test", "freq": 3 },
-  { "id": "normal", "name": "Normalfordeling, maks og min", "freq": 2 },
-  { "id": "sgt", "name": "Store talls lov og sentralgrenseteoremet", "freq": 2 },
-  { "id": "betinget", "name": "Betinget forventning og total varians", "freq": 1 }
+  {"id": "ki-test", "name": "Konfidensintervall og hypotesetest for µ", "freq": 7, "manual": "test-mu"},
+  {"id": "simultan", "name": "Diskret simultanfordeling (tabell)", "freq": 7, "manual": "simultan-diskret"},
+  {"id": "mle", "name": "MLE og estimatoregenskaper", "freq": 6, "manual": "mle"},
+  {"id": "poisson-eksp", "name": "Poisson, Poissonprosess og eksponential", "freq": 6, "manual": "poissonprosess"},
+  {"id": "sannsynlighet", "name": "Sannsynlighet, uavhengighet og kombinatorikk", "freq": 5, "manual": "uavhengighet"},
+  {"id": "kovarians", "name": "Kovarians, korrelasjon og lineærkombinasjoner", "freq": 5, "manual": "kovarians"},
+  {"id": "kontinuerlig", "name": "Kontinuerlige fordelinger og tettheter", "freq": 5, "manual": "kont-grunn"},
+  {"id": "diskrete", "name": "Binomisk, geometrisk og hypergeometrisk", "freq": 5, "manual": "binomisk"},
+  {"id": "beskrivende", "name": "Beskrivende statistikk og plott", "freq": 3, "manual": "plott"},
+  {"id": "andel", "name": "Andel p: intervall og test", "freq": 3, "manual": "ki-p"},
+  {"id": "normal", "name": "Normalfordeling, maks og min", "freq": 2, "manual": "normal"},
+  {"id": "sgt", "name": "Store talls lov og sentralgrenseteoremet", "freq": 2, "manual": "sgt"},
+  {"id": "betinget", "name": "Betinget forventning og total varians", "freq": 1, "manual": "betinget-forventning"}
 ]

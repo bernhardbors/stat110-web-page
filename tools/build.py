@@ -37,6 +37,8 @@ def check_text(where, s):
 
 
 index = []
+exam_tasks = {}
+warnings = []
 for path in sorted(SRC.glob("*.yaml")):
     d = yaml.safe_load(path.read_text())
     eid = d["id"]
@@ -98,6 +100,10 @@ for path in sorted(SRC.glob("*.yaml")):
             if "label" not in t:
                 m = re.match(r"^(\d+)([a-z]?)$", tid)
                 t["label"] = f"{m.group(1)}({m.group(2)})" if m and m.group(2) else tid
+    exam_tasks[eid] = {
+        "short": d.get("short", eid.upper()),
+        "tasks": {str(t["id"]): t.get("label", t["id"]) for sec in d["sections"] for t in sec["tasks"]},
+    }
     d["totalPoints"] = round(total, 2)
     (OUT / f"{eid}.json").write_text(json.dumps(d, ensure_ascii=False, separators=(",", ":")))
     index.append(
@@ -116,6 +122,47 @@ for path in sorted(SRC.glob("*.yaml")):
         }
     )
 
+# ---------- Manual ----------
+man_path = ROOT / "content" / "manual" / "manual.yaml"
+if man_path.exists():
+    man = yaml.safe_load(man_path.read_text())
+    man.setdefault("parts", [])
+    for part_file in sorted((ROOT / "content" / "manual").glob("[0-9]*.yaml")):
+        pdata = yaml.safe_load(part_file.read_text())
+        man["parts"].extend(pdata["parts"])
+    check_text("manual intro", man.get("intro"))
+    seen = set()
+    n_sec = 0
+    for part in man["parts"]:
+        check_text(f"manual del {part['title']}", part.get("intro"))
+        for sec in part["sections"]:
+            n_sec += 1
+            w = f"manual {sec.get('id')}"
+            if not sec.get("id") or sec["id"] in seen:
+                err(w, "mangler eller duplikat id")
+            seen.add(sec["id"])
+            for tp in sec.get("topics", []):
+                if tp not in TOPICS:
+                    err(w, f"ukjent tema {tp}")
+            check_text(w, sec.get("body"))
+            if sec.get("body", "").count("\n:::") and sec["body"].count(":::") % 2:
+                err(w, "uavsluttet callout (:::)")
+            resolved = []
+            for ref in sec.get("practice", []):
+                ex, _, tid = str(ref).partition(":")
+                if ex in exam_tasks and tid in exam_tasks[ex]["tasks"]:
+                    resolved.append({"exam": ex, "task": tid, "label": f"{exam_tasks[ex]['short']} {exam_tasks[ex]['tasks'][tid]}"})
+                else:
+                    warnings.append(f"{w}: oppgavereferanse {ref} finnes ikke (ennå), hoppes over")
+            sec["practice"] = resolved
+    # temaer -> manualseksjon (første seksjon som har temaet som hovedtema)
+    (ROOT / "data" / "manual.json").write_text(json.dumps(man, ensure_ascii=False, separators=(",", ":")))
+    topic_ids = [t["id"] for t in json.loads((ROOT / "data" / "topics.json").read_text())]
+    print(f"Manual: {len(man['parts'])} deler, {n_sec} seksjoner")
+    for t in json.loads((ROOT / "data" / "topics.json").read_text()):
+        if t.get("manual") and t["manual"] not in seen:
+            err("topics.json", f"tema {t['id']} peker til ukjent manualseksjon {t['manual']}")
+
 index.sort(key=lambda e: (KIND_ORDER.get(e["kind"], 9), e["order"], e["id"]))
 (OUT / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=1))
 
@@ -124,6 +171,8 @@ for f in OUT.glob("*.json"):
     if f.name != "index.json" and not (SRC / f"{f.stem}.yaml").exists():
         f.unlink()
 
+for w_ in warnings:
+    print("Advarsel:", w_)
 if errors:
     print("FEIL:")
     for e in errors:

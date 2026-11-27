@@ -9,10 +9,11 @@ Statisk side uten byggesteg i nettleseren. Den publiseres med GitHub Pages fra `
 
 | Mappe/fil | Innhold |
 |---|---|
-| `index.html`, `eksamen.html`, `formelark.html` | Sidene |
-| `js/` | `common.js` (markdown, KaTeX, lagring, poeng), `exam.js` (eksamensmotor), `home.js`, `formelark.js` |
+| `index.html`, `eksamen.html`, `formelark.html`, `manual.html` | Sidene |
+| `js/` | `common.js` (markdown, KaTeX, lagring, poeng), `exam.js` (eksamensmotor), `home.js`, `formelark.js`, `manual.js` |
 | `content/*.yaml` | **Oppgavene** – ett sett per fil. Det er her innhold redigeres. |
-| `data/exams/*.json` | Generert fra `content/` av `tools/build.py` (ikke rediger for hånd) |
+| `content/manual/*.yaml` | **Manualen** – `manual.yaml` (tittel og intro) og én fil per del (`01-…yaml`). |
+| `data/exams/*.json`, `data/manual.json` | Generert fra `content/` av `tools/build.py` (ikke rediger for hånd) |
 | `data/tables.json` | Tabeller A.1–A.6, generert av `tools/make_tables.py` (scipy) |
 | `img/` | Figurer, generert av `tools/make_figures.py` |
 | `vendor/katex/` | KaTeX 0.16 (MIT-lisens) |
@@ -28,7 +29,19 @@ Oppgavetyper:
 - `langsvar`: `prompt`, `solution`, `rubric` (liste med `[poeng, tekst]` som summerer til `points`)
 - `flervalg`: `prompt` og `options` (`text`, `correct`, `why`). Poeng: hvert riktig kryss gir `points/antall_riktige`, hvert feil kryss trekker like mye, og laveste sum er 0.
 
-Temaer (`topics`) er definert i `data/topics.json` og brukes av studieradaren.
+Temaer (`topics`) er definert i `data/topics.json` og brukes av studieradaren. Hvert tema peker til en hovedseksjon i manualen (`manual`).
+
+## Manualen
+
+Hver seksjon har `id`, `title`, `keys`, `topics`, `practice` (lenker til oppgaver, f.eks. `'v26:1c'`) og `body` i markdown. Callout-bokser skrives slik:
+
+```
+:::metode Valgfri tittel
+Innhold …
+:::
+```
+
+Typer: `ide` (kjerneidé), `metode`, `pass` (pass på), `eksempel`, `eksamen`, `def`. Lest-status lagres i nettleseren og vises i studieradaren.
 
 ## Kilder
 

@@ -1,0 +1,210 @@
+parts:
+  - title: Beskrivende statistikk
+    intro: |
+      Kapittel 1. Hvordan vi oppsummerer et datasett med tall og figurer. Det gir sjelden mange poeng alene, men er ofte en del av flervalgsoppgaver og plottolkning.
+    sections:
+      - id: sentrum
+        title: Gjennomsnitt, median og kvartiler
+        keys: gjennomsnitt · median · kvartiler · persentiler · robusthet
+        topics: [beskrivende]
+        practice: ['v26:4b']
+        body: |
+          For observasjoner $x_1,\dots,x_n$:
+
+          - **Gjennomsnitt:** $\bar x=\frac1n\sum_{i=1}^n x_i$
+          - **Median** $\tilde x$: den midterste verdien når dataene er sortert. Ved odde $n$ er det verdi nr. $(n+1)/2$, ved like $n$ gjennomsnittet av de to midterste.
+          - **Kvartiler (fjerdedeler):** Nedre kvartil er medianen av den nedre halvdelen, øvre kvartil medianen av den øvre. Medianen er altså 50 %-kvantilen (50-persentilen).
+
+          :::ide
+          Medianen er **robust**: den påvirkes lite av ekstreme verdier. Gjennomsnittet trekkes mot halen. Ved **høyreskjeve** data (lang hale mot høyre) er derfor typisk $\bar x>\tilde x$, og ved venstreskjeve data $\bar x<\tilde x$.
+          :::
+
+          :::pass
+          75 %-kvantilen er alltid *større enn eller lik* medianen, aldri mindre (H23 4a). Median og 50 %-kvantil er samme ting.
+          :::
+
+          :::metode Oppdatere gjennomsnitt
+          Når du legger til én observasjon: $\bar x_{n+1}=\dfrac{n\bar x_n+x_{n+1}}{n+1}$ (V24, flervalg).
+          :::
+
+      - id: spredning
+        title: Varians, standardavvik og andre spredningsmål
+        keys: empirisk varians · standardavvik · variasjonsbredde · IQR
+        topics: [beskrivende]
+        body: |
+          **Empirisk varians og standardavvik:**
+          $$s^2=\frac{1}{n-1}\sum_{i=1}^n(x_i-\bar x)^2=\frac{1}{n-1}\left(\sum x_i^2-\frac{(\sum x_i)^2}{n}\right),\qquad s=\sqrt{s^2}.$$
+          Den andre formen (regneformelen) er ofte raskest når oppgaven gir deg $\sum x_i$ og $\sum x_i^2$, slik H23 3a gjør.
+
+          - **Variasjonsbredde:** største minus minste verdi.
+          - **Interkvartilavstand (IQR):** øvre kvartil minus nedre kvartil. Robust mot ekstreme verdier.
+
+          :::pass
+          - Vi deler på $n-1$, ikke $n$. Det gjør $S^2$ forventningsrett for $\sigma^2$ (se Estimatorer).
+          - «Variansen er alltid større enn standardavviket» er **galt**: er $s<1$, er $s^2<s$.
+          - Standardavviket kan ikke leses av et boksplott. Boksplottet viser kvartiler, ikke $s$.
+          :::
+
+          :::eksempel
+          $n=9$, $\sum x_i=56$, $\sum x_i^2=506$ gir $\bar x=6.22$ og $s^2=\frac{1}{8}\left(506-\frac{56^2}{9}\right)=\frac{1}{8}(506-348.4)=19.7$.
+          :::
+
+      - id: plott
+        title: Histogram, boksplott og normalplott
+        keys: frekvens- og tetthetsskala · skjevhet · boksplott · normalplott (QQ-plott)
+        topics: [beskrivende]
+        practice: ['v26:2b']
+        body: |
+          **Histogram.** Del tallinjen i intervaller og tegn en søyle for hvert intervall.
+          - *Frekvensskala:* høyden er antall observasjoner i intervallet.
+          - *Tetthetsskala:* høyde $=\dfrac{\text{relativ frekvens}}{\text{intervallbredde}}$. Da blir *arealet* av søylene lik andelen, og totalarealet er 1.
+
+          :::pass
+          Med ulike intervallbredder kan den høyeste søylen bli en annen på tetthetsskala enn på frekvensskala. Oblig 2 oppg. 2b spør nettopp om høyden på tetthetsskala: $\dfrac{\text{antall}/n}{\text{bredde}}$.
+          :::
+
+          **Skjevhet.** Høyreskjev betyr lang hale mot høyre, typisk for positive størrelser som tider, inntekter og hastigheter. Normalfordelingen er symmetrisk.
+
+          **Boksplott.** Boksen går fra nedre til øvre kvartil, med en strek ved medianen. «Værhårene» går ut til de mest ekstreme verdiene som ikke er uteliggere. Observasjoner mer enn $1.5\cdot$IQR utenfor boksen markeres som uteliggere.
+
+          **Normalplott (QQ-plott).** Sorterte observasjoner (empiriske kvantiler) plottes mot tilsvarende kvantiler i standard normalfordeling. Er dataene normalfordelte, ligger punktene omtrent på en rett linje.
+
+          :::metode Lese et normalplott
+          Se på endene (halene) og sammenlign med linjen:
+          - **Venstre hale over linjen:** de minste verdiene er *større* enn normalfordelingen tilsier. Halen er kortere, typisk fordi verdiene ikke kan bli negative.
+          - **Venstre hale under linjen:** de minste verdiene er mindre enn forventet, altså lang venstre hale.
+          - **Høyre hale over linjen:** lang/tung høyre hale (høyreskjevhet).
+          - **Høyre hale under linjen:** kort høyre hale.
+
+          Konkav form (bøyer ned i begge ender) betyr venstreskjevhet. Konveks form (bøyer opp i begge ender) betyr høyreskjevhet.
+          :::
+
+          :::eksamen
+          V26 2b (10 p): histogram og normalplott før og etter logaritmen, og forklaring ut fra uttrykket for tettheten. Svar ved å beskrive *halene* og knytte dem til formelen ($f=0$ for $x<0$ gir kort venstre hale).
+          :::
+
+  - title: Sannsynlighetsregning
+    intro: |
+      Kapittel 2. Grunnmuren for alt annet. Oppgave 1 på H26 bygger på sannsynlighetsbegrepet og uavhengighet (se Oppgave 1-trening).
+    sections:
+      - id: begrepet
+        title: Utfallsrom, hendelser og sannsynlighetsbegrepet
+        keys: eksperiment · utfallsrom · hendelse · aksiomer · frekvenstolkning
+        topics: [sannsynlighet]
+        practice: ['oppg1:O2-8', 'oppg1:F4']
+        body: |
+          Et **eksperiment** er en prosess med usikkert utfall. **Utfallsrommet** $\Omega$ (eller $S$) er mengden av alle mulige utfall. En **hendelse** $A\subseteq\Omega$ er en samling utfall.
+
+          | Notasjon | Betyr |
+          |---|---|
+          | $A\cup B$ | $A$ eller $B$ (eller begge) |
+          | $A\cap B$ | både $A$ og $B$ |
+          | $A^c$ eller $A'$ | ikke $A$ |
+          | $A\cap B=\emptyset$ | disjunkte (kan ikke skje samtidig) |
+
+          **Aksiomene:** $P(\Omega)=1$, $P(A)\ge0$, og for disjunkte hendelser er $P(A_1\cup A_2\cup\cdots)=\sum P(A_i)$.
+
+          **Konsekvenser:**
+          - $P(A^c)=1-P(A)$
+          - $P(A\cup B)=P(A)+P(B)-P(A\cap B)$
+          - For tre hendelser: $P(A\cup B\cup C)=\sum P(\cdot)-\sum P(\text{parvise snitt})+P(A\cap B\cap C)$
+          - Like sannsynlige utfall: $P(A)=\dfrac{\#A}{\#\Omega}$
+
+          :::ide Hva betyr en sannsynlighet?
+          **Frekvenstolkningen** (STAT110): Gjentar vi eksperimentet mange ganger under like forhold, nærmer andelen ganger $A$ inntreffer seg $P(A)$. For eksempel betyr $p=4\cdot10^{-6}$ «per person per år» at eksperimentet er *én person i ett år*, utfallsrommet er $\{\text{lekker},\text{lekker ikke}\}$, og over svært mange person-år er andelen lekkasjer omtrent $p$.
+
+          En **subjektiv** sannsynlighet er en grad av tro. Den passer for engangshendelser som ikke kan gjentas.
+          :::
+
+          :::eksamen
+          Oblig 2a oppg. 8 ber deg forklare hvordan en oppgitt $p$ passer med sannsynlighetsbegrepet. Foreleser har sagt at oppgave 1 på H26 bygger på denne. Nevn eksperiment, utfallsrom, frekvenstolkning og antakelsene (samme $p$ for alle, uavhengighet).
+          :::
+
+      - id: kombinatorikk
+        title: Kombinatorikk
+        keys: produktregel · ordnet/uordnet · med/uten tilbakelegging · binomialkoeffisient
+        topics: [sannsynlighet]
+        practice: ['h25:4d']
+        body: |
+          **Produktregelen:** Et valg i $k$ trinn med $n_1,n_2,\dots,n_k$ muligheter gir $n_1n_2\cdots n_k$ kombinasjoner.
+
+          Antall måter å velge $r$ av $n$:
+
+          | | Med tilbakelegging | Uten tilbakelegging |
+          |---|---|---|
+          | Ordnet (rekkefølgen teller) | $n^r$ | $n(n-1)\cdots(n-r+1)=\dfrac{n!}{(n-r)!}$ |
+          | Uordnet | (ikke pensum) | $\dbinom nr=\dfrac{n!}{r!(n-r)!}$ |
+
+          Permutasjoner av $n$ elementer: $n!$. Fordeling av $n$ elementer i grupper av størrelse $n_1,\dots,n_k$: $\dfrac{n!}{n_1!\cdots n_k!}$.
+
+          :::metode Telleoppgaver
+          1. Avgjør om rekkefølgen teller, og om det er tilbakelegging.
+          2. Bygg utfallet trinn for trinn og bruk produktregelen.
+          3. Sannsynlighet = gunstige / mulige, når alle utfall er like sannsynlige.
+          :::
+
+          :::eksempel Første røde kule på trekning 6 (H25 4d)
+          7 trekninger med tilbakelegging fra 2 røde og 5 blå nummererte kuler. Trekning 1–5 er blå ($5^5$), nr. 6 er rød (2), nr. 7 er vilkårlig (7): $5^5\cdot2\cdot7=43\,750$.
+          :::
+
+          :::eksempel Fire like i poker (H23 3d)
+          Velg verdi (13), ta alle fire av den, og velg ett av de 48 andre kortene: $p=\dfrac{13\cdot48}{\binom{52}{5}}=\dfrac{624}{2\,598\,960}\approx0.00024$.
+          :::
+
+      - id: betinget
+        title: Betinget sannsynlighet, total sannsynlighet og Bayes
+        keys: P(A|B) · produktsetning · loven om total sannsynlighet · Bayes' setning
+        topics: [sannsynlighet]
+        practice: ['v25:3f', 'h25:1']
+        body: |
+          $$P(A\mid B)=\frac{P(A\cap B)}{P(B)},\qquad P(B)>0.$$
+          **Produktsetningen:** $P(A\cap B)=P(A\mid B)P(B)$, og generelt $P(A_1\cap\cdots\cap A_n)=P(A_1)P(A_2\mid A_1)\cdots P(A_n\mid A_1\cap\cdots\cap A_{n-1})$.
+
+          **Total sannsynlighet:** Hvis $B_1,\dots,B_k$ deler opp $\Omega$ (disjunkte, union $=\Omega$), er
+          $$P(A)=\sum_{i=1}^kP(A\mid B_i)P(B_i).$$
+          **Bayes' setning:**
+          $$P(B_j\mid A)=\frac{P(A\mid B_j)P(B_j)}{\sum_iP(A\mid B_i)P(B_i)}.$$
+
+          :::metode Bayes-oppgaver
+          1. Identifiser «årsakene» $B_i$ med a priori-sannsynligheter $P(B_i)$.
+          2. Finn $P(A\mid B_i)$ for det du har observert.
+          3. Nevneren er total sannsynlighet. Telleren er leddet for den årsaken du spør om.
+
+          Et trediagram hjelper.
+          :::
+
+          :::eksempel Hvilket system skrev siden? (V25 3f)
+          To systemer, like sannsynlige a priori, med Poisson$(\mu_A)$ og Poisson$(\mu_B)$ feil. $P(A\mid X=0)=\dfrac{e^{-\mu_A}}{e^{-\mu_A}+e^{-\mu_B}}$. Er $\mu_A>\mu_B$, er dette $<\tfrac12$: null feil peker mot systemet med færrest feil.
+          :::
+
+          :::pass
+          Betinget på en hendelse om den samme variabelen: $P(Y>10\mid Y\le18)=\dfrac{P(10<Y\le18)}{P(Y\le18)}$. Snittet er $\{10<Y\le18\}$, ikke $\{Y>10\}$ (H25 1).
+          :::
+
+      - id: uavhengighet
+        title: Uavhengighet, «minst én» og systemer
+        keys: uavhengige hendelser · komplementtrikset · serie og parallell · (1−p)^N
+        topics: [sannsynlighet]
+        practice: ['v25:3d', 'oppg1:O3-7a', 'oppg1:A1a', 'oppg1:F1']
+        body: |
+          $A$ og $B$ er **uavhengige** hvis $P(A\cap B)=P(A)P(B)$, eller ekvivalent $P(A\mid B)=P(A)$. For flere hendelser må produktregelen gjelde for *alle* delmengder.
+
+          :::ide Komplementtrikset
+          «Minst én» regnes nesten alltid via komplementet «ingen»:
+          $$P(\text{minst én}) = 1-P(\text{ingen}).$$
+          Med $N$ uavhengige personer som hver «lekker» med sannsynlighet $p$:
+          $$P(\text{ingen lekker})=(1-p)^N,\qquad P(\text{minst én lekker})=1-(1-p)^N.$$
+          Over $t$ uavhengige perioder blir det $(1-p)^{Nt}\approx e^{-Npt}$ når $p$ er liten (fordi $1-p\approx e^{-p}$). Dette er kjernen i oppgave 1-temaet.
+          :::
+
+          **Systemer av komponenter** som virker uavhengig med sannsynlighet $p_i$:
+          - **Serie** (alle må virke): $P=p_1p_2\cdots p_k$
+          - **Parallell** (minst én må virke): $P=1-(1-p_1)(1-p_2)\cdots(1-p_k)$
+
+          :::eksempel Krets (V25 3d)
+          $B=A_1\cup A_4$ (parallell): $1-0.5\cdot0.3=0.85$. $C=(A_5\cap A_6)\cup A_3$: $0.4+0.6-0.4\cdot0.6=0.76$. Hele kretsen er $B$, $A_2$ og $C$ i serie: $0.85\cdot0.4\cdot0.76=0.258$.
+          :::
+
+          :::pass
+          Disjunkte hendelser er ikke uavhengige (med mindre en av dem har sannsynlighet 0): vet du at $A$ skjedde, vet du at $B$ ikke skjedde.
+          :::

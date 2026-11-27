@@ -1,0 +1,295 @@
+parts:
+  - title: Punktestimering
+    intro: |
+      Kapittel 7.1 og 7.2 (bare sannsynlighetsmaksimering). MLE har vært på nesten hver eksamen, ofte som en langsvarsoppgave til 8–10 poeng.
+    sections:
+      - id: estimatorer
+        title: Estimatorer, forventningsretthet, standardfeil og MSE
+        keys: θ̂ · bias · forventningsrett · varians · MSE = V + bias²
+        topics: [mle]
+        practice: ['v25:2a', 'v25:2b', 'h25:2b']
+        body: |
+          En **estimator** $\hat\theta$ er en statistikk (en stokastisk variabel) som brukes til å anslå en ukjent parameter $\theta$. Verdien den får for konkrete data, er et **estimat**.
+
+          - **Forventningsrett:** $E(\hat\theta)=\theta$. Bias er $E(\hat\theta)-\theta$.
+          - **Standardfeil:** $\text{SD}(\hat\theta)=\sqrt{V(\hat\theta)}$, eventuelt estimert.
+          - **MSE:** $E[(\hat\theta-\theta)^2]=V(\hat\theta)+\text{bias}^2$.
+
+          Blant forventningsrette estimatorer foretrekker vi den med **minst varians** (MVUE).
+
+          :::metode Vis at en estimator er forventningsrett
+          Bruk linearitet og kjente forventninger:
+          $$E\Big(\frac1n\sum z_iT_i\Big)=\frac1n\sum z_iE(T_i)=\frac1n\sum z_i\frac\mu{z_i}=\mu\quad\text{(H25 2b)}.$$
+          :::
+
+          :::ide Velge mellom estimatorer
+          Er begge forventningsrette, velg den med minst varians. Dette er MSE-kriteriet med bias 0 (V25 2b). Vanlige eksempler:
+          - $\bar X$ er forventningsrett for $\mu$.
+          - $S^2$ (med $n-1$) er forventningsrett for $\sigma^2$.
+          - $\hat p=X/n$ er forventningsrett for $p$.
+          :::
+
+          :::pass
+          $S$ er *ikke* forventningsrett for $\sigma$, selv om $S^2$ er det for $\sigma^2$. Forventningsretthet bevares ikke av ikke-lineære funksjoner.
+          :::
+
+      - id: mle
+        title: Sannsynlighetsmaksimering (MLE)
+        keys: likelihood · log-likelihood · derivere = 0 · invarians
+        topics: [mle]
+        practice: ['h25:2b', 'oppg1:C1b', 'v25:3b']
+        body: |
+          Gitt uavhengige observasjoner $x_1,\dots,x_n$ med tetthet eller punktsannsynlighet $f(x;\theta)$ er **likelihoodfunksjonen**
+          $$L(\theta)=\prod_{i=1}^nf(x_i;\theta).$$
+          MLE $\hat\theta$ er den $\theta$ som maksimerer $L$. Det er den parameterverdien som gjør de observerte dataene mest sannsynlige.
+
+          :::metode Oppskrift (skriv alle stegene, det gir poeng)
+          1. **Likelihood:** skriv produktet og forenkle (samle potenser og eksponenter).
+          2. **Log-likelihood:** $\ell(\theta)=\ln L(\theta)=\sum\ln f(x_i;\theta)$. Produkter blir summer.
+          3. **Deriver** med hensyn på $\theta$ og sett $\ell'(\theta)=0$.
+          4. **Løs** for $\theta$. Gjerne en kort kommentar om at det er et maksimum ($\ell''<0$).
+          5. **Sett inn tall** hvis data er oppgitt.
+          :::
+
+          | Modell | $\ell(\theta)$ (opp til konstant) | MLE |
+          |---|---|---|
+          | $\exp(\lambda)$ | $n\ln\lambda-\lambda\sum x_i$ | $\hat\lambda=1/\bar x$ |
+          | Poisson$(\lambda)$ | $\sum x_i\ln\lambda-n\lambda$ | $\hat\lambda=\bar x$ |
+          | Geometrisk$(p)$ | $n\ln p+(\sum x_i-n)\ln(1-p)$ | $\hat p=1/\bar x$ |
+          | Bin$(n,p)$, én obs. $x$ | $x\ln p+(n-x)\ln(1-p)$ | $\hat p=x/n$ |
+          | $N(\mu,\sigma^2)$ | | $\hat\mu=\bar x$, $\hat\sigma^2=\frac1n\sum(x_i-\bar x)^2$ |
+
+          :::eksempel Forskjellige parametre per observasjon
+          $X\sim\text{Po}(\theta)$ og $Y\sim\text{Po}(2\theta)$ med $x=2$, $y=5$ (Oblig 3 oppg. 1):
+          $$\ell(\theta)=\text{konst}+7\ln\theta-3\theta\ \Rightarrow\ \hat\theta=7/3.$$
+          Tilsvarende med $T_i\sim\exp(N_ip)$: $\hat p=n/\sum N_it_i$ (Oppgave 1-trening C).
+          :::
+
+          :::ide Invariansprinsippet
+          Er $\hat\theta$ MLE for $\theta$, er $h(\hat\theta)$ MLE for $h(\theta)$. For eksempel: MLE for $E(T)=1/\lambda$ er $1/\hat\lambda=\bar x$.
+          :::
+
+          :::pass
+          - $L(\theta)$ er et **produkt**, ikke en sum (V24 flervalg: $L(\theta)=\theta^ne^{-\theta\sum x_i}$).
+          - MLE er ikke alltid forventningsrett, for eksempel $\hat\sigma^2$ med $1/n$. Momentestimatoren (løs $\bar x=E(X)$) er noe annet (V25 3b).
+          :::
+
+  - title: Konfidensintervall
+    intro: |
+      Kapittel 8.1–8.3 (deler). Et intervall som fanger parameteren med en gitt sannsynlighet, regnet over gjentatte utvalg.
+    sections:
+      - id: ki-z
+        title: Konfidensintervall for μ med kjent σ, og tolkning
+        keys: x̄ ± z_{α/2} σ/√n · tolkning · bredde · valg av n
+        topics: [ki-test]
+        practice: ['v26:1a']
+        body: |
+          Når dataene er normalfordelte og $\sigma$ er kjent:
+          $$\bar x\pm z_{\alpha/2}\frac{\sigma}{\sqrt n},\qquad\text{95 \%: } z_{0.025}=1.96,\quad\text{90 \%: }1.645,\quad\text{99 \%: }2.576.$$
+          For store utvalg ($n>40$) kan $\sigma$ erstattes med $s$, selv uten normalitet (SGT).
+
+          :::ide Tolkning (gir poeng)
+          Gjentar vi undersøkelsen mange ganger og lager et intervall hver gang, vil omtrent 95 % av intervallene inneholde den sanne $\mu$. *Metoden* har 95 % treffsikkerhet. Et konkret, beregnet intervall enten inneholder $\mu$ eller ikke.
+          :::
+
+          :::pass
+          «Det er 95 % sannsynlighet for at $\mu$ ligger i $[11.75,\ 13.05]$» er den klassiske feiltolkningen. $\mu$ er fast. Det er intervallet som er tilfeldig.
+          :::
+
+          **Bredde** $w=2z_{\alpha/2}\sigma/\sqrt n$. Den blir smalere med større $n$, mindre $\sigma$ eller lavere konfidensnivå. Nødvendig utvalgsstørrelse for bredde $w$ er $n=\left(\frac{2z_{\alpha/2}\sigma}{w}\right)^2$.
+
+          :::metode Baklengs fra et oppgitt intervall (V24 flervalg)
+          Er $\bar x\pm1.96\,\sigma/\sqrt n=[4.1,\ 4.4]$, er $\bar x$ midtpunktet ($4.25$) og halvbredden $0.15$. Konfidensnivået er 95 %, fordi $1.96$ hører til 95 %. Et $t$-intervall kan bli både smalere og bredere, avhengig av $s$.
+          :::
+
+      - id: ki-t
+        title: t-fordelingen og t-intervall (σ ukjent)
+        keys: T = (X̄ − μ)/(S/√n) ~ t_{n−1} · x̄ ± t_{α/2,n−1} s/√n · tabell A.5
+        topics: [ki-test]
+        practice: ['v26:1a', 'h25:4a']
+        body: |
+          Er dataene normalfordelte og $\sigma$ ukjent, er
+          $$T=\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1},$$
+          og intervallet blir
+          $$\bar x\pm t_{\alpha/2,\,n-1}\frac{s}{\sqrt n}.$$
+          $t$-fordelingen er symmetrisk, men har tyngre haler enn $N(0,1)$, så $t$-kvantilene er større. Når frihetsgradene øker, går $t\to N(0,1)$.
+
+          :::metode Slik slår du opp i tabell A.5
+          Rad = frihetsgrader $\nu=n-1$, kolonne = arealet til **høyre**: $\alpha/2$ for et tosidig intervall og $\alpha$ for en ensidig test. Eksempel: $t_{0.025,14}=2.145$ og $t_{0.05,3}=2.353$.
+          :::
+
+          :::eksamen
+          - «Diskuter om det blir stor eller liten forskjell på å regne at $\sigma$ er kjent eller ukjent» (V26 1a). Med 120 frihetsgrader er $t_{0.025}=1.980\approx1.96$, så forskjellen er liten.
+          - Får du $\sum x_i$ og $\sum(x_i-\bar x)^2$, er $s=\sqrt{\sum(x_i-\bar x)^2/(n-1)}$ (H25 4a).
+          :::
+
+      - id: ki-p
+        title: Konfidensintervall for en andel p
+        keys: p̂ = X/n · p̂ ± z√(p̂(1−p̂)/n) · transformere intervaller
+        topics: [andel]
+        practice: ['oppg1:O3-7c', 'oppg1:A1d', 'oppg1:F3', 'v25:1b']
+        body: |
+          $X\sim\text{Bin}(n,p)$, $\hat p=X/n$, og det tradisjonelle intervallet er
+          $$\hat p\pm z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}n}.$$
+          Det er gyldig når $n\hat p\ge10$ og $n(1-\hat p)\ge10$ (normaltilnærming).
+
+          :::ide Transformere et intervall
+          Er $g$ en monoton funksjon og $[L,U]$ et 95 %-intervall for $p$, er $[g(L),g(U)]$ et 95 %-intervall for $g(p)$. Er $g$ *avtakende*, bytter grensene plass. Eksempel: $S(6)=e^{-180000\,p}$ er avtakende i $p$, så øvre grense for $p$ gir nedre grense for $S(6)$ (Oblig 3 oppg. 7c).
+          :::
+
+          :::pass
+          - Med lite $n$ (som $n=4$ i V25 1b) er tilnærmingen elendig, og intervallet kan gå utenfor $[0,1]$. Si det i svaret!
+          - Bruk $\hat p$ i standardfeilen for intervallet, men $p_0$ i testen (se Test for andel).
+          :::
+
+  - title: Hypotesetesting
+    intro: |
+      Kapittel 9 (unntatt 9.5). Hypotesetester er med på hver eksamen, ofte sammen med et konfidensintervall.
+    sections:
+      - id: hypoteser
+        title: Hypoteser, feiltyper og signifikansnivå
+        keys: H₀ og H₁ · type I og II · α · forkastningsområde · konklusjon i ord
+        topics: [ki-test]
+        practice: ['v25:1a', 'h25:4a']
+        body: |
+          - **Nullhypotesen $H_0$** er «status quo», med likhetstegn ($\mu=\mu_0$).
+          - **Alternativet $H_1$ (eller $H_a$)** er det vi vil finne belegg for.
+
+          :::ide Valg av hypoteser
+          Påstanden du vil *bevise*, skal stå i $H_1$. «Gir dataene grunnlag for å påstå at rekkevidden er under 500 km?» gir $H_0:\mu=500$ mot $H_1:\mu<500$. Kontrolløren som «vil være forsiktig med å påstå» at posene veier for lite, tester $H_0:\mu=3$ mot $H_1:\mu<3$ (H24 3b).
+          :::
+
+          | | $H_0$ sann | $H_0$ usann |
+          |---|---|---|
+          | Forkast $H_0$ | **Type I-feil** (sannsynlighet $\alpha$) | Riktig (styrke) |
+          | Ikke forkast | Riktig | **Type II-feil** (sannsynlighet $\beta$) |
+
+          **Signifikansnivået $\alpha$** er sannsynligheten for å forkaste $H_0$ når $H_0$ er sann, altså type I-feil.
+
+          :::metode Konklusjon
+          - *Statistisk:* «Testobservatoren ligger (ikke) i forkastningsområdet, så vi forkaster (ikke) $H_0$ på nivå $\alpha$.»
+          - *I ord:* «Dataene gir (ikke) grunnlag for å påstå at …», formulert i konteksten.
+
+          Si aldri at $H_0$ er «bevist» eller «akseptert». Vi har bare ikke nok belegg mot den.
+          :::
+
+      - id: test-mu
+        title: z- og t-test for μ
+        keys: testobservator · forkastningsområde · ensidig/tosidig · sammenheng med KI
+        topics: [ki-test]
+        practice: ['v26:1b', 'v25:1a', 'h25:4a']
+        body: |
+          For $H_0:\mu=\mu_0$:
+
+          | | $\sigma$ kjent | $\sigma$ ukjent |
+          |---|---|---|
+          | Observator | $Z=\dfrac{\bar X-\mu_0}{\sigma/\sqrt n}$ | $T=\dfrac{\bar X-\mu_0}{S/\sqrt n}$, $\nu=n-1$ |
+          | $H_1:\mu>\mu_0$ | $Z\ge z_\alpha$ | $T\ge t_{\alpha,\nu}$ |
+          | $H_1:\mu<\mu_0$ | $Z\le-z_\alpha$ | $T\le-t_{\alpha,\nu}$ |
+          | $H_1:\mu\ne\mu_0$ | $\lvert Z\rvert\ge z_{\alpha/2}$ | $\lvert T\rvert\ge t_{\alpha/2,\nu}$ |
+
+          :::metode Fem steg
+          1. Parameter og hypoteser.
+          2. Testobservator og fordelingen under $H_0$ (inkludert frihetsgrader).
+          3. Forkastningsområde ut fra $\alpha$ og retningen på $H_1$.
+          4. Regn ut observatorens verdi.
+          5. Konklusjon statistisk og i ord (eventuelt med p-verdi).
+          :::
+
+          :::ide Test og intervall henger sammen
+          Tosidig test på nivå $\alpha$: forkast $H_0:\mu=\mu_0$ hvis og bare hvis $\mu_0$ ligger *utenfor* $(1-\alpha)$-konfidensintervallet.
+          :::
+
+          :::pass
+          - Ensidig test bruker $t_\alpha$, tosidig bruker $t_{\alpha/2}$.
+          - Forkaster vi ikke på 5 %, forkaster vi heller ikke på 3 % (H25 4a), fordi et lavere nivå gir en strengere grense.
+          :::
+
+      - id: p-verdi
+        title: p-verdi
+        keys: «minst like ekstremt» · forkast når p ≤ α
+        topics: [ki-test]
+        practice: ['v25:1a']
+        body: |
+          **p-verdien** er sannsynligheten, beregnet under $H_0$, for å få en testobservator som er *minst like ekstrem* (i retning $H_1$) som den observerte.
+
+          - $H_1:\mu>\mu_0$: $p=P(Z\ge z_{\text{obs}})$
+          - $H_1:\mu<\mu_0$: $p=P(Z\le z_{\text{obs}})$
+          - Tosidig: $p=2\,P(Z\ge|z_{\text{obs}}|)$
+
+          **Regel:** forkast $H_0$ på nivå $\alpha$ hvis og bare hvis $p\le\alpha$.
+
+          :::pass
+          p-verdien er **ikke** sannsynligheten for at $H_0$ er sann. Den er en sannsynlighet for *data* (eller mer ekstreme data), gitt $H_0$.
+          :::
+
+          :::eksempel
+          $t=1.22$ med 120 frihetsgrader, ensidig: $p=P(T\ge1.22)\approx0.11>0.05$, så vi forkaster ikke. Med tabell A.5 holder det å si at $1.22<t_{0.10,120}=1.289$, altså $p>0.10$.
+          :::
+
+      - id: styrke
+        title: Teststyrke og type II-feil
+        keys: β(μ′) · styrke = 1 − β · effekt av n
+        topics: [ki-test]
+        body: |
+          **Styrken** til en test er sannsynligheten for å forkaste $H_0$ når en bestemt alternativ verdi $\mu'$ er sann: $1-\beta(\mu')$.
+
+          :::metode Styrke for en ensidig z-test ($H_1:\mu>\mu_0$)
+          1. Finn forkastningsgrensen i $\bar x$-skala: $c=\mu_0+z_\alpha\sigma/\sqrt n$.
+          2. Styrke $=P(\bar X\ge c\mid\mu=\mu')=1-\Phi\!\left(\dfrac{c-\mu'}{\sigma/\sqrt n}\right)$.
+          :::
+
+          :::eksempel Hotellpriser (H23 1)
+          $\mu_0=100$, $\sigma=20$, $n=20$, $\alpha=0.05$, og $\bar x=120$ gir $z=4.47$, så vi forkaster. Styrken ved $\mu'=110$: $c=100+1.645\cdot4.47=107.36$, og styrken er $1-\Phi\!\left(\frac{107.36-110}{4.47}\right)=1-\Phi(-0.59)\approx0.72$.
+          :::
+
+          :::ide
+          Styrken øker med større $n$, større avstand $|\mu'-\mu_0|$, mindre $\sigma$ og større $\alpha$. Det er en avveining: lavere $\alpha$ gir høyere $\beta$.
+          :::
+
+      - id: test-p
+        title: Test for en andel p
+        keys: Z = (p̂ − p₀)/√(p₀(1−p₀)/n) · np₀ ≥ 10
+        topics: [andel]
+        practice: ['oppg1:A1d']
+        body: |
+          $H_0:p=p_0$. Når $np_0\ge10$ og $n(1-p_0)\ge10$:
+          $$Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}\ \approx N(0,1)\text{ under }H_0.$$
+          Forkastningsområdene er de samme som for $z$-testen for $\mu$.
+
+          :::pass
+          Nevneren bruker $p_0$, ikke $\hat p$. Under $H_0$ *kjenner* vi variansen. I konfidensintervallet bruker vi $\hat p$.
+          :::
+
+          :::eksempel (V24 flervalg, Higgs)
+          32 av 10 000 og $q_0=2.28\cdot10^{-3}$, tosidig: p-verdien er $2P\!\left(Z>\dfrac{32/n-q_0}{\sqrt{q_0(1-q_0)/n}}\right)$. Alternativt kan du sjekke om $q_0$ ligger i 95 %-intervallet.
+          :::
+
+  - title: Eksamensteknikk
+    sections:
+      - id: teknikk
+        title: Slik tar du poengene
+        keys: langsvar · flervalg med minuspoeng · tabeller · tidsbruk
+        topics: []
+        practice: ['oppg1:O3-7b']
+        body: |
+          **Langsvar (ca. 60 %).**
+          - Skriv modell, formel, innsatte tall og svar. Det gis delpoeng for riktig fremgangsmåte, selv med regnefeil.
+          - Navngi hendelser og variabler («La $X$ = antall …»), og si hvilken fordeling du bruker og hvorfor.
+          - Begrunn antakelser, særlig uavhengighet. «Ved uavhengighet er …» koster deg én linje og gir poeng.
+          - Avslutt med en konklusjon i ord når spørsmålet er i en kontekst.
+          - Får du ikke til (a), anta et svar og fortsett på (b). Delspørsmål rettes hver for seg.
+
+          :::ide Flervalg med minuspoeng
+          Hvert riktig kryss gir poeng, og hvert feil kryss trekker. Hvis trekket er like stort som gevinsten, lønner det seg å krysse av bare når du er **mer enn 50 % sikker**. Usikre alternativer kan du la stå. Oppgaven går ikke under 0, så å krysse av én ting du er sikker på er alltid trygt.
+          :::
+
+          :::metode Flervalg raskt
+          - Regn ut størrelsene *før* du leser alternativene. Det er lett å la seg lure av nesten-riktige tall.
+          - Alternativene kommer ofte i par (f.eks. $V(Y)=0.69$ og $V(Y)=0.59$). Typisk er bare ett av dem riktig.
+          - Uttrykk som «alltid» og «for alle» er ofte gale. Let etter et moteksempel.
+          :::
+
+          **Tabeller og kalkulator.** Øv på å slå opp i tabell A.1–A.3 og A.5 (se Formelark). Vit hvor $\Phi$, $t_{\alpha,\nu}$ og den kumulative Poisson-fordelingen står. Kalkulatoren må kunne regne $e^x$, $\ln$ og potenser.
+
+          **Tidsbruk.** 4 timer på ca. 60 poeng gir omtrent 4 minutter per poeng. Begynn med det du kan best, og ikke bli sittende fast.

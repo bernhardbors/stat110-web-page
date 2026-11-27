@@ -1,0 +1,215 @@
+parts:
+  - title: Diskrete stokastiske variabler
+    intro: |
+      Kapittel 3. En stokastisk variabel $X$ gir et tall til hvert utfall. Diskret betyr tellbart mange verdier (0, 1, 2, …).
+    sections:
+      - id: diskret-grunn
+        title: Punktsannsynlighet, CDF, forventning og varians
+        keys: p(x) · F(x) · E(X) · V(X) · regneregler
+        topics: [diskrete]
+        practice: ['oppg1:A1b']
+        body: |
+          - **Punktsannsynlighet:** $p(x)=P(X=x)$, med $p(x)\ge0$ og $\sum_xp(x)=1$.
+          - **Kumulativ fordelingsfunksjon:** $F(x)=P(X\le x)=\sum_{y\le x}p(y)$.
+          - **Forventning:** $E(X)=\mu=\sum_x x\,p(x)$, og generelt $E[h(X)]=\sum_x h(x)p(x)$.
+          - **Varians:** $V(X)=\sigma^2=E[(X-\mu)^2]=E(X^2)-[E(X)]^2$, og standardavvik $\sigma=\sqrt{V(X)}$.
+
+          **Regneregler:** $E(aX+b)=aE(X)+b$ og $V(aX+b)=a^2V(X)$. Konstanten $b$ forsvinner fra variansen, og $a$ kommer ut i annen.
+
+          :::metode Intervaller med tabell for heltallige variabler
+          - $P(X<4)=P(X\le3)=F(3)$
+          - $P(X\ge k)=1-F(k-1)$
+          - $P(a<X\le b)=F(b)-F(a)$
+          - $P(X=k)=F(k)-F(k-1)$
+
+          Skriv alltid om til $\le$ før du slår opp i tabell A.1 eller A.2.
+          :::
+
+          :::pass
+          $E(1/X)\ne1/E(X)$ og $E(X^2)\ne[E(X)]^2$ (generelt). Regnereglene gjelder bare for lineære funksjoner.
+          :::
+
+          :::eksempel Uendelig forventning (H24 3d)
+          Kast en mynt til første kron, $X$ = antall kast ($X\sim$ geometrisk$(1/2)$), og utbetaling $Y=2^X$. Da er $E(Y)=\sum_{k\ge1}2^k(1/2)^k=\sum1=\infty$.
+          :::
+
+      - id: binomisk
+        title: Binomisk fordeling
+        keys: n uavhengige forsøk · suksess/fiasko · tabell A.1 · E = np
+        topics: [diskrete]
+        practice: ['oppg1:O3-7c', 'oppg1:F2']
+        body: |
+          $X\sim\text{Bin}(n,p)$ er antall suksesser i en **binomisk situasjon**:
+
+          1. Fast antall forsøk $n$.
+          2. Hvert forsøk har to utfall (suksess/fiasko).
+          3. Samme suksessannsynlighet $p$ i alle forsøk.
+          4. Forsøkene er uavhengige.
+
+          $$P(X=k)=\binom nk p^k(1-p)^{n-k},\qquad E(X)=np,\qquad V(X)=np(1-p).$$
+
+          Tabell A.1 gir $B(x;n,p)=P(X\le x)$ for $n=5,10,15,20,25$.
+
+          :::ide
+          Summen av uavhengige binomiske med *samme* $p$ er binomisk: $\text{Bin}(n,p)+\text{Bin}(m,p)\sim\text{Bin}(n+m,p)$. Det er «flere forsøk av samme type».
+          :::
+
+          :::metode «Argumenter for at $X$ er binomisk»
+          Gå gjennom de fire punktene over og knytt hvert av dem til situasjonen i oppgaven. Si hvilke antakelser som er kritiske, som oftest uavhengighet og lik $p$.
+          :::
+
+          :::pass
+          Er $p>0.5$ i tabellen? Tabell A.1 har kolonner helt opp til $p=0.99$, så det går fint. Ellers kan du bruke at $n-X\sim\text{Bin}(n,1-p)$.
+          :::
+
+      - id: hyper-geom
+        title: Hypergeometrisk og geometrisk fordeling
+        keys: trekning uten tilbakelegging · første suksess · E = 1/p
+        topics: [diskrete]
+        body: |
+          **Hypergeometrisk:** Trekk $m$ elementer *uten tilbakelegging* fra $n$, der $r$ er «spesielle». $X$ = antall spesielle i utvalget (formelarkets notasjon):
+          $$P(X=k)=\frac{\binom rk\binom{n-r}{m-k}}{\binom nm},\qquad E(X)=m\frac rn,\qquad V(X)=m\frac rn\Big(1-\frac rn\Big)\frac{n-m}{n-1}.$$
+          Faktoren $\frac{n-m}{n-1}$ er en *endelig-populasjonskorreksjon*. Når $m\ll n$, er $X$ tilnærmet $\text{Bin}(m,r/n)$.
+
+          **Geometrisk:** $X$ = nummeret på forsøket der første suksess kommer (uavhengige forsøk, samme $p$):
+          $$P(X=k)=(1-p)^{k-1}p,\ k=1,2,\dots,\qquad E(X)=\frac1p,\qquad V(X)=\frac{1-p}{p^2}.$$
+          Dessuten er $P(X>k)=(1-p)^k$, altså de $k$ første er fiaskoer.
+
+          :::pass
+          Den geometriske fordelingen er **hukommelsesløs**: $P(X=k+j\mid X>j)=P(X=k)$. Derfor er $P(X=4\mid X>1)=p(1-p)^2$ (H24 1b).
+          :::
+
+          :::eksempel MLE for geometrisk (H24 1c)
+          $L(p)=p^n(1-p)^{\sum x_i-n}$ gir $\hat p=1/\bar x$. Med tre observasjoner er $\hat p=3/(x_1+x_2+x_3)$.
+          :::
+
+      - id: poisson
+        title: Poissonfordelingen
+        keys: sjeldne hendelser · E = V = λ · tabell A.2 · Poisson-tilnærming
+        topics: [poisson-eksp]
+        practice: ['h25:1', 'oppg1:A1b', 'oppg1:F2']
+        body: |
+          $$P(X=k)=\frac{\lambda^k}{k!}e^{-\lambda},\quad k=0,1,2,\dots,\qquad E(X)=V(X)=\lambda.$$
+          Den brukes for antall hendelser i et fast intervall (tid, areal, side med tekst) når hendelsene skjer uavhengig og sjeldent. Tabell A.2 gir $F(x;\mu)=P(X\le x)$.
+
+          **Poisson-tilnærming til binomisk:** Når $n$ er stor og $p$ liten, er $\text{Bin}(n,p)\approx\text{Poisson}(\lambda=np)$.
+
+          **Summer:** $\text{Po}(\lambda_1)+\text{Po}(\lambda_2)\sim\text{Po}(\lambda_1+\lambda_2)$ ved uavhengighet.
+
+          :::ide
+          $P(X=0)=e^{-\lambda}$, så $P(\text{minst én})=1-e^{-\lambda}$. Det er den samme $e^{-Npt}$ som i lekkasjemodellen: antall lekkasjer på $t$ år er tilnærmet Poisson$(Npt)$.
+          :::
+
+          :::pass
+          - $P(X\ge1)\ne E(X)$. Med $\lambda=0.12$ er $P(X\ge1)=1-e^{-0.12}=0.113$.
+          - Når $n\to\infty$ trengs $p\propto1/n$ for å få en Poisson-grense (H23 4g).
+          :::
+
+      - id: poissonprosess
+        title: Poissonprosessen
+        keys: intensitet λ · antall i [0,t] ~ Po(λt) · ventetider ~ exp(λ) · tynning
+        topics: [poisson-eksp]
+        practice: ['v26:4d', 'oppg1:B1b']
+        body: |
+          En **Poissonprosess med intensitet $\lambda$** (hendelser per tidsenhet) kan beskrives på tre ekvivalente måter. På eksamen holder det å gi én (H24 2a):
+
+          1. **Små intervaller:** I et intervall av lengde $\Delta t$ er $P(\text{én hendelse})\approx\lambda\Delta t$ og $P(\text{flere enn én})\approx0$. Antall i disjunkte intervaller er uavhengige.
+          2. **Antall:** Antall hendelser i et intervall av lengde $t$ er Poisson$(\lambda t)$, og uavhengig for disjunkte intervaller.
+          3. **Ventetider:** Tidene mellom hendelsene er uavhengige og eksponentialfordelte med rate $\lambda$, med forventning $1/\lambda$.
+
+          :::ide
+          $P(\text{ingen hendelser i }[0,t])=e^{-\lambda t}=P(T_1>t)$. Det er broen mellom Poisson (antall) og eksponential (ventetid).
+          :::
+
+          **Tynning:** Hvis hver hendelse uavhengig «merkes» med sannsynlighet $p$ (f.eks. bilen er en Mercedes), er de merkede hendelsene en Poissonprosess med intensitet $p\lambda$ (V23 3). Gitt $X=x$ biler er antall Mercedes $\text{Bin}(x,p)$, og ubetinget er det $\text{Po}(p\lambda)$.
+
+          :::pass
+          Ventetiden $T_2$ er *eksponential*-, ikke Poissonfordelt. Det er *antallet* i et intervall som er Poisson (V26 4d).
+          :::
+
+  - title: Kontinuerlige stokastiske variabler
+    intro: |
+      Kapittel 4. Variabler som kan ta alle verdier i et intervall. Sannsynlighet er areal under en tetthet.
+    sections:
+      - id: kont-grunn
+        title: Tetthet, CDF, forventning, varians og median
+        keys: f(x) · F(x) = ∫f · E(X) = ∫x f(x) dx · persentiler
+        topics: [kontinuerlig]
+        practice: ['v26:2a', 'v25:3c']
+        body: |
+          $$P(a\le X\le b)=\int_a^bf(x)\,dx,\qquad f(x)\ge0,\qquad \int_{-\infty}^\infty f(x)\,dx=1.$$
+          - $F(x)=P(X\le x)=\int_{-\infty}^xf(t)\,dt$ og $f(x)=F'(x)$.
+          - $E(X)=\int xf(x)\,dx$, $E[h(X)]=\int h(x)f(x)\,dx$, $V(X)=E(X^2)-[E(X)]^2$.
+          - **Median** $\tilde\mu$: løs $F(\tilde\mu)=0.5$. **$100p$-persentil** $\eta(p)$: løs $F(\eta)=p$.
+
+          :::pass
+          - $P(X=x)=0$ for alle $x$, så $<$ og $\le$ er det samme.
+          - En tetthet *kan* være større enn 1, for eksempel $f(0.2)=1.1$. Det er arealet som må være 1.
+          - For $X\in[0,1]$ er $X^2\le X$, og derfor $E(X^2)\le E(X)$. Men alltid gjelder $E(X^2)\ge[E(X)]^2$ (V25 3c).
+          :::
+
+          :::metode Forventning fra tetthet
+          Eksempel: $f(x)=3x^2$ på $(0,1)$ gir $E(X)=\int_0^1x\cdot3x^2\,dx=\frac34$ (H23 4f).
+
+          Er integralet oppgitt i oppgaven, bruk det direkte. I V26 2a *var* de oppgitte integralene $E(X)$ og $V(X)$, så det holdt å sette inn $a$.
+          :::
+
+          :::eksempel Parameter med fysisk tolkning (Oblig 2 / V26)
+          Maxwell–Boltzmann: $E(X)=2a\sqrt{2/\pi}$, så forventningen er proporsjonal med $a=\sqrt{kT/m}$. Variasjonskoeffisienten $\text{CV}=\text{SD}/E$ er da *uavhengig* av $T$, fordi $a$ forkortes bort.
+          :::
+
+      - id: eksponential
+        title: Uniform-, eksponential- og gammafordelingen
+        keys: uniform · exp(λ) · hukommelsesløshet · gamma(α, β)
+        topics: [poisson-eksp, kontinuerlig]
+        practice: ['h25:2a', 'v26:4d', 'oppg1:B1b', 'oppg1:C1a']
+        body: |
+          **Uniform på $[A,B]$:** $f(x)=\frac1{B-A}$, $E=\frac{A+B}2$, $V=\frac{(B-A)^2}{12}$, og $F(x)=\frac{x-A}{B-A}$ på intervallet.
+
+          **Eksponential med rate $\lambda$:**
+          $$f(x)=\lambda e^{-\lambda x},\ x\ge0,\qquad F(x)=1-e^{-\lambda x},\qquad P(X>x)=e^{-\lambda x},$$
+          $$E(X)=\frac1\lambda,\qquad V(X)=\frac1{\lambda^2},\qquad \text{median}=\frac{\ln2}\lambda.$$
+
+          :::ide Hukommelsesløshet
+          $P(X>s+t\mid X>s)=P(X>t)$. Har du ventet $s$, er restventetiden fortsatt $\exp(\lambda)$. Derfor er $E(X\mid X>s)=s+\frac1\lambda$. Med $\lambda=2$ og $s=1$ blir det $1+\frac12=\frac32$ (V26 4d).
+          :::
+
+          :::metode Kjenn igjen en eksponentialfordeling
+          Får du $P(T>t)=e^{-ct}$ (for eksempel $S(t)\approx e^{-Npt}$), er $T\sim\exp(c)$ med $E(T)=1/c$. Er forventningen oppgitt som $E(T)=\mu/z$, er raten $\lambda=z/\mu$ (H25 2).
+          :::
+
+          **Gamma$(\alpha,\beta)$:** $f(x)=\frac{1}{\beta^\alpha\Gamma(\alpha)}x^{\alpha-1}e^{-x/\beta}$, med $E=\alpha\beta$ og $V=\alpha\beta^2$. Eksponential er gamma med $\alpha=1$ og $\beta=1/\lambda$. Summen av $n$ uavhengige $\exp(\lambda)$ er gamma$(n,1/\lambda)$, altså ventetiden til hendelse nr. $n$ i en Poissonprosess.
+
+          :::pass
+          Formelarket bruker $\beta$ som *skala* (forventningen er $\alpha\beta$), ikke rate. For eksponentialfordelingen er $\lambda$ en rate.
+          :::
+
+      - id: normal
+        title: Normalfordelingen
+        keys: standardisering · Φ(z) · tabell A.3 · kvantiler z_α · normaltilnærming
+        topics: [normal]
+        practice: ['v26:1c', 'h25:4e']
+        body: |
+          $X\sim N(\mu,\sigma^2)$ har en symmetrisk, klokkeformet tetthet. **Standardiser:**
+          $$Z=\frac{X-\mu}{\sigma}\sim N(0,1),\qquad P(X\le x)=\Phi\!\left(\frac{x-\mu}{\sigma}\right).$$
+          - $\Phi(-z)=1-\Phi(z)$
+          - $z_\alpha$ er verdien med areal $\alpha$ til *høyre*: $z_{0.05}=1.645$, $z_{0.025}=1.96$, $z_{0.005}=2.576$.
+          - Lineær transformasjon: $a+bX\sim N(a+b\mu,b^2\sigma^2)$.
+          - Uavhengige normalfordelte: summer og lineærkombinasjoner er normalfordelte.
+
+          :::metode Normalsannsynlighet
+          1. Skriv hendelsen med $X$.
+          2. Trekk fra $\mu$ og del på $\sigma$ (husk $\sigma$, ikke $\sigma^2$).
+          3. Slå opp $\Phi$ i tabell A.3. Rund $z$ til to desimaler.
+          4. Bruk $1-\Phi$ for «større enn».
+          :::
+
+          **Normaltilnærming:**
+          - $\text{Bin}(n,p)\approx N(np,np(1-p))$ når $np\ge10$ og $n(1-p)\ge10$.
+          - $\text{Po}(\lambda)\approx N(\lambda,\lambda)$ når $\lambda\ge10$.
+
+          Med heltallskorreksjon: $P(X\le x)\approx\Phi\!\left(\frac{x+0.5-np}{\sqrt{np(1-p)}}\right)$.
+
+          :::pass
+          Normaltilnærmingen er *ikke* gyldig når $np$ er lite, selv om $n$ er enorm. Med $n=30\,000$ og $p=4\cdot10^{-6}$ er $np=0.12$, så der bruker du Poisson.
+          :::

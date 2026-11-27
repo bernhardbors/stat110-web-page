@@ -42,6 +42,8 @@ function table(lines) {
   );
 }
 
+const CALLOUT_TITLES = { ide: "Kjerneidé", pass: "Pass på", metode: "Metode", eksempel: "Eksempel", eksamen: "På eksamen", def: "Definisjon" };
+
 export function md(src) {
   if (src == null || src === "") return "";
   const math = [];
@@ -49,13 +51,30 @@ export function md(src) {
     math.push(m);
     return `\u0000${math.length - 1}\u0000`;
   };
-  let s = String(src)
+  const s = String(src)
     .replace(/\$\$([\s\S]+?)\$\$/g, keep)
     .replace(/\$([^$\n]+?)\$/g, keep);
+  return mdBlocks(s).replace(/\u0000(\d+)\u0000/g, (_, i) => esc(math[+i]));
+}
+
+// Blokker uten matte (matte er allerede byttet ut med plassholdere)
+function mdBlocks(s) {
+  // Callouts: linje ":::type Valgfri tittel", innhold, linje ":::"
+  const callouts = [];
+  s = s.replace(/^:::(\w+)[ \t]*(.*)\n([\s\S]*?)\n:::[ \t]*$/gm, (_, kind, title, body) => {
+    callouts.push({ kind, title: title.trim(), body });
+    return `\n\u0001${callouts.length - 1}\u0001\n`;
+  });
 
   const blocks = s.trim().split(/\n[ \t]*\n/);
-  const html = blocks
+  return blocks
     .map((b) => {
+      const c = b.trim().match(/^\u0001(\d+)\u0001$/);
+      if (c) {
+        const { kind, title, body } = callouts[+c[1]];
+        const label = CALLOUT_TITLES[kind] || kind;
+        return `<div class="callout ${kind}"><p class="callout-title">${label}${title ? `: <span>${inline(title)}</span>` : ""}</p>${mdBlocks(body)}</div>`;
+      }
       const lines = b.split("\n");
       const first = lines[0];
       if (/^\s*</.test(first)) return b;
@@ -96,7 +115,6 @@ export function md(src) {
       return out.join("");
     })
     .join("\n");
-  return html.replace(/\u0000(\d+)\u0000/g, (_, i) => esc(math[+i]));
 }
 
 export function typeset(el) {
@@ -152,6 +170,17 @@ export const store = {
     try {
       localStorage.removeItem(ACTIVE_PREFIX + examId);
     } catch {}
+  },
+};
+
+const READ_KEY = "stat110.manual.read.v1";
+export const manualRead = {
+  all: () => read(READ_KEY, {}),
+  set(id, on) {
+    const r = read(READ_KEY, {});
+    if (on) r[id] = Date.now();
+    else delete r[id];
+    write(READ_KEY, r);
   },
 };
 

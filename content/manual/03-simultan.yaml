@@ -1,0 +1,208 @@
+parts:
+  - title: Simultanfordelinger
+    intro: |
+      Kapittel 5.1–5.4. Flere variabler samtidig. Diskrete simultantabeller har vært med på **hver eneste** eksamen, så dette må sitte.
+    sections:
+      - id: simultan-diskret
+        title: Diskret simultanfordeling (tabell)
+        keys: p(x,y) · marginaler · betinget fordeling · uavhengighet · E(XY)
+        topics: [simultan]
+        practice: ['h25:4c', 'v25:3a']
+        body: |
+          $p(x,y)=P(X=x,Y=y)$ står ofte i en tabell. **Marginalene** finner du ved å summere rader og kolonner:
+          $$p_X(x)=\sum_yp(x,y),\qquad p_Y(y)=\sum_xp(x,y).$$
+          **Betinget fordeling:** $p_{X\mid Y}(x\mid y)=\dfrac{p(x,y)}{p_Y(y)}$. Del cellen på kolonnesummen.
+
+          **Uavhengighet:** $p(x,y)=p_X(x)p_Y(y)$ for **alle** celler. Én celle der det ikke stemmer, er nok til å vise at de er avhengige.
+
+          **Forventninger:** $E[h(X,Y)]=\sum_x\sum_yh(x,y)p(x,y)$, for eksempel $E(XY)=\sum\sum xy\,p(x,y)$.
+
+          :::metode Standardoppgaven
+          1. Skriv rad- og kolonnesummer i margen. Sjekk at totalen er 1.
+          2. $E(X)$ og $V(X)$ fra $p_X$. $E(Y)$ og $V(Y)$ fra $p_Y$.
+          3. $E(XY)$: summer $xy\,p(x,y)$. Bare celler med $x,y\neq0$ bidrar.
+          4. $\text{Cov}=E(XY)-E(X)E(Y)$ og $\rho=\text{Cov}/(\sigma_X\sigma_Y)$.
+          5. Betinget: del på riktig marginal. $E(Y\mid X=x)=\sum_y y\,p(x,y)/p_X(x)$.
+          :::
+
+          :::eksempel (H25 4c)
+          | $x\backslash y$ | 0 | 1 | 2 | $p_X$ |
+          |---|---|---|---|---|
+          | 0 | .20 | .10 | .05 | .35 |
+          | 1 | .12 | .11 | .17 | .40 |
+          | 2 | .11 | .08 | .06 | .25 |
+          | $p_Y$ | .43 | .29 | .28 | 1 |
+
+          $P(X=2\mid Y=2)=.06/.28=0.214$, $E(X)=0.9$ og $V(Y)=1.41-0.85^2=0.69$.
+          :::
+
+          :::pass
+          - Fra betinget tabell til simultan: $p(x,y)=P(X=x\mid Y=y)\,p_Y(y)$, altså gang med marginalen (V23 1a).
+          - $p(x,y)\le p_Y(y)$ gjelder alltid, fordi cellen er en del av kolonnesummen.
+          :::
+
+      - id: simultan-kont
+        title: Simultantetthet, marginaltetthet og uavhengighet
+        keys: f(x,y) · dobbeltintegral · marginal · f(x|y) · integrasjonsområde
+        topics: [kontinuerlig]
+        practice: ['h25:4b', 'h25:2a']
+        body: |
+          $$P((X,Y)\in A)=\iint_Af(x,y)\,dx\,dy,\qquad f_X(x)=\int f(x,y)\,dy,\qquad f_Y(y)=\int f(x,y)\,dx.$$
+          **Betinget tetthet:** $f_{X\mid Y}(x\mid y)=\dfrac{f(x,y)}{f_Y(y)}$. **Uavhengighet:** $f(x,y)=f_X(x)f_Y(y)$.
+
+          :::metode $P(T_2\ge T_1)$ for uavhengige variabler (H25 2a iii)
+          1. Simultantetthet = produktet av tetthetene (uavhengighet).
+          2. Tegn området $t_2\ge t_1$: indre integral fra $t_1$ til $\infty$, ytre fra 0 til $\infty$.
+          3. Integrer, eller bruk hintet. For eksponentialfordelinger blir svaret $\frac{\lambda_1}{\lambda_1+\lambda_2}$.
+          :::
+
+          :::metode Smart triks
+          Kjenner du $f(x,y)$ og $f(x\mid y)$, får du marginalen uten å integrere: $f_Y(y)=f(x,y)/f(x\mid y)$ (V24 3).
+          :::
+
+          :::pass
+          Hvis tettheten er positiv på et område som *ikke* er et rektangel (f.eks. $0<x<y<1$), kan variablene ikke være uavhengige.
+          :::
+
+      - id: betinget-forventning
+        title: Betinget forventning og total varians
+        keys: E(Y|X=x) · E(Y) = E[E(Y|X)] · V(Y) = E[V(Y|X)] + V[E(Y|X)]
+        topics: [betinget]
+        practice: ['v25:3e', 'h25:4b']
+        body: |
+          $E(Y\mid X=x)$ er forventningen i den betingede fordelingen. Som funksjon av $x$ sier den hvordan $Y$ «i snitt» avhenger av $X$. Er den avtakende i $x$, er sammenhengen negativ (H25 4b).
+
+          **Dobbel forventning og total varians:**
+          $$E(Y)=E\big[E(Y\mid X)\big],\qquad V(Y)=E\big[V(Y\mid X)\big]+V\big[E(Y\mid X)\big].$$
+
+          :::eksempel Tilfeldig sum (V25 3e)
+          $Y=X_1+\cdots+X_N$ med $N$ uavhengig av $X$-ene. $E(Y\mid N=n)=n\mu_X$ og $V(Y\mid N=n)=n\sigma_X^2$, så
+          $$V(Y)=E(N)\sigma_X^2+\mu_X^2V(N)=100\cdot20+10^2\cdot200=22\,000.$$
+          :::
+
+          :::eksempel Poisson tynnet med binomisk (V23 3)
+          $Y\mid X=x\sim\text{Bin}(x,p)$ og $X\sim\text{Po}(\lambda)$ gir $Y\sim\text{Po}(p\lambda)$.
+          :::
+
+      - id: kovarians
+        title: Kovarians og korrelasjon
+        keys: Cov(X,Y) · ρ · bilinearitet · ukorrelert ≠ uavhengig
+        topics: [kovarians]
+        practice: ['v26:4c', 'h25:4e']
+        body: |
+          $$\text{Cov}(X,Y)=E[(X-\mu_X)(Y-\mu_Y)]=E(XY)-E(X)E(Y),\qquad \rho=\frac{\text{Cov}(X,Y)}{\sigma_X\sigma_Y}\in[-1,1].$$
+
+          **Regneregler (bilinearitet):**
+          - $\text{Cov}(X,X)=V(X)$ og $\text{Cov}(X,Y)=\text{Cov}(Y,X)$
+          - $\text{Cov}(aX+b,\ cY+d)=ac\,\text{Cov}(X,Y)$. Konstanter forsvinner.
+          - $\text{Cov}(X+Y,\ Z)=\text{Cov}(X,Z)+\text{Cov}(Y,Z)$
+          - $|\text{Cov}(X,Y)|\le\sqrt{V(X)V(Y)}$, fordi $|\rho|\le1$.
+
+          :::ide Uavhengig ⇒ ukorrelert, men ikke omvendt
+          Er $X$ og $Y$ uavhengige, er $\text{Cov}=0$. Men $\text{Cov}=0$ betyr bare at det ikke er noen *lineær* sammenheng. Eksempel (V26 4c): $Y_1=ZU$ og $Y_2=ZW$ har korrelasjon 0, men er avhengige gjennom $Z$.
+          :::
+
+          :::metode Korrelasjon for konstruerte variabler (V26 4c)
+          $X_1=Z+U$, $X_2=Z+W$ med $Z,U,W$ uavhengige $N(0,1)$:
+          - $\text{Cov}(X_1,X_2)=\text{Cov}(Z,Z)+0+0+0=1$
+          - $V(X_1)=V(X_2)=2$
+          - $\rho=1/2$
+
+          Skriv ut alle krysskovariansene og bruk at uavhengige gir 0.
+          :::
+
+          :::pass
+          - $\text{Cov}(X+2,\,3-Y)=-\text{Cov}(X,Y)$, ikke $-6\,\text{Cov}(X,Y)$.
+          - $\text{Cov}(Y,2Y)=2V(Y)$, ikke $4V(Y)$.
+          :::
+
+      - id: lineaer
+        title: Lineærkombinasjoner og porteføljer
+        keys: E(ΣaᵢXᵢ) · V(aX+bY) = a²V(X) + b²V(Y) + 2ab Cov · diversifisering
+        topics: [kovarians]
+        practice: ['h25:4e', 'v25:2a']
+        body: |
+          $$E\Big(\sum a_iX_i\Big)=\sum a_iE(X_i)\quad\text{(alltid)}$$
+          $$V(aX+bY)=a^2V(X)+b^2V(Y)+2ab\,\text{Cov}(X,Y),\qquad \text{Cov}=\rho\,\sigma_X\sigma_Y.$$
+          Er variablene uavhengige, faller kovariansleddene bort: $V(\sum a_iX_i)=\sum a_i^2V(X_i)$.
+
+          :::eksempel Gjennomsnitt av to uavhengige (H25 4e)
+          $Y_2=\frac12(X_1+X_2)$ med $V(X_i)=1$ gir $V(Y_2)=\frac14(1+1)=0.5$. Samme forventning som $X_1$, men halvparten av variansen. Dette er diversifisering.
+          :::
+
+          :::eksempel Med korrelasjon (H25 4e)
+          $Y_4=\frac13X_2+\frac23X_3$, $\sigma_2=1$, $\sigma_3=2$, $\rho=-0.6$:
+          $$V(Y_4)=\tfrac19\cdot1+\tfrac49\cdot4+2\cdot\tfrac13\cdot\tfrac23\cdot(-0.6)\cdot1\cdot2=1.36.$$
+          :::
+
+          :::pass
+          - Variansen til en *differens* er en *sum*: $V(X-Y)=V(X)+V(Y)$ for uavhengige $X$ og $Y$.
+          - $V(2X)=4V(X)$, men $V(X_1+X_2)=2V(X)$ for uavhengige kopier. Ikke bland disse.
+          :::
+
+      - id: maks-min
+        title: Maksimum og minimum av uavhengige variabler
+        keys: P(max ≤ x) = F(x)ⁿ · P(min > x) = (1 − F(x))ⁿ
+        topics: [normal, sannsynlighet]
+        practice: ['v26:1c', 'h25:4e']
+        body: |
+          For uavhengige $X_1,\dots,X_n$ med samme CDF $F$:
+          $$P(\max X_i\le x)=P(\text{alle}\le x)=F(x)^n,\qquad P(\min X_i>x)=P(\text{alle}>x)=\big(1-F(x)\big)^n.$$
+
+          :::ide
+          «Den største er under $x$» betyr det samme som «alle er under $x$». Det gjør maks og min til uavhengighetsoppgaver. Samme logikk som $(1-p)^N$ i lekkasjemodellen.
+          :::
+
+          :::eksempel (V26 1c)
+          35 uavhengige $N(12.4,\ 3.6^2)$: $P(\max<18)=\Phi(1.56)^{35}=0.9406^{35}\approx0.12$.
+          :::
+
+          :::pass
+          For minimum: $P(\min\le x)=1-(1-F(x))^n$, ikke $F(x)^n$.
+          :::
+
+  - title: Utvalgsfordelinger
+    intro: |
+      Kapittel 6. En statistikk, som $\bar X$, er selv en stokastisk variabel med en fordeling. Det er grunnlaget for estimering og testing.
+    sections:
+      - id: xbar
+        title: Statistikker og fordelingen til gjennomsnittet
+        keys: tilfeldig utvalg · E(X̄) = μ · V(X̄) = σ²/n · standardfeil
+        topics: [sgt, ki-test]
+        body: |
+          Et **tilfeldig utvalg** $X_1,\dots,X_n$ er uavhengige variabler med samme fordeling (i.i.d.). En **statistikk** er en funksjon av utvalget, for eksempel $\bar X$, $S^2$ eller $\max X_i$.
+
+          $$E(\bar X)=\mu,\qquad V(\bar X)=\frac{\sigma^2}n,\qquad \text{SD}(\bar X)=\frac{\sigma}{\sqrt n}.$$
+          For summen $T_o=\sum X_i$ gjelder $E(T_o)=n\mu$ og $V(T_o)=n\sigma^2$.
+
+          :::ide
+          Gjennomsnittet varierer mindre enn enkeltobservasjonene, med en faktor $1/\sqrt n$. Firedobler du $n$, halveres standardavviket til $\bar X$.
+          :::
+
+          Er populasjonen **normalfordelt**, er $\bar X\sim N(\mu,\sigma^2/n)$ *eksakt*, for alle $n$.
+
+      - id: sgt
+        title: Store talls lov og sentralgrenseteoremet
+        keys: X̄ → μ · (X̄ − μ)/(σ/√n) → N(0,1) · n > 30
+        topics: [sgt]
+        practice: ['v26:3', 'v26:4a']
+        body: |
+          **Store talls lov:** $\bar X_n=\frac1n\sum X_i\to\mu$ når $n\to\infty$ (i sannsynlighet). Det krever at $E(X)$ er endelig.
+
+          Det gjelder også for funksjoner: $\frac1n\sum X_i^2\to E(X^2)=\sigma^2+\mu^2$ (V26 4a).
+
+          **Sentralgrenseteoremet (SGT):** Uansett fordeling (med endelig $\sigma$) er
+          $$\frac{\bar X-\mu}{\sigma/\sqrt n}=\frac{\sum X_i-n\mu}{\sigma\sqrt n}\ \longrightarrow\ N(0,1)\quad\text{når }n\to\infty.$$
+          Tommelfingerregel: $n>30$ gir god tilnærming. Skjeve fordelinger trenger større $n$.
+
+          :::metode Svar på «forklar store talls lov og SGT» (V26 3, maks 100 ord)
+          - **Store talls lov:** gjennomsnittet nærmer seg forventningen når antall observasjoner øker.
+          - **SGT:** gjennomsnittet (eller summen) blir tilnærmet normalfordelt for store $n$, uavhengig av fordelingen til $X_i$. Skriv opp det standardiserte uttrykket.
+
+          Ta gjerne med et eksempel, for eksempel at $\bar X\to1/\lambda$ for eksponentialfordelte data (V24 4).
+          :::
+
+          :::pass
+          - $\dfrac{\sum X_i-\mu}{\sigma/\sqrt n}$ er **feil**. Telleren må være $\sum X_i-n\mu$ eller $\bar X-\mu$.
+          - SGT sier ikke at *dataene* blir normalfordelte, bare gjennomsnittet.
+          :::
