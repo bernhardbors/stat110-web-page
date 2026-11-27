@@ -29,6 +29,8 @@ Oppgavetyper:
 - `langsvar`: `prompt`, `solution`, `rubric` (liste med `[poeng, tekst]` som summerer til `points`)
 - `flervalg`: `prompt` og `options` (`text`, `correct`, `why`). Poeng: hvert riktig kryss gir `points/antall_riktige`, hvert feil kryss trekker like mye, og laveste sum er 0.
 
+Temasett per tema (`tema-<id>`) genereres automatisk av `tools/build.py` fra alle oppgaver i tidligere eksamener og prøveeksamener, så de skal ikke skrives for hånd.
+
 Temaer (`topics`) er definert i `data/topics.json` og brukes av studieradaren. Hvert tema peker til en hovedseksjon i manualen (`manual`).
 
 ## Manualen
