@@ -44,7 +44,7 @@ function showStart(active, wanted) {
       ${exam.note ? `<div class="prose">${md(exam.note)}</div>` : ""}
       <ul class="facts">
         <li><b>${exam.totalPoints}</b> poeng</li>
-        <li><b>${exam.duration_min / 60}</b> timer</li>
+        ${exam.kind === "temasett" ? "" : `<li><b>${exam.duration_min / 60}</b> timer</li>`}
         <li><b>${nL.length}</b> langsvar (${sum(nL)} p)</li>
         <li><b>${nF.length}</b> flervalg (${sum(nF)} p)</li>
       </ul>
@@ -58,8 +58,8 @@ function showStart(active, wanted) {
           ? `<div class="resume"><p>Du har et påbegynt forsøk i <b>${active.mode === "eksamen" ? "eksamensmodus" : "øvingsmodus"}</b>.</p>
              <div class="btns"><button class="btn primary" id="resume">Fortsett</button><button class="btn" id="discard">Forkast og start på nytt</button></div></div>`
           : `<div class="btns">
-              <button class="btn primary" data-mode="eksamen">Start eksamen · ${exam.duration_min / 60} t med tidtaker</button>
-              <button class="btn" data-mode="ovelse">Øvingsmodus · uten tid, sjekk svar underveis</button>
+              ${exam.kind === "temasett" ? "" : `<button class="btn primary" data-mode="eksamen">Start eksamen · ${exam.duration_min / 60} t med tidtaker</button>`}
+              <button class="btn ${exam.kind === "temasett" ? "primary" : ""}" data-mode="ovelse">${exam.kind === "temasett" ? "Start" : "Øvingsmodus"} · uten tid, sjekk svar underveis</button>
              </div>`
       }
       <p><a href="./">← Til forsiden</a></p>

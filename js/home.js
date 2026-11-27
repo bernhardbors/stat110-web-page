@@ -11,6 +11,12 @@ async function init() {
   countdown();
   setInterval(countdown, 60000);
   const runs = store.runs();
+  const feat = index.filter((e) => e.featured);
+  $("#featured").innerHTML = feat
+    .map(
+      (e) => `<a class="featured" href="eksamen.html?id=${e.id}&modus=ovelse"><span class="feat-tag">${esc(e.featured)}</span><b>${esc(e.title)}</b><span>${md(e.blurb).replace(/^<p>|<\/p>$/g, "")}</span><span class="go">Start →</span></a>`
+    )
+    .join("");
   renderList("#prove", index.filter((e) => e.kind === "prove"), runs, "Prøveeksamenene kommer snart.");
   renderList("#tidligere", index.filter((e) => e.kind === "tidligere"), runs, "Ingen ennå.");
   renderList("#temasett", index.filter((e) => e.kind === "temasett"), runs, "Temasettene kommer snart.");

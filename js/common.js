@@ -62,17 +62,38 @@ export function md(src) {
       if (/^\s*\|/.test(first)) return table(lines);
       const h = first.match(/^(#{2,4})\s+(.*)$/);
       if (h && lines.length === 1) return `<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`;
-      if (/^\s*[-*]\s+/.test(first) || /^\s*\d+[.)]\s+/.test(first)) {
-        const ordered = /^\s*\d+[.)]\s+/.test(first);
-        const items = [];
-        for (const l of lines) {
-          if (/^\s*([-*]|\d+[.)])\s+/.test(l)) items.push(l.replace(/^\s*([-*]|\d+[.)])\s+/, ""));
-          else if (items.length) items[items.length - 1] += " " + l.trim();
+      // Del blokken i avsnitt og lister (lister kan starte rett etter en tekstlinje)
+      const isItem = (l) => /^\s*([-*]|\d+[.)])\s+/.test(l) && !/^\s*\*\*/.test(l);
+      const out = [];
+      let para = [];
+      let list = null;
+      const flushPara = () => {
+        if (para.length) out.push(`<p>${inline(para.join(" "))}</p>`);
+        para = [];
+      };
+      const flushList = () => {
+        if (list) out.push(`<${list.tag}>` + list.items.map((i) => `<li>${inline(i)}</li>`).join("") + `</${list.tag}>`);
+        list = null;
+      };
+      for (const l of lines) {
+        if (isItem(l)) {
+          flushPara();
+          const tag = /^\s*\d+[.)]\s+/.test(l) ? "ol" : "ul";
+          if (!list || list.tag !== tag) {
+            flushList();
+            list = { tag, items: [] };
+          }
+          list.items.push(l.replace(/^\s*([-*]|\d+[.)])\s+/, ""));
+        } else if (list && /^\s+\S/.test(l)) {
+          list.items[list.items.length - 1] += " " + l.trim();
+        } else {
+          flushList();
+          para.push(l);
         }
-        const tag = ordered ? "ol" : "ul";
-        return `<${tag}>` + items.map((i) => `<li>${inline(i)}</li>`).join("") + `</${tag}>`;
       }
-      return `<p>${inline(lines.join(" "))}</p>`;
+      flushPara();
+      flushList();
+      return out.join("");
     })
     .join("\n");
   return html.replace(/\u0000(\d+)\u0000/g, (_, i) => esc(math[+i]));

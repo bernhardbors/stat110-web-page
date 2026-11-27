@@ -6,6 +6,7 @@
   "kind": "tidligere",
   "order": 1,
   "blurb": "Siste eksamen. 35 p langsvar + 24 p flervalg, akkurat den fordelingen foreleser sier H26 får.",
+  "featured": "",
   "totalPoints": 59,
   "duration_min": 240,
   "nTasks": 10,
@@ -19,6 +20,27 @@
    "andel",
    "kovarians",
    "poisson-eksp"
+  ]
+ },
+ {
+  "id": "oppg1",
+  "title": "Oppgave 1-trening: hemmeligheter og lekkasjer",
+  "short": "Oppgave 1",
+  "kind": "temasett",
+  "order": 0,
+  "blurb": "**Prioriter denne.** Foreleser sier at oppgave 1 på H26 bygger på Oblig 2a oppg. 8 og Oblig 3a oppg. 7. Her er obligoppgavene med løsningsforslag, tre nye varianter og flervalg om samme tema.",
+  "featured": "Foreleserens hint",
+  "totalPoints": 109,
+  "duration_min": 240,
+  "nTasks": 18,
+  "topics": [
+   "sannsynlighet",
+   "diskrete",
+   "poisson-eksp",
+   "andel",
+   "ki-test",
+   "kontinuerlig",
+   "mle"
   ]
  }
 ]

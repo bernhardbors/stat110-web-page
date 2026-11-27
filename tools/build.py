@@ -108,6 +108,7 @@ for path in sorted(SRC.glob("*.yaml")):
             "kind": kind,
             "order": d.get("order", 0),
             "blurb": d.get("blurb", ""),
+            "featured": d.get("featured", ""),
             "totalPoints": d["totalPoints"],
             "duration_min": d["duration_min"],
             "nTasks": n,
