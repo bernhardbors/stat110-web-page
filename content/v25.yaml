@@ -161,7 +161,7 @@ sections:
             why: 'En tetthet kan være større enn 1. Det er integralet som må bli 1.'
           - text: 'Det er mulig at $f(0)+f(1)=1$'
             correct: true
-            why: 'For eksempel med uniform fordeling: $f(0)=1$ og $f(1)=0$ er også mulig. Enkeltpunkter påvirker ikke integralet.'
+            why: 'Ja. Verdien i enkeltpunkter påvirker ikke integralet, så for eksempel $f(x)=1$ på $(0,1)$ med $f(0)=f(1)=0.5$ er en gyldig tetthet.'
           - text: 'Hvis $X$ er uniformt fordelt, er $F(x)=1$ for $x\in[0,1]$'
             why: 'Da er $F(x)=x$ på $[0,1]$.'
           - text: 'Det er mulig at $P(X=0.3)=0.3$'
