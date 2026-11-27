@@ -1,0 +1,232 @@
+id: v25
+title: Eksamen vår 2025
+short: V25
+kind: tidligere
+order: 3
+blurb: t-test med lite utvalg, KI for andel, kombinert variansestimator og seks flervalg.
+duration_min: 240
+note: |
+  Oppgavetekstene er fra eksamen i STAT110 våren 2025 (UiB). Løsningsforslag og poengmal er våre egne, basert på det offisielle løsningsforslaget. Vi har ikke den offisielle poengfordelingen for langsvarsoppgavene, så den er anslått.
+
+sections:
+  - title: Rekkevidde for elbiler
+    intro: |
+      En produsent av elbiler påstår at en fulladet bil har en rekkevidde (forventet kjørelengde) på 500 km. Fire kamerater som har kjøpt denne biltypen, tror at rekkevidden i virkeligheten er kortere. De måler rekkevidden $X$ til $n=4$ fulladede biler og finner $x_1=495$, $x_2=486$, $x_3=493$ og $x_4=504$ (km). Du får opplyst at den empiriske variansen er $s^2=55$. Observasjonene kan antas uavhengige, og i punkt (a) også normalfordelte.
+    tasks:
+      - id: 1a
+        type: langsvar
+        points: 10
+        topics: [ki-test]
+        prompt: |
+          Gir dataene grunnlag for å påstå at forventet kjørelengde er mindre enn 500 km? Formuler problemstillingen som en hypotesetest på 5 % signifikansnivå. Hva blir konklusjonen?
+
+          Forklar hva som menes med signifikansnivået til en hypotesetest. Forklar kort hva en p-verdi er (du trenger ikke regne den ut).
+        solution: |
+          **Hypoteser:** $H_0:\mu=500$ mot $H_a:\mu<500$. Påstanden vi vil ha belegg for, står i $H_a$.
+
+          $\bar x=(495+486+493+504)/4=494.5$ og $s=\sqrt{55}\approx7.416$. Testobservatoren er
+          $$t=\frac{\bar x-\mu_0}{s/\sqrt n}=\frac{494.5-500}{7.416/2}=\frac{-5.5}{3.708}\approx-1.48.$$
+          Med $n-1=3$ frihetsgrader forkaster vi når $t\le -t_{0.05,3}=-2.353$. Siden $-1.48>-2.353$, **forkaster vi ikke $H_0$**. Dataene gir ikke grunnlag for å påstå at rekkevidden er under 500 km.
+
+          **Signifikansnivå:** sannsynligheten for å forkaste $H_0$ når $H_0$ er sann (feil av type I).
+
+          **p-verdi:** sannsynligheten, under $H_0$, for å observere en testobservator som er minst like ekstrem (i retning $H_a$) som den vi fikk. Her er det $P(T_3\le-1.48)\approx0.12$.
+        rubric:
+          - [2, 'Riktige hypoteser $H_0:\mu=500$, $H_a:\mu<500$']
+          - [3, '$t\approx-1.48$ med $t$-fordeling, 3 frihetsgrader']
+          - [2, 'Kritisk verdi $-2.353$ og riktig konklusjon']
+          - [2, 'Riktig definisjon av signifikansnivå']
+          - [1, 'Riktig forklaring av p-verdi']
+
+      - id: 1b
+        type: langsvar
+        points: 10
+        topics: [andel]
+        prompt: |
+          Noen av kameratene mener at det ikke er rimelig å anta at kjørelengdene er normalfordelte, og at man heller bør se på andelen biler som kjører kortere enn 500 km. Vi definerer $p=P(X<500)$.
+
+          Konstruer et tilnærmet 95 % konfidensintervall for $p$ basert på dataene. Diskuter om man kan bruke dette konfidensintervallet til å vurdere om reklamen lyver, dvs. at rekkevidden er mindre enn 500 km.
+        solution: |
+          Tre av fire observasjoner er under 500, så $\hat p=3/4=0.75$ og
+          $$SE=\sqrt{\frac{\hat p(1-\hat p)}{n}}=\sqrt{\frac{0.75\cdot0.25}{4}}\approx0.217.$$
+          Det tilnærmede intervallet blir $0.75\pm1.96\cdot0.217=[0.33,\ 1.17]$.
+
+          **Diskusjon** (åpent spørsmål, flere gode svar):
+          - Med $n=4$ er normaltilnærmingen svært dårlig ($n\hat p=3<10$), og intervallet går til og med over 1.
+          - Intervallet er veldig bredt og inneholder verdier helt ned mot $p\approx 0.33$, som er forenlige med reklamen.
+          - Hvis rekkevidden er symmetrisk fordelt rundt 500, er $p=0.5$, og det ligger godt innenfor intervallet. Vi kan altså ikke si at reklamen lyver.
+          - Variasjon i kjørestil og forhold er en annen feilkilde.
+        rubric:
+          - [3, '$\hat p=0.75$ og riktig standardfeil $\approx0.217$']
+          - [3, 'Intervall ca. $[0.33,\ 1.17]$']
+          - [4, 'Diskusjon: lite utvalg og dårlig tilnærming, bredt intervall, inneholder 0.5, kan ikke konkludere']
+
+  - title: Kombinert variansestimator
+    intro: |
+      Vi ser på uavhengige observasjoner $X_1,\dots,X_n$ med samme normalfordeling $N(\mu_x,\sigma^2)$. Empirisk varians $S_x^2=(n-1)^{-1}\sum_{i=1}^n(X_i-\bar X)^2$ er forventningsrett for $\sigma^2$, og du får opplyst at $V(S_x^2)=2\sigma^4/(n-1)$ i denne situasjonen.
+
+      Vi har også et annet tilsvarende utvalg $Y_1,\dots,Y_m$ ($m\ne n$), uavhengig av $X$-ene, med fordeling $N(\mu_y,\sigma^2)$ og empirisk varians $S_y^2$. Vi har altså to ulike estimatorer for $\sigma^2$. Vi ser først på «pooled variance»-estimatoren
+      $$S_p^2=\frac{(n-1)S_x^2+(m-1)S_y^2}{n+m-2}.$$
+      (Merk at vi ikke krever at $\mu_x=\mu_y$.)
+    tasks:
+      - id: 2a
+        type: langsvar
+        points: 10
+        topics: [mle, kovarians]
+        prompt: |
+          Vis at $S_p^2$ er en forventningsrett estimator for $\sigma^2$, og regn ut variansen $V(S_p^2)$.
+        solution: |
+          **Forventningsrett:** Vi bruker linearitet og $E(S_x^2)=E(S_y^2)=\sigma^2$:
+          $$E(S_p^2)=\frac{(n-1)E(S_x^2)+(m-1)E(S_y^2)}{n+m-2}=\frac{(n-1)\sigma^2+(m-1)\sigma^2}{n+m-2}=\sigma^2.$$
+          **Varians:** $S_x^2$ og $S_y^2$ er uavhengige (de er beregnet fra uavhengige utvalg), så
+          $$V(S_p^2)=\frac{(n-1)^2V(S_x^2)+(m-1)^2V(S_y^2)}{(n+m-2)^2}=\frac{(n-1)^2\frac{2\sigma^4}{n-1}+(m-1)^2\frac{2\sigma^4}{m-1}}{(n+m-2)^2}=\frac{2\sigma^4(n+m-2)}{(n+m-2)^2}=\frac{2\sigma^4}{n+m-2}.$$
+        rubric:
+          - [4, 'Viser $E(S_p^2)=\sigma^2$ med linearitet']
+          - [2, 'Begrunner uavhengighet mellom $S_x^2$ og $S_y^2$']
+          - [4, 'Riktig variansregning: $V(S_p^2)=2\sigma^4/(n+m-2)$']
+
+      - id: 2b
+        type: langsvar
+        points: 10
+        topics: [mle]
+        prompt: |
+          $S_p^2$ er bare én av mange mulige måter å kombinere $S_x^2$ og $S_y^2$ på. Foreslå en annen forventningsrett estimator $S_*^2$ for $\sigma^2$ basert på $S_x^2$ og $S_y^2$. Forklar hvordan man kan velge mellom $S_p^2$ og $S_*^2$. (Det kan du gjøre selv om du ikke kommer på et forslag til $S_*^2$.)
+        solution: |
+          **Forslag:** $S_*^2=\tfrac12(S_x^2+S_y^2)$. Det fungerer også med en hvilken som helst annen $qS_x^2+(1-q)S_y^2$, $q\in[0,1]$, unntatt den som gir $S_p^2$. Den er forventningsrett:
+          $$E(S_*^2)=\tfrac12\big(E(S_x^2)+E(S_y^2)\big)=\tfrac12(\sigma^2+\sigma^2)=\sigma^2.$$
+          **Valg:** Vi bruker MSE $=\text{varians}+\text{bias}^2$. Begge er forventningsrette (bias 0), så vi velger den med **minst varians**. Her er
+          $$V(S_*^2)=\tfrac14\left(\frac{2\sigma^4}{n-1}+\frac{2\sigma^4}{m-1}\right),$$
+          som man kan vise er større enn $2\sigma^4/(n+m-2)$ når $n\ne m$. $S_p^2$ er derfor å foretrekke. (Faktisk har $S_p^2$ minst varians av alle slike lineærkombinasjoner.)
+        rubric:
+          - [3, 'Foreslår en gyldig lineærkombinasjon med vekter som summerer til 1']
+          - [2, 'Viser at den er forventningsrett']
+          - [3, 'Velger med MSE / minst varians når begge er forventningsrette']
+          - [2, 'Regner ut eller sammenligner variansene']
+
+  - title: Flervalg
+    tasks:
+      - id: 3a
+        type: flervalg
+        points: 6
+        topics: [simultan]
+        prompt: |
+          La $p(x,y)$ være simultan punktsannsynlighet for to diskret fordelte tilfeldige variable $X$ og $Y$ som **ikke** er uavhengige. La $p_X(x)$ og $p_Y(y)$ være marginalfordelingene, og $p_{X\mid Y}(x\mid y)$ og $p_{Y\mid X}(y\mid x)$ de betingede fordelingene.
+
+          Hvilke utsagn er korrekte?
+        options:
+          - text: '$p(x,y)=p_X(x)\cdot p_Y(y)$ for alle kombinasjoner av $x$ og $y$'
+            why: 'Det er definisjonen av uavhengighet, og $X$ og $Y$ er ikke uavhengige.'
+          - text: '$p(x,y)\le p_Y(y)$ for alle kombinasjoner av $x$ og $y$'
+            correct: true
+            why: '$p_Y(y)=\sum_x p(x,y)$ er en sum av ikke-negative ledd der $p(x,y)$ er ett av dem.'
+          - text: 'Det finnes en kombinasjon av $x$ og $y$ slik at $p_{X\mid Y}(x\mid y)\ne p_X(x)$'
+            correct: true
+            why: 'Ellers ville $X$ og $Y$ vært uavhengige.'
+
+      - id: 3b
+        type: flervalg
+        points: 6
+        topics: [mle, kontinuerlig]
+        prompt: |
+          Vi har uavhengige observasjoner $x_1,\dots,x_n$ med tetthet $f(x;\theta)=(\theta+1)x^\theta$, $0<x<1$, der $\theta>-1$ er en ukjent parameter. Vi har to ulike estimatorer for $\theta$:
+          $$\hat\theta_1=-\frac{n}{\sum_{i=1}^n\ln x_i}-1\qquad\text{og}\qquad\hat\theta_2=-\frac{1-2\bar x}{1-\bar x},$$
+          der $\bar x=n^{-1}\sum x_i$. Hvilke utsagn er korrekte?
+        options:
+          - text: '$\hat\theta_1$ er sannsynlighetsmaksimeringsestimatoren (MLE) for $\theta$'
+            correct: true
+            why: '$\ell(\theta)=n\ln(\theta+1)+\theta\sum\ln x_i$. Da gir $\ell^\prime(\theta)=\frac{n}{\theta+1}+\sum\ln x_i=0$ at $\hat\theta=-n/\sum\ln x_i-1$.'
+          - text: '$\hat\theta_2$ er sannsynlighetsmaksimeringsestimatoren (MLE) for $\theta$'
+            why: '$\hat\theta_2$ er momentestimatoren: løs $\bar x=(\theta+1)/(\theta+2)$.'
+          - text: '$E(X)=\theta$'
+          - text: '$E(X)=\theta+1$'
+            why: '$X\in(0,1)$, så $E(X)<1$.'
+          - text: '$E(X)=\dfrac{\theta+1}{\theta+2}$'
+            correct: true
+            why: '$\int_0^1x(\theta+1)x^\theta dx=\frac{\theta+1}{\theta+2}$.'
+
+      - id: 3c
+        type: flervalg
+        points: 6
+        topics: [kontinuerlig]
+        prompt: |
+          La $X\in[0,1]$ være en kontinuerlig tilfeldig variabel med tetthet $f(x)$ og kumulativ fordelingsfunksjon $F(x)$. Hvilke utsagn er korrekte?
+        options:
+          - text: 'Vi har $E(X^2)>E(X)$'
+            why: 'For $x\in[0,1]$ er $x^2\le x$, så $E(X^2)\le E(X)$.'
+          - text: 'Vi har $E(X^2)\ge(E(X))^2$'
+            correct: true
+            why: 'Fordi $V(X)=E(X^2)-(E X)^2\ge0$.'
+          - text: 'Det er mulig at $f(0.2)=1.1$'
+            correct: true
+            why: 'En tetthet kan være større enn 1. Det er integralet som må bli 1.'
+          - text: 'Det er mulig at $f(0)+f(1)=1$'
+            correct: true
+            why: 'For eksempel med uniform fordeling: $f(0)=1$ og $f(1)=0$ er også mulig. Enkeltpunkter påvirker ikke integralet.'
+          - text: 'Hvis $X$ er uniformt fordelt, er $F(x)=1$ for $x\in[0,1]$'
+            why: 'Da er $F(x)=x$ på $[0,1]$.'
+          - text: 'Det er mulig at $P(X=0.3)=0.3$'
+            why: 'For en kontinuerlig variabel er $P(X=x)=0$ for alle $x$.'
+
+      - id: 3d
+        type: flervalg
+        points: 6
+        topics: [sannsynlighet]
+        prompt: |
+          En elektrisk kobling består av 6 komponenter som virker uavhengig av hverandre. La $A_i$ være hendelsen at komponent $i$ virker, med $P(A_1)=0.5$, $P(A_2)=0.4$, $P(A_3)=0.6$, $P(A_4)=0.7$, $P(A_5)=0.5$ og $P(A_6)=0.8$.
+
+          Koblingen ser slik ut: komponent 1 og 4 står i **parallell**. Etter dem kommer komponent 2 i **serie**. Deretter går strømmen enten gjennom komponent 3, eller gjennom 5 og 6 i serie (de to grenene står i parallell). Til slutt går strømmen tilbake.
+
+          Vi definerer $B=A_1\cup A_4$ og $C=(A_5\cap A_6)\cup A_3$. Hvilke utsagn er korrekte?
+        options:
+          - text: '$P(B)=0.75$'
+          - text: '$P(B)=0.85$'
+            correct: true
+            why: '$P(B)=1-P(A_1^c)P(A_4^c)=1-0.5\cdot0.3=0.85$.'
+          - text: '$P(C)=0.76$'
+            correct: true
+            why: '$P(A_5\cap A_6)=0.4$, så $P(C)=0.4+0.6-0.4\cdot0.6=0.76$.'
+          - text: '$P(C)=0.86$'
+          - text: 'P(det går strøm i kretsen) $=0.258$'
+            correct: true
+            why: 'Strøm krever $B\cap A_2\cap C$: $0.85\cdot0.4\cdot0.76\approx0.258$.'
+          - text: 'P(det går strøm i kretsen) $=0.358$'
+
+      - id: 3e
+        type: flervalg
+        points: 6
+        topics: [betinget]
+        prompt: |
+          Et forsikringsselskap betaler ut $N$ skadeerstatninger (av en gitt type) i et bestemt år. La $X_i$ være utbetalt beløp for skade nr. $i$. Total utbetaling er $Y=X_1+\cdots+X_N$. Vi regner $N$ og $X$-ene som uavhengige tilfeldige variable med $E(N)=100$, $V(N)=200$, $E(X_i)=10$ og $V(X_i)=20$. Husk at $E(Y\mid N=n)$ og $V(Y\mid N=n)$ er betinget forventning og varians, og at formelen for total varians er
+          $$V(Y)=E[V(Y\mid N)]+V[E(Y\mid N)].$$
+          Hvilke utsagn er korrekte?
+        options:
+          - text: '$E(Y\mid N=n)=1000$'
+          - text: '$E(Y\mid N=n)=10n$'
+            correct: true
+          - text: '$V(Y\mid N=n)=20n^2$'
+          - text: '$V(Y\mid N=n)=20n$'
+            correct: true
+            why: 'Summen av $n$ uavhengige variabler med varians 20.'
+          - text: '$V(Y)=18000$'
+          - text: '$V(Y)=20000$'
+          - text: '$V(Y)=22000$'
+            correct: true
+            why: '$E(20N)+V(10N)=20\cdot100+100\cdot200=2000+20000$.'
+
+      - id: 3f
+        type: flervalg
+        points: 6
+        topics: [sannsynlighet, poisson-eksp]
+        prompt: |
+          Vi ser på to automatiske systemer (A og B) for tale-til-tekst. Antall feil $X$ per side er Poissonfordelt med parameter $\mu_A$ og $\mu_B$ for de to systemene. Du får en side der du ikke vet om den kommer fra A eller B, men begge er i utgangspunktet like sannsynlige. La $p(x)$ være punktsannsynligheten til $X$, og definer $q(x)=P(A\mid X=x)$, den betingede sannsynligheten for at siden er laget av A, gitt at antall feil er $X=x$.
+
+          Hvilke utsagn er korrekte?
+        options:
+          - text: '$p(x)=\frac12\frac{\mu_A^x}{x!}e^{-\mu_A}+\frac12\frac{\mu_B^x}{x!}e^{-\mu_B}$'
+            correct: true
+            why: 'Loven om total sannsynlighet.'
+          - text: '$p(x)=\frac{\mu_A^x}{x!}e^{-\mu_A}\cdot\frac{\mu_B^x}{x!}e^{-\mu_B}$'
+          - text: '$q(0)>\frac12$ dersom $\mu_A>\mu_B$'
+          - text: '$q(0)<\frac12$ dersom $\mu_A>\mu_B$'
+            correct: true
+            why: 'Bayes: $q(0)=\dfrac{e^{-\mu_A}}{e^{-\mu_A}+e^{-\mu_B}}$. Når $\mu_A>\mu_B$, er $e^{-\mu_A}<e^{-\mu_B}$: null feil peker mot systemet med færrest feil.'

@@ -23,6 +23,53 @@
   ]
  },
  {
+  "id": "h25",
+  "title": "Eksamen høst 2025",
+  "short": "H25",
+  "kind": "tidligere",
+  "order": 2,
+  "blurb": "Poisson, eksponentiallevetider med MLE, og fem flervalg. 35 p langsvar + 30 p flervalg.",
+  "featured": "",
+  "totalPoints": 65,
+  "duration_min": 240,
+  "nTasks": 9,
+  "topics": [
+   "poisson-eksp",
+   "sannsynlighet",
+   "kontinuerlig",
+   "mle",
+   "sgt",
+   "ki-test",
+   "betinget",
+   "simultan",
+   "kovarians",
+   "normal"
+  ]
+ },
+ {
+  "id": "v25",
+  "title": "Eksamen vår 2025",
+  "short": "V25",
+  "kind": "tidligere",
+  "order": 3,
+  "blurb": "t-test med lite utvalg, KI for andel, kombinert variansestimator og seks flervalg.",
+  "featured": "",
+  "totalPoints": 76,
+  "duration_min": 240,
+  "nTasks": 10,
+  "topics": [
+   "ki-test",
+   "andel",
+   "mle",
+   "kovarians",
+   "simultan",
+   "kontinuerlig",
+   "sannsynlighet",
+   "betinget",
+   "poisson-eksp"
+  ]
+ },
+ {
   "id": "oppg1",
   "title": "Oppgave 1-trening: hemmeligheter og lekkasjer",
   "short": "Oppgave 1",
