@@ -130,7 +130,7 @@ function showTask(i) {
         ${sec.intro ? `<div class="section-intro prose">${md(sec.intro)}</div>` : ""}
         <header class="task-head">
           <h2>${esc(t.label || t.id)}</h2>
-          <span class="tag ${t.type}">${t.type === "langsvar" ? "Langsvar" : "Flervalg (flere svar)"} · ${fmtP(t.points)} p</span>
+          <span class="tag ${t.type}">${t.type === "langsvar" ? "Langsvar" : t.single ? "Flervalg (ett svar)" : "Flervalg (flere svar)"} · ${fmtP(t.points)} p</span>
         </header>
         <div class="prose">${md(t.prompt)}</div>
         ${t.type === "flervalg" ? flervalgHtml(t, ans, practice && revealed) : langsvarHtml(t, ans)}
@@ -217,10 +217,10 @@ function updateNav() {
 
 function flervalgHtml(t, ans, showKey) {
   const sel = ans.sel || [];
-  return `<p class="hint">Velg ett eller flere alternativer:</p><div class="options">${t.options
+  return `<p class="hint">${t.single ? "Velg ett alternativ:" : "Velg ett eller flere alternativer:"}</p><div class="options">${t.options
     .map((o, k) => {
       const cls = showKey ? (o.correct ? "is-correct" : sel.includes(k) ? "is-wrong" : "") : "";
-      return `<label class="opt ${cls}"><input type="checkbox" value="${k}" ${sel.includes(k) ? "checked" : ""}><span>${md(o.text).replace(/^<p>|<\/p>$/g, "")}</span></label>`;
+      return `<label class="opt ${cls}"><input type="${t.single ? "radio" : "checkbox"}" name="opt-${esc(t.id)}" value="${k}" ${sel.includes(k) ? "checked" : ""}><span>${md(o.text).replace(/^<p>|<\/p>$/g, "")}</span></label>`;
     })
     .join("")}</div>`;
 }

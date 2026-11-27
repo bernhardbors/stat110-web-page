@@ -1,0 +1,224 @@
+id: h24
+title: Eksamen høst 2024
+short: H24
+kind: tidligere
+order: 5
+blurb: Geometrisk fordeling med MLE, Poissonprosess og fem flervalg.
+duration_min: 240
+note: |
+  Oppgavetekstene er fra eksamen i STAT110 høsten 2024 (UiB). Løsningsforslag og poengmal er våre egne, basert på det offisielle løsningsforslaget. Vi har ikke den offisielle poengfordelingen for langsvarsoppgavene, så den er anslått.
+
+sections:
+  - title: Sosiale medier
+    intro: |
+      Karoline er en flittig bruker av sosiale medier og vil treffe nye personer. Anta at hun hver dag snakker med én ny person på sosiale medier og foreslår at de skal møtes samme dag. Dessverre for Karoline vil ikke alle møtes. La $X$ være antall personer Karoline må spørre før det første møtet, og la $p$ være sannsynligheten for at en tilfeldig valgt person vil møte henne.
+    tasks:
+      - id: 1a
+        type: langsvar
+        points: 5
+        topics: [diskrete]
+        prompt: |
+          Gi en begrunnelse for at $X$ er geometrisk fordelt med punktsannsynlighet
+          $$P(X=x)=p(1-p)^{x-1},\qquad x=1,2,\dots$$
+          Beskriv antakelsene du bruker.
+        solution: |
+          **Antakelser:** Personene svarer uavhengig av hverandre, og alle sier ja med samme sannsynlighet $p$.
+
+          Da er hendelsen $\{X=x\}$ det samme som at
+          1. de $x-1$ første personene sier nei, med sannsynlighet $(1-p)^{x-1}$, og
+          2. person nr. $x$ sier ja, med sannsynlighet $p$.
+
+          Ved uavhengighet ganger vi: $P(X=x)=(1-p)^{x-1}p$.
+        rubric:
+          - [2, 'Antakelser: uavhengighet og lik $p$']
+          - [3, 'Begrunner formelen: $x-1$ nei etterfulgt av ett ja, og ganger ved uavhengighet']
+
+      - id: 1b
+        type: langsvar
+        points: 5
+        topics: [diskrete, sannsynlighet]
+        prompt: |
+          Hva er den betingede sannsynligheten for at $X=4$ dersom du får vite at den første personen Karoline spør, svarer nei?
+        solution: |
+          «Første svarer nei» er $\{X>1\}$, og $\{X=4\}\subset\{X>1\}$:
+          $$P(X=4\mid X>1)=\frac{P(X=4)}{P(X>1)}=\frac{p(1-p)^3}{1-p}=p(1-p)^2.$$
+          Det er det samme som $P(X=3)$. Den geometriske fordelingen er hukommelsesløs.
+        rubric:
+          - [2, 'Setter opp betinget sannsynlighet med $P(X>1)=1-p$']
+          - [3, 'Riktig svar $p(1-p)^2$']
+
+      - id: 1c
+        type: langsvar
+        points: 10
+        topics: [mle]
+        prompt: |
+          Vi skal nå estimere $p$ ved sannsynlighetsmaksimering. Vi har data $x_1$ fra Karoline, og $x_2$ og $x_3$ fra to andre personer som har samme $p$ som Karoline. Alle datapunktene antas uavhengige.
+
+          Finn sannsynlighetsmaksimeringsestimatoren (MLE) for $p$ basert på $x_1$, $x_2$ og $x_3$. Ta med mellomregning.
+        solution: |
+          Vi gjør det for $n$ observasjoner og setter $n=3$ til slutt.
+
+          **Likelihood:** $L(p)=\prod_{i=1}^np(1-p)^{x_i-1}=p^n(1-p)^{\sum x_i-n}$
+
+          **Log-likelihood:** $\ell(p)=n\ln p+\big(\textstyle\sum x_i-n\big)\ln(1-p)$
+
+          **Deriver og sett lik 0:**
+          $$\frac{n}{p}-\frac{\sum x_i-n}{1-p}=0\ \Rightarrow\ n(1-p)=p\Big(\sum x_i-n\Big)\ \Rightarrow\ \hat p=\frac{n}{\sum x_i}=\frac1{\bar x}.$$
+          Med $n=3$: $\hat p=\dfrac{3}{x_1+x_2+x_3}$.
+        rubric:
+          - [3, 'Riktig likelihood og forenkling']
+          - [2, 'Riktig log-likelihood']
+          - [3, 'Deriverer, setter lik 0 og løser']
+          - [2, 'Svar $\hat p=3/(x_1+x_2+x_3)$']
+
+  - title: Poissonprosess
+    intro: |
+      Vi bruker en geigerteller til å registrere utsendte partikler fra et radioaktivt materiale. Pipene fra geigertelleren utgjør en Poissonprosess i tid med intensitet $\lambda$.
+    tasks:
+      - id: 2a
+        type: langsvar
+        points: 5
+        topics: [poisson-eksp]
+        prompt: |
+          Forklar hva som menes med en Poissonprosess med intensitet $\lambda$.
+        solution: |
+          Det holder å gi én av disse beskrivelsene:
+
+          **A) Små intervaller (bredde $\Delta t$):**
+          1. $P(\text{nøyaktig ett pip})=\lambda\Delta t+o(\Delta t)$
+          2. $P(\text{flere enn ett pip})=o(\Delta t)$
+          3. Antall pip i disjunkte intervaller er uavhengige.
+
+          («Tilnærmet» kan brukes i stedet for $o(\Delta t)$.)
+
+          **B) Intervaller $[0,t]$:** Antall pip er Poissonfordelt med forventning $\lambda t$. Gitt antallet er tidspunktene uavhengige og uniformt fordelte i $[0,t]$.
+
+          **C) Ventetider:** Tidene mellom pipene er uavhengige og eksponentialfordelte med forventning $1/\lambda$.
+        rubric:
+          - [5, 'En fullstendig og riktig beskrivelse (A, B eller C), med uavhengighet']
+
+      - id: 2b
+        type: langsvar
+        points: 5
+        topics: [poisson-eksp]
+        prompt: |
+          Hva er sannsynligheten for at det **ikke** kommer noen pip i tidsintervallet $[0,t]$?
+        solution: |
+          Antall pip $X$ i $[0,t]$ er Poisson med forventning $\mu=\lambda t$, så
+          $$P(X=0)=\frac{(\lambda t)^0}{0!}e^{-\lambda t}=e^{-\lambda t}.$$
+          Det er også $P(T_1>t)$ for den første ventetiden $T_1\sim\exp(\lambda)$.
+        rubric:
+          - [2, 'Antall pip i $[0,t]$ er Poisson$(\lambda t)$']
+          - [3, 'Svar $e^{-\lambda t}$']
+
+  - title: Flervalg
+    tasks:
+      - id: 3a
+        type: flervalg
+        points: 6
+        topics: [simultan]
+        prompt: |
+          To tilfeldige variable $X$ og $Y$ har simultan sannsynlighetsfordeling $p(x,y)=P(X=x\cap Y=y)$ gitt ved tabellen:
+
+          | $x\backslash y$ | 0 | 1 | 2 |
+          |---|---|---|---|
+          | 0 | 0.1 | 0.2 | 0.03 |
+          | 1 | 0.14 | 0.1 | 0.18 |
+          | 2 | 0.11 | 0.04 | 0.1 |
+
+          Hvilke utsagn er korrekte?
+        options:
+          - text: '$P(Y=2)=0.31$'
+            correct: true
+            why: 'Kolonnesum: $0.03+0.18+0.1$.'
+          - text: '$P(Y=2)=0.22$'
+          - text: '$P(X=2\mid Y=2)=0.42$'
+          - text: '$P(X=2\mid Y=2)=0.32$'
+            correct: true
+            why: '$0.1/0.31\approx0.32$.'
+          - text: '$E(Y\mid X=2)=0.86$'
+          - text: '$E(Y\mid X=2)=0.96$'
+            correct: true
+            why: '$p_X(2)=0.25$. $E(Y\mid X=2)=(0\cdot0.11+1\cdot0.04+2\cdot0.1)/0.25=0.96$.'
+
+      - id: 3b
+        type: flervalg
+        points: 6
+        topics: [ki-test]
+        prompt: |
+          En bonde selger epler i «3-kilos poser». Vekten $X$ (kg) av en tilfeldig pose er normalfordelt med ukjent forventning $\mu$ og varians $\sigma^2=0.4^2$. Lageret til en matvarekjede mottar et stort billass med poser fra bonden. Innkjøpsavdelingen vil kontrollere om det er grunn til å påstå at posene i forventning veier mindre enn 3 kilo, men vil være forsiktige med å påstå det uten solid grunnlag i data. De veier $n=3$ tilfeldige poser og får $x_1=2.8$, $x_2=2.5$, $x_3=2.9$. En rimelig estimator er $\hat\mu=\frac13\sum_{i=1}^3X_i$.
+
+          Hvilke utsagn er korrekte?
+        options:
+          - text: '$V(\hat\mu)=\sigma^2/3$'
+            correct: true
+            why: '$V(\frac13\sum X_i)=\frac19\cdot3\sigma^2=\sigma^2/3$.'
+          - text: '$V(\hat\mu)=\sigma^2/9$'
+          - text: 'For å utføre kontrollen som en test er det rimelig å sette opp $H_0:\mu=3$ mot $H_a:\mu<3$'
+            correct: true
+            why: 'Påstanden de vil ha belegg for, «mindre enn 3 kg», skal stå i $H_a$.'
+          - text: 'For å utføre kontrollen som en test er det rimelig å sette opp $H_0:\mu=3$ mot $H_a:\mu>3$'
+          - text: 'Et 95 % konfidensintervall for $\mu$ basert på de tre verdiene er $[2.5,\ 3.0]$'
+          - text: 'Et 95 % konfidensintervall for $\mu$ basert på de tre verdiene er $[2.3,\ 3.2]$'
+            correct: true
+            why: '$\sigma$ er kjent: $2.733\pm1.96\cdot0.4/\sqrt3=2.733\pm0.453$.'
+
+      - id: 3c
+        type: flervalg
+        points: 6
+        topics: [kovarians]
+        prompt: |
+          La $Z_1$ og $Z_2$ være uavhengige $N(0,1)$, og la $\rho\in(-1,1)$ være en konstant. Definer $X=Z_1$ og $Y=\rho Z_1+\sqrt{1-\rho^2}\,Z_2$. Hvilke utsagn er korrekte?
+        options:
+          - text: '$V(Y)=1+\rho^2$'
+          - text: '$V(Y)=1$'
+            correct: true
+            why: '$\rho^2V(Z_1)+(1-\rho^2)V(Z_2)=\rho^2+1-\rho^2=1$.'
+          - text: '$V(Y)=1-\rho^2$'
+          - text: 'Korrelasjonen mellom $X$ og $Y$ er $\rho$'
+            correct: true
+            why: '$Cov(Z_1,\rho Z_1+\sqrt{1-\rho^2}Z_2)=\rho$, og begge variansene er 1.'
+          - text: 'Korrelasjonen mellom $X$ og $Y$ er 0'
+          - text: 'Korrelasjonen mellom $X$ og $Y$ er $-\rho$'
+
+      - id: 3d
+        type: flervalg
+        points: 6
+        topics: [diskrete]
+        prompt: |
+          Du får tilbud om å være med i dette spillet:
+          - En mynt kastes til du får første «kron».
+          - Skjer det i kast nr. $X$, får du utbetalt $Y=2^X$ kroner.
+
+          Hvilke utsagn er korrekte?
+        options:
+          - text: '$P(X=x)=(\frac12)^x$, $x=1,2,\dots$'
+            correct: true
+            why: 'Geometrisk fordeling med $p=1/2$: $(1/2)^{x-1}\cdot1/2$.'
+          - text: '$X$ er binomisk fordelt'
+            why: 'Antall forsøk er ikke fast.'
+          - text: '$X$ har Poissonfordeling'
+          - text: '$E(Y)=4$'
+          - text: '$E(Y)=8$'
+          - text: '$E(Y)=\infty$'
+            correct: true
+            why: '$\sum_x2^x(1/2)^x=1+1+1+\cdots=\infty$ (St. Petersburg-paradokset).'
+
+      - id: 3e
+        type: flervalg
+        points: 6
+        topics: [kovarians]
+        prompt: |
+          La $X$ og $Y$ være tilfeldige variabler, la $Cov(\cdot,\cdot)$ være kovariansfunksjonen og $V(\cdot)$ variansen. Hvilke utsagn er korrekte?
+        options:
+          - text: '$Cov(X+2,\ 3-Y)=-2\cdot3\cdot Cov(X,Y)$'
+            why: 'Konstanter forsvinner: $-Cov(X,Y)$.'
+          - text: '$Cov(X+Y,\ X)=V(X)+Cov(Y,X)$'
+            correct: true
+          - text: '$Cov(X+Y,\ X)=V(X)+Cov(X,Y)$'
+            correct: true
+          - text: '$Cov(Y,\ 2Y)=2^2V(Y)$'
+            why: '$=2V(Y)$.'
+          - text: '$Cov(X,Y)\le\sqrt{V(X)\cdot V(Y)}$'
+            correct: true
+            why: 'Fordi $|\rho|\le1$.'

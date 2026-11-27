@@ -70,6 +70,97 @@
   ]
  },
  {
+  "id": "v24",
+  "title": "Eksamen vår 2024",
+  "short": "V24",
+  "kind": "tidligere",
+  "order": 4,
+  "blurb": "Fire langsvar på 10 p (sannsynlighetstabell, binomisk, simultantetthet, store talls lov) og fem flervalg.",
+  "featured": "",
+  "totalPoints": 70,
+  "duration_min": 240,
+  "nTasks": 9,
+  "topics": [
+   "simultan",
+   "sannsynlighet",
+   "diskrete",
+   "kontinuerlig",
+   "sgt",
+   "ki-test",
+   "andel",
+   "beskrivende",
+   "mle",
+   "kovarians"
+  ]
+ },
+ {
+  "id": "h24",
+  "title": "Eksamen høst 2024",
+  "short": "H24",
+  "kind": "tidligere",
+  "order": 5,
+  "blurb": "Geometrisk fordeling med MLE, Poissonprosess og fem flervalg.",
+  "featured": "",
+  "totalPoints": 60,
+  "duration_min": 240,
+  "nTasks": 10,
+  "topics": [
+   "diskrete",
+   "sannsynlighet",
+   "mle",
+   "poisson-eksp",
+   "simultan",
+   "ki-test",
+   "kovarians"
+  ]
+ },
+ {
+  "id": "h23",
+  "title": "Eksamen høst 2023",
+  "short": "H23",
+  "kind": "tidligere",
+  "order": 6,
+  "blurb": "z-test med teststyrke, MLE for levetider og mange korte flervalg. Eldre format (125 p totalt).",
+  "featured": "",
+  "totalPoints": 125,
+  "duration_min": 240,
+  "nTasks": 14,
+  "topics": [
+   "ki-test",
+   "mle",
+   "beskrivende",
+   "diskrete",
+   "simultan",
+   "sannsynlighet",
+   "kovarians",
+   "kontinuerlig",
+   "poisson-eksp"
+  ]
+ },
+ {
+  "id": "v23",
+  "title": "Eksamen vår 2023",
+  "short": "V23",
+  "kind": "tidligere",
+  "order": 7,
+  "blurb": "Simultanfordeling fra betinget tabell, terningkast, tynnet Poissonprosess og flervalg om teststyrke.",
+  "featured": "",
+  "totalPoints": 64,
+  "duration_min": 240,
+  "nTasks": 11,
+  "topics": [
+   "simultan",
+   "kovarians",
+   "sannsynlighet",
+   "diskrete",
+   "betinget",
+   "poisson-eksp",
+   "ki-test",
+   "andel",
+   "beskrivende"
+  ]
+ },
+ {
   "id": "oppg1",
   "title": "Oppgave 1-trening: hemmeligheter og lekkasjer",
   "short": "Oppgave 1",

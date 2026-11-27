@@ -84,6 +84,8 @@ for path in sorted(SRC.glob("*.yaml")):
                     err(w, "flervalg trenger minst 2 alternativ")
                 if not any(o.get("correct") for o in opts):
                     err(w, "ingen riktige alternativ")
+                if t.get("single") and sum(1 for o in opts if o.get("correct")) != 1:
+                    err(w, "enkeltvalg må ha nøyaktig ett riktig alternativ")
                 for k, o in enumerate(opts):
                     o["correct"] = bool(o.get("correct"))
                     check_text(f"{w} alt {k + 1}", o.get("text"))

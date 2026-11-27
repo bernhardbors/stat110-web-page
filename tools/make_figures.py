@@ -81,7 +81,67 @@ def v26_poisson_svg():
     (IMG / "v26-poisson.svg").write_text("\n".join(parts))
 
 
+def histogram_h23():
+    """Høyreskjevt histogram (H23 4d / V23 4d), tegnet fra omtrentlige frekvenser."""
+    counts = [80, 230, 245, 190, 120, 62, 32, 14, 6, 2, 1, 1, 0]
+    fig, ax = plt.subplots(figsize=(5.2, 2.8))
+    ax.bar(np.arange(13) + 0.5, counts, width=1.0, color="white", edgecolor="#222", linewidth=0.9)
+    ax.set_xlim(-0.3, 13.3)
+    ax.set_xticks([0, 2, 4, 6, 8, 10, 12])
+    ax.set_yticks([0, 100, 200])
+    ax.set_xlabel("x")
+    ax.set_ylabel("Frekvens")
+    fig.tight_layout()
+    fig.savefig(IMG / "h23-histogram.png", dpi=150)
+    plt.close(fig)
+
+
+def boxplot_h23():
+    """Boksplott (H23 4c): min -1, Q1 0, median 2, Q3 4, maks 8."""
+    fig, ax = plt.subplots(figsize=(4.6, 3.6))
+    ax.bxp([{"med": 2, "q1": 0, "q3": 4, "whislo": -1, "whishi": 8, "fliers": []}], showfliers=False, widths=0.45,
+           patch_artist=True, boxprops={"facecolor": "#d9d9d9"}, medianprops={"color": "#111", "linewidth": 2},
+           whiskerprops={"linestyle": "--"})
+    ax.set_xticks([])
+    ax.set_yticks([0, 2, 4, 6, 8])
+    fig.tight_layout()
+    fig.savefig(IMG / "h23-boksplott.png", dpi=150)
+    plt.close(fig)
+
+
+def styrke_v23():
+    """Tettheten til X-strek under mu = 75, 72, 70, med forkastningsgrense 70.8 (V23 4b)."""
+    sd = (75 - 70.8) / stats.norm.ppf(0.99)
+    fig, axes = plt.subplots(3, 1, figsize=(6.2, 6.4), sharex=True)
+    xs = np.linspace(63, 82, 600)
+    for ax, mu, lab in zip(axes, [75, 72, 70], ["a)  $\\mu=75$ ($H_0$ sann)", "b)  $\\mu=72$", "c)  $\\mu=70$"]):
+        y = stats.norm.pdf(xs, mu, sd)
+        ax.plot(xs, y, color="#2c6fb0", lw=1.8)
+        if mu == 75:
+            m = xs <= 70.8
+            ax.fill_between(xs[m], y[m], color="#2c6fb0", alpha=0.35)
+            ax.text(66.0, max(y) * 0.45, "areal $=0.01$", fontsize=9)
+        else:
+            m = xs >= 70.8
+            ax.fill_between(xs[m], y[m], color="#999", alpha=0.45)
+            area = 1 - stats.norm.cdf(70.8, mu, sd)
+            ax.text(76.5, max(y) * 0.6, f"skravert areal $={area:.2f}$", fontsize=9)
+        ax.axvline(70.8, color="#333", lw=1, ls="--")
+        ax.set_yticks([])
+        ax.spines["left"].set_visible(False)
+        ax.set_title(lab, loc="left", fontsize=10)
+    axes[-1].set_xticks([66, 70.8, 75, 78])
+    axes[-1].set_xticklabels(["66", "70.8", "75", "78"])
+    axes[-1].set_xlabel("$\\bar x$")
+    fig.tight_layout()
+    fig.savefig(IMG / "v23-styrke.png", dpi=150)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     v26_maxwell()
     v26_poisson_svg()
+    histogram_h23()
+    boxplot_h23()
+    styrke_v23()
     print("Figurer skrevet til img/")

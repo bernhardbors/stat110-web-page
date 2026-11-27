@@ -1,0 +1,221 @@
+id: v23
+title: Eksamen vår 2023
+short: V23
+kind: tidligere
+order: 7
+blurb: Simultanfordeling fra betinget tabell, terningkast, tynnet Poissonprosess og flervalg om teststyrke.
+duration_min: 240
+note: |
+  Oppgavetekstene er fra eksamen i STAT110 7. juni 2023 (UiB). Løsningsforslag og poengmal er våre egne, basert på det offisielle løsningsforslaget. Figurene i flervalgsdelen er laget på nytt.
+
+sections:
+  - title: Simultanfordeling
+    intro: |
+      To diskrete tilfeldige variable $X$ og $Y$ tar begge verdiene 0, 1 eller 2. Marginalfordelingen til $Y$ er $P(Y=0)=0.4$, $P(Y=1)=0.4$ og $P(Y=2)=0.2$. Den betingede fordelingen til $X$ gitt $Y$ er:
+
+      | | $y=0$ | $y=1$ | $y=2$ |
+      |---|---|---|---|
+      | $P(X=0\mid Y=y)$ | 0.5 | 0.25 | 0 |
+      | $P(X=1\mid Y=y)$ | 0 | 0.75 | 0.5 |
+      | $P(X=2\mid Y=y)$ | 0.5 | 0 | 0.5 |
+    tasks:
+      - id: 1a
+        type: langsvar
+        points: 5
+        topics: [simultan]
+        prompt: |
+          Vis at simultanfordelingen $P(X=x,Y=y)$ er gitt ved tabellen under. Hva er $P(X>Y)$?
+
+          | $x\backslash y$ | 0 | 1 | 2 |
+          |---|---|---|---|
+          | 0 | 0.2 | 0.1 | 0 |
+          | 1 | 0 | 0.3 | 0.1 |
+          | 2 | 0.2 | 0 | 0.1 |
+        solution: |
+          I hver celle er $P(X=x\cap Y=y)=P(X=x\mid Y=y)\,P(Y=y)$. Gang altså hver kolonne i den betingede tabellen med $P(Y=y)$. For eksempel er $P(X=0\cap Y=1)=0.25\cdot0.4=0.1$ og $P(X=2\cap Y=0)=0.5\cdot0.4=0.2$.
+
+          $P(X>Y)$ er cellene $(1,0)$, $(2,0)$ og $(2,1)$: $0+0.2+0=0.2$.
+        rubric:
+          - [3, 'Bruker $p(x,y)=P(X=x\mid Y=y)P(Y=y)$ og viser utregning']
+          - [2, '$P(X>Y)=0.2$ med riktige celler']
+
+      - id: 1b
+        type: langsvar
+        points: 7
+        topics: [simultan]
+        prompt: |
+          Finn den marginale sannsynlighetsfordelingen $p_X(x)$ til $X$. Er $X$ og $Y$ uavhengige? Begrunn svaret.
+        solution: |
+          Summer radene: $p_X(0)=0.3$, $p_X(1)=0.4$ og $p_X(2)=0.3$.
+
+          $X$ og $Y$ er **ikke** uavhengige. For eksempel er $P(X=0\cap Y=2)=0\ne p_X(0)p_Y(2)=0.06$. Eller: $P(X=2\mid Y=2)=0.5\ne P(X=2)=0.3$. Den betingede fordelingen avhenger av $y$.
+        rubric:
+          - [3, 'Riktig marginal $(0.3,\ 0.4,\ 0.3)$']
+          - [4, 'Ikke uavhengige, med et konkret moteksempel']
+
+      - id: 1c
+        type: langsvar
+        points: 8
+        topics: [simultan, kovarians]
+        prompt: |
+          Finn korrelasjonen mellom $X$ og $Y$ når du får vite at $E(X)=1$, $E(Y)=0.8$, $V(X)=0.6$ og $V(Y)=0.56$.
+        solution: |
+          Bare celler med $x,y\ne0$ bidrar til $E(XY)$:
+          $$E(XY)=1\cdot1\cdot0.3+1\cdot2\cdot0.1+2\cdot2\cdot0.1=0.9.$$
+          $\text{Cov}(X,Y)=E(XY)-E(X)E(Y)=0.9-0.8=0.1$, og
+          $$\rho=\frac{0.1}{\sqrt{0.6\cdot0.56}}\approx0.173.$$
+        rubric:
+          - [3, '$E(XY)=0.9$']
+          - [3, '$\text{Cov}=0.1$']
+          - [2, '$\rho\approx0.17$']
+
+  - title: Terningkast
+    intro: |
+      Vi kaster en rettferdig sekssidet terning tre ganger. La $A_1=\{1\text{ eller }2\text{ på første kast}\}$, $A_2=\{3\text{ eller }4\text{ på andre kast}\}$ og $A_3=\{5\text{ eller }6\text{ på tredje kast}\}$. Det er gitt at $P(A_i)=1/3$, at $P(A_1\cap A_2\cap A_3)=(1/3)^3$, og at $A_i$ og $A_j$ er uavhengige for $i\ne j$.
+    tasks:
+      - id: 2a
+        type: langsvar
+        points: 6
+        topics: [sannsynlighet]
+        prompt: |
+          Bruk at
+          $$P(A\cup B\cup C)=P(A)+P(B)+P(C)-P(A\cap B)-P(B\cap C)-P(A\cap C)+P(A\cap B\cap C)$$
+          til å finne $P(A_1\cup A_2\cup A_3)$.
+        solution: |
+          Uavhengighet gir $P(A_i\cap A_j)=\frac13\cdot\frac13=\frac19$, så
+          $$P(A_1\cup A_2\cup A_3)=3\cdot\frac13-3\cdot\frac19+\frac1{27}=1-\frac13+\frac1{27}=\frac{19}{27}\approx0.704.$$
+        rubric:
+          - [3, 'Bruker uavhengighet: $P(A_i\cap A_j)=1/9$']
+          - [3, 'Riktig svar $19/27$']
+
+      - id: 2b
+        type: langsvar
+        points: 4
+        topics: [sannsynlighet]
+        prompt: |
+          Vis at $P(A_1\cup A_2\cup A_3)=1-\left(1-\frac13\right)^3$ **uten** å bruke resultatet fra a).
+        solution: |
+          Komplementet til «minst én» er «ingen». Ved De Morgan og uavhengighet:
+          $$P(A_1\cup A_2\cup A_3)=1-P(A_1^c\cap A_2^c\cap A_3^c)=1-P(A_1^c)P(A_2^c)P(A_3^c)=1-\left(1-\tfrac13\right)^3.$$
+          (Kastene er uavhengige, så også komplementene er uavhengige.) Det gis ikke poeng for å bruke svaret fra a).
+        rubric:
+          - [2, 'Komplementtrikset: $1-P(\text{ingen})$']
+          - [2, 'Uavhengighet gir produktet $(2/3)^3$']
+
+  - title: Telling av biler
+    intro: |
+      Biler ankommer et veikryss etter en Poissonprosess med intensitet $\lambda$ per time. La $X$ være antall biler som ankommer i løpet av en time, slik at $P(X=x)=\frac{\lambda^x}{x!}e^{-\lambda}$, $x=0,1,2,\dots$. Sannsynligheten for at en bil er en Mercedes er konstant lik $p$, og merkene på bilene er uavhengige av hverandre. La $Y$ være antall Mercedeser som kommer til krysset i løpet av en time.
+    tasks:
+      - id: 3a
+        type: langsvar
+        points: 5
+        topics: [diskrete, betinget]
+        prompt: |
+          Hva er fordelingen til $Y$ når $X$ er gitt, dvs. $p_{Y\mid X}(y\mid x)$?
+        solution: |
+          Gitt $X=x$ har vi
+          - $x$ uavhengige forsøk (bilene),
+          - to utfall per forsøk (Mercedes eller ikke),
+          - samme sannsynlighet $p$ i hvert forsøk.
+
+          Altså er $Y\mid X=x\sim\text{Bin}(x,p)$:
+          $$p_{Y\mid X}(y\mid x)=\binom xy p^y(1-p)^{x-y},\quad y=0,\dots,x.$$
+        rubric:
+          - [2, 'Sjekker de binomiske betingelsene']
+          - [3, '$Y\mid X=x\sim\text{Bin}(x,p)$']
+
+      - id: 3b
+        type: langsvar
+        points: 8
+        topics: [poisson-eksp, betinget]
+        prompt: |
+          Hva er den ubetingede fordelingen til $Y$, dvs. $p_Y(y)$?
+        solution: |
+          $Y\sim\text{Poisson}(\lambda p)$.
+
+          **Med Poissonprosess-argumentet (tynning):** Hvis vi bare ser på Mercedesene («luker ut» de andre), ankommer de etter en Poissonprosess med intensitet $p\lambda$. Antallet i en time er da Poisson med forventning $1\cdot p\lambda$.
+
+          **Med regning (total sannsynlighet):**
+          $$p_Y(y)=\sum_{x=y}^\infty\binom xyp^y(1-p)^{x-y}\frac{\lambda^x}{x!}e^{-\lambda}=\frac{(\lambda p)^ye^{-\lambda}}{y!}\sum_{k=0}^\infty\frac{(\lambda(1-p))^k}{k!}=\frac{(\lambda p)^y}{y!}e^{-\lambda p}.$$
+          Begge fremgangsmåtene gir full uttelling.
+        rubric:
+          - [3, 'Riktig fremgangsmåte (tynning eller total sannsynlighet)']
+          - [5, 'Riktig svar $Y\sim\text{Poisson}(\lambda p)$ med begrunnelse']
+
+  - title: Flervalg
+    tasks:
+      - id: 4a
+        type: flervalg
+        single: true
+        points: 3
+        topics: [ki-test]
+        prompt: |
+          Vi har 17 observasjoner av svoveldioksid i lufta. Det oppgis at $\bar x=3.9$, $s=1.58$, og at et 95 % konfidensintervall for $\mu$ (forventet mengde) er $[3.11,\ 4.69]$. Basert på prøver tatt for noen år siden regner man med at forventet mengde i området var $\mu=3$. Du vil finne ut om dataene gir grunnlag for å si at mengden har **endret seg**.
+
+          Hvilket par av hypoteser passer?
+        options:
+          - text: '$H_0:\mu=3$, $H_a:\mu\ne3$'
+            correct: true
+            why: '«Endret seg» er tosidig, og $H_0$ er den gamle verdien.'
+          - text: '$H_0:\mu=3$, $H_a:\mu>3$'
+            why: 'Det ville passet med «økt», ikke «endret».'
+          - text: '$H_0:\mu=3.9$, $H_a:\mu\ne3.9$'
+            why: 'Hypoteser handler om parameteren, ikke om det observerte gjennomsnittet.'
+
+      - id: 4b
+        type: flervalg
+        points: 6
+        topics: [ki-test]
+        prompt: |
+          Data er normalfordelte med kjent $\sigma$. Vi tester $H_0:\mu=75$ mot $H_a:\mu<75$ og bruker $\bar X$ direkte som testobservator. Testen forkaster dersom $\bar x<70.8$. (I originaloppgaven sto det 1.28, men figuren viser 70.8.)
+
+          Figuren viser tettheten til $\bar X$ for $\mu=75$, $72$ og $70$. Det skraverte arealet i b) og c) er $P(\bar X>70.8)$.
+
+          ![Tettheten til x-strek](img/v23-styrke.png)
+
+          Hvilke utsagn er korrekte?
+        options:
+          - text: 'Sannsynligheten for type II-feil er størst i figur c)'
+            why: 'Type II-feil er å ikke forkaste når $H_a$ er sann, altså det skraverte arealet. Det er størst i b) (0.75 mot 0.33). I a) er $H_0$ sann.'
+          - text: 'Signifikansnivået til testen er 0.01'
+            correct: true
+            why: 'Arealet til venstre for 70.8 når $\mu=75$.'
+          - text: 'Når $\mu=72$, har testen styrke $1-0.75=0.25$'
+            correct: true
+          - text: 'Når $\mu=70$, har testen styrke $1-0.33=0.67$'
+            correct: true
+
+      - id: 4c
+        type: flervalg
+        points: 6
+        topics: [andel]
+        prompt: |
+          I partikkelakseleratoren ved CERN ser man noen ganger at Higgs-bosonet splittes i to $\gamma$-partikler. La $q$ være sannsynligheten for at det skjer. Standardmodellen predikerer $q=2.28\times10^{-3}$. I et forsøk splittes 32 av 10 000 Higgs-bosoner (ikke ekte data). Spørsmålet er om dataene gir grunnlag for å tvile på Standardmodellen. Du kan anta uavhengighet mellom ulike bosoner.
+
+          Hvilke utsagn er korrekte?
+        options:
+          - text: 'Dette er en binomisk situasjon med $n=10000$ og suksessannsynlighet $q=2.28\times10^{-3}$ dersom Standardmodellen holder'
+            correct: true
+          - text: 'For å avgjøre om dataene gir grunnlag for å forkaste Standardmodellen, er det rimelig å sette opp $H_0:q=2.28\times10^{-3}$ mot $H_a:q\ne2.28\times10^{-3}$'
+            correct: true
+          - text: '95 %-konfidensintervallet for $q$ er $[0.015,\ 0.053]$ hvis du bruker formler for binomiske data'
+            why: '$\hat q=0.0032$, og intervallet er ca. $[0.0021,\ 0.0043]$.'
+
+      - id: 4d
+        type: flervalg
+        points: 6
+        topics: [beskrivende]
+        prompt: |
+          Hvilke utsagn er korrekte for målingene (kontinuerlig skala) i dette histogrammet?
+
+          ![Histogram](img/h23-histogram.png)
+        options:
+          - text: 'Gjennomsnittet er større enn medianen'
+            correct: true
+            why: 'Høyreskjev fordeling.'
+          - text: 'Det er flere enn 100 observasjoner i intervallet $(1,2]$'
+            correct: true
+          - text: 'Histogrammet tyder på at $\sum_ix_i>n\cdot\bar x$'
+            why: '$\sum x_i=n\bar x$ alltid.'
+          - text: 'Med tetthetsskala på $y$-aksen (og samme intervaller) er det mulig at $(2,3]$ ikke ville hatt den høyeste søylen'
+            why: 'Like brede intervaller gir samme form.'

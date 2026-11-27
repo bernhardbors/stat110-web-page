@@ -192,6 +192,7 @@ export function uid() {
 // Flervalg (flere svar) som i Inspera: hvert riktig kryss gir poeng/antall_riktige,
 // hvert feil kryss trekker like mye, og oppgaven gir aldri under 0.
 export function scoreFlervalg(task, selected) {
+  if (task.single) return task.options.some((o, i) => o.correct && selected.includes(i)) ? task.points : 0;
   const nCorrect = task.options.filter((o) => o.correct).length || 1;
   const per = task.points / nCorrect;
   let raw = 0;
