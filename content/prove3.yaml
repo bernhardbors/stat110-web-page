@@ -1,0 +1,220 @@
+id: prove3
+title: Prøveeksamen 3
+short: Prøve 3
+kind: prove
+order: 3
+blurb: 'Delt passord (lekkasje per uke og test for p), kontinuerlig simultantetthet og fire flervalg.'
+duration_min: 240
+note: |
+  Nylaget prøveeksamen med samme oppbygging som V26. **Oppgave 1** følger foreleserens hint (lekkasjemodellen med test for $p$). Alle tall er oppdiktet.
+
+sections:
+  - title: Det delte passordet
+    intro: |
+      $N=150$ personer i en organisasjon deler det samme administratorpassordet. Anta at hver person, uavhengig av de andre, lekker passordet (skriver det på en lapp, sender det i klartekst osv.) i løpet av en uke med sannsynlighet $p=5\cdot10^{-4}$. Ulike uker er uavhengige. La $S(t)\approx e^{-Npt}$ være sannsynligheten for at passordet ikke har lekket etter $t$ uker.
+    tasks:
+      - id: 1a
+        type: langsvar
+        points: 5
+        topics: [sannsynlighet]
+        prompt: |
+          Forklar hvorfor $S(t)=(1-p)^{Nt}$, og hvorfor $e^{-Npt}$ er en god tilnærming. Etter hvor mange uker er det 50 % sjanse for at passordet har lekket?
+        solution: |
+          Passordet holder i $t$ uker hvis ingen av de $N$ personene lekker i noen av de $t$ ukene, altså at alle $Nt$ uavhengige «person-uker» er uten lekkasje. Det gir $S(t)=(1-p)^{Nt}$.
+
+          Når $p$ er liten, er $1-p\approx e^{-p}$, så $(1-p)^{Nt}\approx e^{-Npt}$.
+
+          $Np=150\cdot5\cdot10^{-4}=0.075$ per uke. 50 % sjanse for lekkasje: $e^{-0.075t}=0.5$, så $t=\ln2/0.075\approx9.2$ uker.
+        rubric:
+          - [2, 'Forklarer $(1-p)^{Nt}$ med uavhengighet']
+          - [1, 'Forklarer tilnærmingen $1-p\approx e^{-p}$']
+          - [2, '$t=\ln2/(Np)\approx9.2$ uker']
+
+      - id: 1b
+        type: langsvar
+        points: 5
+        topics: [sannsynlighet]
+        prompt: |
+          **i)** Finn sannsynligheten for at passordet holder et helt år (52 uker) med $N=150$, og med $N=30$.
+
+          **ii)** Organisasjonen vil bytte passord så ofte at sannsynligheten for ingen lekkasje mellom to bytter er minst 0.9 (med $N=150$). Hvor ofte må de bytte?
+        solution: |
+          **i)**
+          - $N=150$: $e^{-0.075\cdot52}=e^{-3.9}\approx0.020$
+          - $N=30$: $e^{-30\cdot5\cdot10^{-4}\cdot52}=e^{-0.78}\approx0.46$
+
+          Færre personer gir mye bedre sikkerhet.
+
+          **ii)** $e^{-0.075t}\ge0.9$ gir $t\le-\ln0.9/0.075\approx1.4$ uker. De må bytte passord omtrent **hver uke**.
+        rubric:
+          - [3, 'i) $\approx0.020$ og $\approx0.46$']
+          - [2, 'ii) $t\le-\ln(0.9)/(Np)\approx1.4$ uker']
+
+      - id: 1c
+        type: langsvar
+        points: 5
+        topics: [andel, ki-test]
+        prompt: |
+          IT-avdelingen mistenker at $p$ er større enn $5\cdot10^{-4}$. I loggene for $n=20\,000$ person-uker finner de $x=14$ lekkasjer. Test $H_0:p=5\cdot10^{-4}$ mot $H_1:p>5\cdot10^{-4}$ på 5 % nivå. Er normaltilnærmingen rimelig?
+        solution: |
+          $\hat p=14/20000=7\cdot10^{-4}$. Under $H_0$:
+          $$Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}=\frac{7\cdot10^{-4}-5\cdot10^{-4}}{\sqrt{5\cdot10^{-4}\cdot0.9995/20000}}=\frac{2\cdot10^{-4}}{1.58\cdot10^{-4}}\approx1.27.$$
+          Vi forkaster når $Z\ge1.645$. Siden $1.27<1.645$, **forkaster vi ikke $H_0$** (p-verdi $\approx0.10$). Dataene gir ikke grunnlag for å påstå at $p$ er større enn $5\cdot10^{-4}$.
+
+          **Tilnærmingen:** $np_0=10$ og $n(1-p_0)\approx20000$, så kravet $np_0\ge10$ er (akkurat) oppfylt. Tilnærmingen er grei, men på grensen.
+        rubric:
+          - [3, 'Riktig observator med $p_0$ i nevneren, $Z\approx1.27$']
+          - [1, 'Konklusjon: ikke forkast']
+          - [1, 'Vurderer $np_0\ge10$']
+
+  - title: Simultantetthet
+    intro: |
+      $(X,Y)$ har simultantetthet $f(x,y)=2$ for $0<y<x<1$ (og 0 ellers).
+    tasks:
+      - id: 2a
+        type: langsvar
+        points: 5
+        topics: [kontinuerlig]
+        prompt: |
+          Finn marginaltetthetene $f_X(x)$ og $f_Y(y)$. Er $X$ og $Y$ uavhengige?
+        solution: |
+          $$f_X(x)=\int_0^x2\,dy=2x,\ 0<x<1;\qquad f_Y(y)=\int_y^12\,dx=2(1-y),\ 0<y<1.$$
+          **Ikke uavhengige:** $f_X(x)f_Y(y)=4x(1-y)\ne2$. Dessuten er området $0<y<x<1$ ikke et rektangel, så kjenner vi $x$, begrenses de mulige verdiene til $y$.
+        rubric:
+          - [2, '$f_X(x)=2x$ med riktige grenser']
+          - [2, '$f_Y(y)=2(1-y)$ med riktige grenser']
+          - [1, 'Ikke uavhengige, med begrunnelse']
+
+      - id: 2b
+        type: langsvar
+        points: 5
+        topics: [kovarians, kontinuerlig]
+        prompt: |
+          Finn $E(X)$, $E(Y)$ og $\text{Cov}(X,Y)$.
+        solution: |
+          $E(X)=\int_0^1x\cdot2x\,dx=\frac23$ og $E(Y)=\int_0^1y\cdot2(1-y)\,dy=1-\frac23=\frac13$.
+          $$E(XY)=\int_0^1\int_0^x2xy\,dy\,dx=\int_0^1x\cdot x^2\,dx=\frac14,\qquad\text{Cov}(X,Y)=\frac14-\frac23\cdot\frac13=\frac1{36}.$$
+          Positiv kovarians: når $X$ er stor, kan $Y$ også bli stor.
+        rubric:
+          - [2, 'Riktige $E(X)=2/3$ og $E(Y)=1/3$']
+          - [2, '$E(XY)=1/4$ med riktige grenser']
+          - [1, '$\text{Cov}=1/36$']
+
+      - id: 2c
+        type: langsvar
+        points: 5
+        topics: [betinget, kontinuerlig]
+        prompt: |
+          Finn den betingede tettheten $f_{Y\mid X}(y\mid x)$ og $E(Y\mid X=x)$. Finn også $P(X+Y<1)$.
+        solution: |
+          $$f_{Y\mid X}(y\mid x)=\frac{f(x,y)}{f_X(x)}=\frac{2}{2x}=\frac1x,\quad 0<y<x.$$
+          Gitt $X=x$ er $Y$ altså uniform på $(0,x)$, og $E(Y\mid X=x)=x/2$.
+
+          **$P(X+Y<1)$:** Området $\{0<y<x,\ x+y<1\}$ er trekanten med hjørner $(0,0)$, $(1,0)$ og $(\tfrac12,\tfrac12)$, med areal $\tfrac12\cdot1\cdot\tfrac12=\tfrac14$. Med tetthet 2 blir $P=2\cdot\tfrac14=\tfrac12$.
+        rubric:
+          - [2, '$f(y\mid x)=1/x$ på $(0,x)$']
+          - [1, '$E(Y\mid X=x)=x/2$']
+          - [2, '$P(X+Y<1)=1/2$ med riktig område']
+
+  - title: Estimatorer
+    tasks:
+      - id: '3'
+        label: '3'
+        type: langsvar
+        points: 5
+        topics: [mle]
+        prompt: |
+          Forklar hva det betyr at en estimator er forventningsrett, og hva MSE er. Hvorfor deler vi på $n-1$ og ikke $n$ i den empiriske variansen $S^2$? (Maks 100 ord.)
+        solution: |
+          - **Forventningsrett:** $E(\hat\theta)=\theta$. I gjennomsnitt over mange utvalg treffer estimatoren riktig verdi (ingen systematisk feil).
+          - **MSE** $=E[(\hat\theta-\theta)^2]=V(\hat\theta)+\text{bias}^2$. Den måler både spredning og systematisk feil. Lav MSE er bra.
+          - **$n-1$:** Avvikene måles fra $\bar X$, som selv er tilpasset dataene, så $\sum(X_i-\bar X)^2$ blir systematisk litt for liten. Å dele på $n-1$ gir $E(S^2)=\sigma^2$, altså en forventningsrett estimator. Å dele på $n$ underestimerer $\sigma^2$.
+        rubric:
+          - [2, 'Definerer forventningsrett']
+          - [1, 'MSE $=V+\text{bias}^2$']
+          - [2, 'Forklarer $n-1$: gir $E(S^2)=\sigma^2$']
+
+  - title: Flervalg
+    tasks:
+      - id: 4a
+        type: flervalg
+        points: 6
+        topics: [sannsynlighet]
+        prompt: |
+          En komité på 4 personer skal trekkes tilfeldig fra 10 personer: 6 kvinner og 4 menn. Hvilke utsagn er korrekte?
+        options:
+          - text: 'Det finnes 210 mulige komiteer'
+            correct: true
+            why: '$\binom{10}{4}$.'
+          - text: 'Det finnes 5040 mulige komiteer'
+            why: 'Det er antall *ordnede* utvalg, $10\cdot9\cdot8\cdot7$.'
+          - text: 'P(nøyaktig 2 kvinner) $\approx0.43$'
+            correct: true
+            why: '$\binom62\binom42/210=90/210$.'
+          - text: 'P(ingen menn) $\approx0.071$'
+            correct: true
+            why: '$\binom64/210=15/210$.'
+          - text: 'Det er 720 måter å velge leder, nestleder og sekretær blant de 10'
+            correct: true
+            why: '$10\cdot9\cdot8$ (ordnet, uten tilbakelegging).'
+
+      - id: 4b
+        type: flervalg
+        points: 6
+        topics: [normal, sgt]
+        prompt: |
+          $X\sim N(50,\ 10^2)$. Hvilke utsagn er korrekte?
+        options:
+          - text: '$P(X>65)\approx0.067$'
+            correct: true
+            why: '$1-\Phi(1.5)$.'
+          - text: '$P(X>65)\approx0.0062$'
+            why: 'Det ville vært $z=2.5$.'
+          - text: '$P(40<X<60)\approx0.68$'
+            correct: true
+          - text: '90-persentilen er ca. 62.8'
+            correct: true
+            why: '$50+1.28\cdot10$.'
+          - text: 'Gjennomsnittet av 25 uavhengige slike $X$ har standardavvik 2, og $P(\bar X>52)\approx0.16$'
+            correct: true
+            why: '$10/\sqrt{25}=2$ og $1-\Phi(1)$.'
+
+      - id: 4c
+        type: flervalg
+        points: 6
+        topics: [diskrete]
+        prompt: |
+          En basketballspiller treffer på straffekast med sannsynlighet 0.7, uavhengig fra kast til kast. $X$ er antall treff på 10 kast, og $Y$ er nummeret på kastet der hun bommer for første gang. Hvilke utsagn er korrekte?
+        options:
+          - text: '$E(X)=7$ og $V(X)=7$'
+            why: '$V(X)=10\cdot0.7\cdot0.3=2.1$.'
+          - text: '$P(X\ge9)\approx0.149$'
+            correct: true
+            why: '$10\cdot0.7^9\cdot0.3+0.7^{10}$.'
+          - text: '$Y$ er geometrisk fordelt med $p=0.3$, og $E(Y)\approx3.33$'
+            correct: true
+          - text: '$P(Y>3)=0.343$'
+            correct: true
+            why: 'De tre første er treff: $0.7^3$.'
+          - text: '$Y$ er binomisk fordelt'
+            why: 'Antall kast er ikke fast.'
+
+      - id: 4d
+        type: flervalg
+        points: 6
+        topics: [sgt, poisson-eksp]
+        prompt: |
+          $X_1,\dots,X_{100}$ er uavhengige og Poisson$(4)$-fordelte. La $S=\sum X_i$ og $\bar X=S/100$. Hvilke utsagn er korrekte?
+        options:
+          - text: '$S$ er eksakt Poisson$(400)$-fordelt'
+            correct: true
+            why: 'Summen av uavhengige Poissonvariabler.'
+          - text: '$S$ er tilnærmet $N(400,\ 400)$'
+            correct: true
+          - text: '$P(S>420)\approx0.16$'
+            correct: true
+            why: '$1-\Phi(20/20)$.'
+          - text: '$V(\bar X)=4$'
+            why: '$4/100=0.04$.'
+          - text: 'Sentralgrenseteoremet krever at $X_i$ er normalfordelte'
+            why: 'Nei. Det er hele poenget med SGT.'

@@ -7,7 +7,7 @@ parts:
         title: Gjennomsnitt, median og kvartiler
         keys: gjennomsnitt · median · kvartiler · persentiler · robusthet
         topics: [beskrivende]
-        practice: ['v26:4b']
+        practice: ['v26:4b', 'h23:4a']
         body: |
           For observasjoner $x_1,\dots,x_n$:
 
@@ -31,6 +31,7 @@ parts:
         title: Varians, standardavvik og andre spredningsmål
         keys: empirisk varians · standardavvik · variasjonsbredde · IQR
         topics: [beskrivende]
+        practice: ['h23:3a', 'v24:5c']
         body: |
           **Empirisk varians og standardavvik:**
           $$s^2=\frac{1}{n-1}\sum_{i=1}^n(x_i-\bar x)^2=\frac{1}{n-1}\left(\sum x_i^2-\frac{(\sum x_i)^2}{n}\right),\qquad s=\sqrt{s^2}.$$
@@ -53,7 +54,7 @@ parts:
         title: Histogram, boksplott og normalplott
         keys: frekvens- og tetthetsskala · skjevhet · boksplott · normalplott (QQ-plott)
         topics: [beskrivende]
-        practice: ['v26:2b']
+        practice: ['v26:2b', 'h23:4c', 'h23:4d', 'v23:4d']
         body: |
           **Histogram.** Del tallinjen i intervaller og tegn en søyle for hvert intervall.
           - *Frekvensskala:* høyden er antall observasjoner i intervallet.
@@ -91,7 +92,7 @@ parts:
         title: Utfallsrom, hendelser og sannsynlighetsbegrepet
         keys: eksperiment · utfallsrom · hendelse · aksiomer · frekvenstolkning
         topics: [sannsynlighet]
-        practice: ['oppg1:O2-8', 'oppg1:F4']
+        practice: ['oppg1:O2-8', 'oppg1:F4', 'prove1:1a']
         body: |
           Et **eksperiment** er en prosess med usikkert utfall. **Utfallsrommet** $\Omega$ (eller $S$) er mengden av alle mulige utfall. En **hendelse** $A\subseteq\Omega$ er en samling utfall.
 
@@ -124,7 +125,7 @@ parts:
         title: Kombinatorikk
         keys: produktregel · ordnet/uordnet · med/uten tilbakelegging · binomialkoeffisient
         topics: [sannsynlighet]
-        practice: ['h25:4d']
+        practice: ['h25:4d', 'h23:3d', 'prove3:4a']
         body: |
           **Produktregelen:** Et valg i $k$ trinn med $n_1,n_2,\dots,n_k$ muligheter gir $n_1n_2\cdots n_k$ kombinasjoner.
 
@@ -155,7 +156,7 @@ parts:
         title: Betinget sannsynlighet, total sannsynlighet og Bayes
         keys: P(A|B) · produktsetning · loven om total sannsynlighet · Bayes' setning
         topics: [sannsynlighet]
-        practice: ['v25:3f', 'h25:1']
+        practice: ['v25:3f', 'h25:1', 'prove1:4d', 'h23:4b']
         body: |
           $$P(A\mid B)=\frac{P(A\cap B)}{P(B)},\qquad P(B)>0.$$
           **Produktsetningen:** $P(A\cap B)=P(A\mid B)P(B)$, og generelt $P(A_1\cap\cdots\cap A_n)=P(A_1)P(A_2\mid A_1)\cdots P(A_n\mid A_1\cap\cdots\cap A_{n-1})$.
@@ -185,7 +186,7 @@ parts:
         title: Uavhengighet, «minst én» og systemer
         keys: uavhengige hendelser · komplementtrikset · serie og parallell · (1−p)^N
         topics: [sannsynlighet]
-        practice: ['v25:3d', 'oppg1:O3-7a', 'oppg1:A1a', 'oppg1:F1']
+        practice: ['v25:3d', 'oppg1:O3-7a', 'oppg1:A1a', 'oppg1:F1', 'v23:2b', 'prove1:2c', 'prove3:1a']
         body: |
           $A$ og $B$ er **uavhengige** hvis $P(A\cap B)=P(A)P(B)$, eller ekvivalent $P(A\mid B)=P(A)$. For flere hendelser må produktregelen gjelde for *alle* delmengder.
 

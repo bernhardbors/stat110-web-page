@@ -7,7 +7,7 @@ parts:
         title: Diskret simultanfordeling (tabell)
         keys: p(x,y) · marginaler · betinget fordeling · uavhengighet · E(XY)
         topics: [simultan]
-        practice: ['h25:4c', 'v25:3a']
+        practice: ['h25:4c', 'v25:3a', 'h24:3a', 'v23:1a', 'h23:3c', 'prove1:4a']
         body: |
           $p(x,y)=P(X=x,Y=y)$ står ofte i en tabell. **Marginalene** finner du ved å summere rader og kolonner:
           $$p_X(x)=\sum_yp(x,y),\qquad p_Y(y)=\sum_xp(x,y).$$
@@ -45,7 +45,7 @@ parts:
         title: Simultantetthet, marginaltetthet og uavhengighet
         keys: f(x,y) · dobbeltintegral · marginal · f(x|y) · integrasjonsområde
         topics: [kontinuerlig]
-        practice: ['h25:4b', 'h25:2a']
+        practice: ['h25:4b', 'h25:2a', 'v24:3', 'prove3:2a']
         body: |
           $$P((X,Y)\in A)=\iint_Af(x,y)\,dx\,dy,\qquad f_X(x)=\int f(x,y)\,dy,\qquad f_Y(y)=\int f(x,y)\,dx.$$
           **Betinget tetthet:** $f_{X\mid Y}(x\mid y)=\dfrac{f(x,y)}{f_Y(y)}$. **Uavhengighet:** $f(x,y)=f_X(x)f_Y(y)$.
@@ -68,7 +68,7 @@ parts:
         title: Betinget forventning og total varians
         keys: E(Y|X=x) · E(Y) = E[E(Y|X)] · V(Y) = E[V(Y|X)] + V[E(Y|X)]
         topics: [betinget]
-        practice: ['v25:3e', 'h25:4b']
+        practice: ['v25:3e', 'h25:4b', 'v23:3b', 'prove3:2c']
         body: |
           $E(Y\mid X=x)$ er forventningen i den betingede fordelingen. Som funksjon av $x$ sier den hvordan $Y$ «i snitt» avhenger av $X$. Er den avtakende i $x$, er sammenhengen negativ (H25 4b).
 
@@ -88,7 +88,7 @@ parts:
         title: Kovarians og korrelasjon
         keys: Cov(X,Y) · ρ · bilinearitet · ukorrelert ≠ uavhengig
         topics: [kovarians]
-        practice: ['v26:4c', 'h25:4e']
+        practice: ['v26:4c', 'h25:4e', 'h24:3c', 'v24:5e', 'prove1:4c']
         body: |
           $$\text{Cov}(X,Y)=E[(X-\mu_X)(Y-\mu_Y)]=E(XY)-E(X)E(Y),\qquad \rho=\frac{\text{Cov}(X,Y)}{\sigma_X\sigma_Y}\in[-1,1].$$
 
@@ -120,7 +120,7 @@ parts:
         title: Lineærkombinasjoner og porteføljer
         keys: E(ΣaᵢXᵢ) · V(aX+bY) = a²V(X) + b²V(Y) + 2ab Cov · diversifisering
         topics: [kovarians]
-        practice: ['h25:4e', 'v25:2a']
+        practice: ['h25:4e', 'v25:2a', 'prove1:4c']
         body: |
           $$E\Big(\sum a_iX_i\Big)=\sum a_iE(X_i)\quad\text{(alltid)}$$
           $$V(aX+bY)=a^2V(X)+b^2V(Y)+2ab\,\text{Cov}(X,Y),\qquad \text{Cov}=\rho\,\sigma_X\sigma_Y.$$
@@ -144,7 +144,7 @@ parts:
         title: Maksimum og minimum av uavhengige variabler
         keys: P(max ≤ x) = F(x)ⁿ · P(min > x) = (1 − F(x))ⁿ
         topics: [normal, sannsynlighet]
-        practice: ['v26:1c', 'h25:4e']
+        practice: ['v26:1c', 'h25:4e', 'prove1:2c']
         body: |
           For uavhengige $X_1,\dots,X_n$ med samme CDF $F$:
           $$P(\max X_i\le x)=P(\text{alle}\le x)=F(x)^n,\qquad P(\min X_i>x)=P(\text{alle}>x)=\big(1-F(x)\big)^n.$$
@@ -185,7 +185,7 @@ parts:
         title: Store talls lov og sentralgrenseteoremet
         keys: X̄ → μ · (X̄ − μ)/(σ/√n) → N(0,1) · n > 30
         topics: [sgt]
-        practice: ['v26:3', 'v26:4a']
+        practice: ['v26:3', 'v26:4a', 'v24:4', 'prove2:3', 'prove3:4d']
         body: |
           **Store talls lov:** $\bar X_n=\frac1n\sum X_i\to\mu$ når $n\to\infty$ (i sannsynlighet). Det krever at $E(X)$ er endelig.
 

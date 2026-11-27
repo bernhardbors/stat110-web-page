@@ -7,7 +7,7 @@ parts:
         title: Estimatorer, forventningsretthet, standardfeil og MSE
         keys: θ̂ · bias · forventningsrett · varians · MSE = V + bias²
         topics: [mle]
-        practice: ['v25:2a', 'v25:2b', 'h25:2b']
+        practice: ['v25:2a', 'v25:2b', 'h25:2b', 'prove3:3', 'prove2:2b']
         body: |
           En **estimator** $\hat\theta$ er en statistikk (en stokastisk variabel) som brukes til å anslå en ukjent parameter $\theta$. Verdien den får for konkrete data, er et **estimat**.
 
@@ -37,7 +37,7 @@ parts:
         title: Sannsynlighetsmaksimering (MLE)
         keys: likelihood · log-likelihood · derivere = 0 · invarians
         topics: [mle]
-        practice: ['h25:2b', 'oppg1:C1b', 'v25:3b']
+        practice: ['h25:2b', 'oppg1:C1b', 'v25:3b', 'h24:1c', 'h23:2', 'prove2:2b', 'v24:5d']
         body: |
           Gitt uavhengige observasjoner $x_1,\dots,x_n$ med tetthet eller punktsannsynlighet $f(x;\theta)$ er **likelihoodfunksjonen**
           $$L(\theta)=\prod_{i=1}^nf(x_i;\theta).$$
@@ -82,7 +82,7 @@ parts:
         title: Konfidensintervall for μ med kjent σ, og tolkning
         keys: x̄ ± z_{α/2} σ/√n · tolkning · bredde · valg av n
         topics: [ki-test]
-        practice: ['v26:1a']
+        practice: ['v26:1a', 'v24:5a', 'h24:3b']
         body: |
           Når dataene er normalfordelte og $\sigma$ er kjent:
           $$\bar x\pm z_{\alpha/2}\frac{\sigma}{\sqrt n},\qquad\text{95 \%: } z_{0.025}=1.96,\quad\text{90 \%: }1.645,\quad\text{99 \%: }2.576.$$
@@ -106,7 +106,7 @@ parts:
         title: t-fordelingen og t-intervall (σ ukjent)
         keys: T = (X̄ − μ)/(S/√n) ~ t_{n−1} · x̄ ± t_{α/2,n−1} s/√n · tabell A.5
         topics: [ki-test]
-        practice: ['v26:1a', 'h25:4a']
+        practice: ['v26:1a', 'h25:4a', 'prove1:2a']
         body: |
           Er dataene normalfordelte og $\sigma$ ukjent, er
           $$T=\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1},$$
@@ -127,7 +127,7 @@ parts:
         title: Konfidensintervall for en andel p
         keys: p̂ = X/n · p̂ ± z√(p̂(1−p̂)/n) · transformere intervaller
         topics: [andel]
-        practice: ['oppg1:O3-7c', 'oppg1:A1d', 'oppg1:F3', 'v25:1b']
+        practice: ['oppg1:O3-7c', 'oppg1:A1d', 'oppg1:F3', 'v25:1b', 'prove1:1c']
         body: |
           $X\sim\text{Bin}(n,p)$, $\hat p=X/n$, og det tradisjonelle intervallet er
           $$\hat p\pm z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}n}.$$
@@ -150,7 +150,7 @@ parts:
         title: Hypoteser, feiltyper og signifikansnivå
         keys: H₀ og H₁ · type I og II · α · forkastningsområde · konklusjon i ord
         topics: [ki-test]
-        practice: ['v25:1a', 'h25:4a']
+        practice: ['v25:1a', 'h25:4a', 'v23:4a', 'h24:3b', 'prove1:3']
         body: |
           - **Nullhypotesen $H_0$** er «status quo», med likhetstegn ($\mu=\mu_0$).
           - **Alternativet $H_1$ (eller $H_a$)** er det vi vil finne belegg for.
@@ -177,7 +177,7 @@ parts:
         title: z- og t-test for μ
         keys: testobservator · forkastningsområde · ensidig/tosidig · sammenheng med KI
         topics: [ki-test]
-        practice: ['v26:1b', 'v25:1a', 'h25:4a']
+        practice: ['v26:1b', 'v25:1a', 'h25:4a', 'h23:1a', 'prove1:2b']
         body: |
           For $H_0:\mu=\mu_0$:
 
@@ -209,7 +209,7 @@ parts:
         title: p-verdi
         keys: «minst like ekstremt» · forkast når p ≤ α
         topics: [ki-test]
-        practice: ['v25:1a']
+        practice: ['v25:1a', 'prove2:4b']
         body: |
           **p-verdien** er sannsynligheten, beregnet under $H_0$, for å få en testobservator som er *minst like ekstrem* (i retning $H_1$) som den observerte.
 
@@ -231,6 +231,7 @@ parts:
         title: Teststyrke og type II-feil
         keys: β(μ′) · styrke = 1 − β · effekt av n
         topics: [ki-test]
+        practice: ['h23:1b', 'v23:4b', 'prove1:3']
         body: |
           **Styrken** til en test er sannsynligheten for å forkaste $H_0$ når en bestemt alternativ verdi $\mu'$ er sann: $1-\beta(\mu')$.
 
@@ -251,7 +252,7 @@ parts:
         title: Test for en andel p
         keys: Z = (p̂ − p₀)/√(p₀(1−p₀)/n) · np₀ ≥ 10
         topics: [andel]
-        practice: ['oppg1:A1d']
+        practice: ['oppg1:A1d', 'prove3:1c', 'v24:5b', 'v23:4c']
         body: |
           $H_0:p=p_0$. Når $np_0\ge10$ og $n(1-p_0)\ge10$:
           $$Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}\ \approx N(0,1)\text{ under }H_0.$$

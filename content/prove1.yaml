@@ -1,0 +1,239 @@
+id: prove1
+title: Prøveeksamen 1
+short: Prøve 1
+kind: prove
+order: 1
+blurb: 'Lekkasjer fra et kommunalt register, responstid for ambulanser, teststyrke og fire flervalg. 35 p langsvar + 24 p flervalg.'
+duration_min: 240
+note: |
+  Nylaget prøveeksamen med samme oppbygging som V26: ca. 60 % langsvar og 40 % flervalg. **Oppgave 1** følger foreleserens hint og bygger på Oblig 2a oppg. 8 og Oblig 3a oppg. 7. Alle tall er oppdiktet.
+
+sections:
+  - title: Lekkasjer fra et register
+    intro: |
+      $N=1200$ ansatte i en kommune har tilgang til et register med sensitive personopplysninger. Erfaring tilsier at hver ansatt, uavhengig av de andre, forårsaker en lekkasje (for eksempel sender opplysninger til feil mottaker) i løpet av et år med sannsynlighet $p=2\cdot10^{-4}$. Ulike år antas uavhengige.
+    tasks:
+      - id: 1a
+        type: langsvar
+        points: 5
+        topics: [sannsynlighet]
+        prompt: |
+          Forklar kort hvordan $p=2\cdot10^{-4}$ «per ansatt per år» kan tolkes ut fra sannsynlighetsbegrepet i STAT110. Hva er eksperimentet og utfallsrommet?
+
+          Vis at sannsynligheten for at det ikke skjer noen lekkasje i løpet av ett år er $(1-p)^N$, og regn den ut.
+        solution: |
+          **Tolkning:** Eksperimentet er «én ansatt i ett år», og utfallsrommet er $\{\text{lekkasje},\ \text{ingen lekkasje}\}$. Frekvenstolkningen sier at over svært mange person-år vil andelen person-år med lekkasje nærme seg $p$, altså ca. 2 lekkasjer per 10 000 person-år. Modellen antar at alle ansatte har samme $p$ og er uavhengige.
+
+          **Ingen lekkasje:** La $A_i$ være at ansatt $i$ ikke lekker, med $P(A_i)=1-p$. Ved uavhengighet er
+          $$P(A_1\cap\cdots\cap A_N)=(1-p)^N=(1-2\cdot10^{-4})^{1200}\approx0.787.$$
+        rubric:
+          - [2, 'Eksperiment, utfallsrom og frekvenstolkning']
+          - [2, 'Begrunner $(1-p)^N$ med uavhengighet']
+          - [1, 'Svar $\approx0.787$']
+
+      - id: 1b
+        type: langsvar
+        points: 5
+        topics: [sannsynlighet, poisson-eksp]
+        prompt: |
+          La $S(t)$ være sannsynligheten for at det ikke har skjedd noen lekkasje etter $t$ år. Bruk tilnærmingen $S(t)\approx e^{-Npt}$.
+
+          **i)** Regn ut $S(5)$.
+          **ii)** Etter hvor mange år er sannsynligheten for minst én lekkasje minst 90 %?
+          **iii)** Kommunen vil begrense tilgangen slik at sannsynligheten for ingen lekkasje på 5 år blir minst 50 %. Hvor mange ansatte kan da høyst ha tilgang?
+        solution: |
+          $Np=1200\cdot2\cdot10^{-4}=0.24$ per år.
+
+          **i)** $S(5)\approx e^{-0.24\cdot5}=e^{-1.2}\approx0.301$.
+
+          **ii)** Vi vil ha $1-S(t)\ge0.9$, altså $e^{-0.24t}\le0.1$, som gir $t\ge\dfrac{\ln10}{0.24}\approx9.6$. Etter **10 år**.
+
+          **iii)** Vi vil ha $e^{-N\cdot2\cdot10^{-4}\cdot5}\ge0.5$, altså $N\le\dfrac{\ln2}{10^{-3}}\approx693$. **Høyst 693 ansatte.**
+        rubric:
+          - [1, 'i) $S(5)\approx0.30$']
+          - [2, 'ii) Setter opp riktig ulikhet og får ca. 10 år']
+          - [2, 'iii) $N\le\ln2/(5p)\approx693$']
+
+      - id: 1c
+        type: langsvar
+        points: 5
+        topics: [andel, diskrete]
+        prompt: |
+          For å sjekke anslaget $p=2\cdot10^{-4}$ ser kommunen på data fra nabokommuner: Over til sammen $n=250\,000$ person-år ble det registrert $x=40$ lekkasjer.
+
+          Argumenter for en binomisk modell for antall lekkasjer $X$. Finn $\hat p$ og et tilnærmet 95 % konfidensintervall for $p$. Er dataene forenlige med $p=2\cdot10^{-4}$?
+        solution: |
+          **Modell:** Hvert person-år er et forsøk med to utfall. Med samme $p$ og uavhengighet mellom person-år er $X\sim\text{Bin}(n,p)$.
+
+          $\hat p=40/250\,000=1.6\cdot10^{-4}$, og
+          $$SE=\sqrt{\frac{\hat p(1-\hat p)}{n}}\approx2.53\cdot10^{-5}.$$
+          Intervallet blir $1.6\cdot10^{-4}\pm1.96\cdot2.53\cdot10^{-5}=[1.10\cdot10^{-4},\ 2.10\cdot10^{-4}]$.
+
+          Verdien $2\cdot10^{-4}$ ligger (så vidt) inne i intervallet, så dataene er forenlige med anslaget. En tosidig test på 5 %-nivå ville ikke forkastet $p=2\cdot10^{-4}$. Normaltilnærmingen er rimelig siden $n\hat p=40\ge10$.
+        rubric:
+          - [1, 'Binomiske forutsetninger (to utfall, lik $p$, uavhengighet)']
+          - [3, '$\hat p=1.6\cdot10^{-4}$ og KI ca. $[1.1,\ 2.1]\cdot10^{-4}$']
+          - [1, 'Konklusjon: $2\cdot10^{-4}$ ligger i intervallet']
+
+  - title: Responstid for ambulanser
+    intro: |
+      Et ambulansedistrikt registrerer responstiden (i minutter) fra en melding kommer inn til ambulansen er fremme. Responstidene antas uavhengige og normalfordelte med forventning $\mu$ og ukjent standardavvik $\sigma$. Et tilfeldig utvalg på $n=16$ utrykninger ga $\bar x=11.2$ og $s=2.4$.
+    tasks:
+      - id: 2a
+        type: langsvar
+        points: 5
+        topics: [ki-test]
+        prompt: |
+          Lag et 95 % konfidensintervall for $\mu$, og forklar hvordan det skal tolkes.
+        solution: |
+          $\sigma$ er ukjent, så vi bruker et $t$-intervall med $15$ frihetsgrader. $t_{0.025,15}=2.131$ og $s/\sqrt n=2.4/4=0.6$, så
+          $$11.2\pm2.131\cdot0.6=11.2\pm1.28=[9.92,\ 12.48].$$
+          **Tolkning:** Gjentar vi undersøkelsen mange ganger, vil ca. 95 % av intervallene laget på denne måten inneholde den sanne $\mu$.
+        rubric:
+          - [2, '$t$-intervall med riktig kvantil (15 fg)']
+          - [2, 'Riktig intervall ca. $[9.9,\ 12.5]$']
+          - [1, 'Riktig tolkning']
+
+      - id: 2b
+        type: langsvar
+        points: 5
+        topics: [ki-test]
+        prompt: |
+          Målet er at forventet responstid skal være høyst 10 minutter. Test $H_0:\mu=10$ mot $H_1:\mu>10$ på 5 % nivå. Formuler konklusjonen statistisk og i ord.
+        solution: |
+          $$T=\frac{\bar x-\mu_0}{s/\sqrt n}=\frac{11.2-10}{0.6}=2.0.$$
+          Under $H_0$ er $T\sim t_{15}$. Vi forkaster når $T\ge t_{0.05,15}=1.753$. Siden $2.0>1.753$, **forkaster vi $H_0$** (p-verdi $\approx0.032$).
+
+          **I ord:** Dataene gir grunnlag for å påstå at forventet responstid er over 10 minutter, så målet nås ikke.
+        rubric:
+          - [2, 'Riktig observator, $T=2.0$, med $t_{15}$']
+          - [2, 'Kritisk verdi $1.753$ og forkaster']
+          - [1, 'Konklusjon i ord']
+
+      - id: 2c
+        type: langsvar
+        points: 5
+        topics: [normal, sannsynlighet]
+        prompt: |
+          Anta nå at responstidene er $N(11.2,\ 2.4^2)$. Hva er sannsynligheten for at en enkelt utrykning tar mer enn 15 minutter? Hva er sannsynligheten for at minst én av 5 uavhengige utrykninger tar mer enn 15 minutter?
+        solution: |
+          $$P(X>15)=P\!\left(Z>\frac{15-11.2}{2.4}\right)=P(Z>1.58)=1-0.9429=0.057.$$
+          «Minst én av 5» via komplementet og uavhengighet:
+          $$1-P(\text{alle}\le15)=1-0.9429^5\approx0.25.$$
+          (Dette er det samme som $P(\max>15)$.)
+        rubric:
+          - [2, 'Standardiserer og får $P(X>15)\approx0.057$']
+          - [2, 'Komplement og uavhengighet: $1-0.943^5$']
+          - [1, 'Svar $\approx0.25$']
+
+  - title: Feiltyper og styrke
+    tasks:
+      - id: '3'
+        label: '3'
+        type: langsvar
+        points: 5
+        topics: [ki-test]
+        prompt: |
+          Forklar med ord hva type I-feil og type II-feil vil si i testen i oppgave 2b, og hva teststyrken er. Hvordan påvirkes styrken av å øke antall utrykninger $n$? (Maks 100 ord.)
+        solution: |
+          - **Type I-feil:** å konkludere med at forventet responstid er over 10 minutter når den egentlig er 10. Sannsynligheten er $\alpha=0.05$.
+          - **Type II-feil:** å *ikke* konkludere med at den er over 10 minutter når den faktisk er det (f.eks. $\mu=11$).
+          - **Styrke:** $1-P(\text{type II})$, altså sannsynligheten for å oppdage at $\mu>10$ når det er sant. Den avhenger av den sanne $\mu$.
+          - **Større $n$** gir mindre standardfeil $\sigma/\sqrt n$, så fordelingen til $\bar X$ blir smalere og styrken øker (med samme $\alpha$).
+        rubric:
+          - [2, 'Type I og II forklart i konteksten']
+          - [2, 'Styrke $=1-\beta$, avhenger av sann $\mu$']
+          - [1, 'Større $n$ gir høyere styrke']
+
+  - title: Flervalg
+    tasks:
+      - id: 4a
+        type: flervalg
+        points: 6
+        topics: [simultan]
+        prompt: |
+          $X$ og $Y$ har simultan punktsannsynlighet gitt ved tabellen:
+
+          | $x\backslash y$ | 0 | 1 | 2 |
+          |---|---|---|---|
+          | 0 | 0.15 | 0.10 | 0.05 |
+          | 1 | 0.10 | 0.20 | 0.10 |
+          | 2 | 0.05 | 0.10 | 0.15 |
+
+          Det oppgis at $V(X)=V(Y)=0.6$. Hvilke utsagn er korrekte?
+        options:
+          - text: '$P(Y=1)=0.40$'
+            correct: true
+          - text: '$P(X=2\mid Y=2)=0.5$'
+            correct: true
+            why: '$0.15/0.30$.'
+          - text: '$P(X=2\mid Y=2)=0.15$'
+            why: 'Det er $P(X=2,Y=2)$, ikke den betingede sannsynligheten.'
+          - text: '$\text{Cov}(X,Y)=0.2$'
+            correct: true
+            why: '$E(XY)=0.2+0.2+0.2+0.6=1.2$ og $E(X)=E(Y)=1$.'
+          - text: '$\rho(X,Y)=0.2$'
+            why: '$\rho=0.2/\sqrt{0.6\cdot0.6}=0.33$.'
+          - text: '$X$ og $Y$ er uavhengige'
+            why: '$p(0,0)=0.15\ne0.3\cdot0.3=0.09$.'
+
+      - id: 4b
+        type: flervalg
+        points: 6
+        topics: [poisson-eksp]
+        prompt: |
+          Kunder ankommer en kiosk etter en Poissonprosess med intensitet $\lambda=12$ per time. Hvilke utsagn er korrekte?
+        options:
+          - text: 'Antall kunder i løpet av 10 minutter er Poissonfordelt med forventning 2'
+            correct: true
+            why: '$12\cdot\frac16=2$.'
+          - text: 'Sannsynligheten for ingen kunder på 10 minutter er ca. 0.135'
+            correct: true
+            why: '$e^{-2}$.'
+          - text: 'Forventet ventetid til første kunde er 12 minutter'
+            why: '$1/\lambda=1/12$ time $=5$ minutter.'
+          - text: 'Gitt at ingen kunder har kommet de første 10 minuttene, er forventet total ventetid til første kunde 15 minutter'
+            correct: true
+            why: 'Hukommelsesløshet: $10+5$.'
+          - text: 'Antall kunder i løpet av en time er eksponentialfordelt'
+            why: 'Antall er Poisson. Ventetider er eksponentialfordelte.'
+
+      - id: 4c
+        type: flervalg
+        points: 6
+        topics: [kovarians]
+        prompt: |
+          $X$ og $Y$ har $V(X)=4$, $V(Y)=9$ og korrelasjon $\rho=0.5$. Hvilke utsagn er korrekte?
+        options:
+          - text: '$V(X+Y)=19$'
+            correct: true
+            why: '$\text{Cov}=0.5\cdot2\cdot3=3$, og $4+9+2\cdot3=19$.'
+          - text: '$V(X-Y)=19$'
+            why: '$4+9-6=7$.'
+          - text: '$V(2X-3)=16$'
+            correct: true
+            why: '$2^2\cdot4$. Konstanten forsvinner.'
+          - text: '$\text{Cov}(X,\ X+Y)=7$'
+            correct: true
+            why: '$V(X)+\text{Cov}(X,Y)=4+3$.'
+          - text: '$\text{Corr}(2X,\ 3Y)=3$'
+            why: 'Korrelasjon endres ikke av positive skaleringer: $0.5$.'
+
+      - id: 4d
+        type: flervalg
+        points: 6
+        topics: [sannsynlighet]
+        prompt: |
+          En sykdom har forekomst 2 % i befolkningen. En test gir positivt svar hos 95 % av de syke og hos 10 % av de friske. En tilfeldig person testes. Hvilke utsagn er korrekte?
+        options:
+          - text: 'P(positiv test) $=0.117$'
+            correct: true
+            why: '$0.02\cdot0.95+0.98\cdot0.10$ (total sannsynlighet).'
+          - text: 'P(syk | positiv) $=0.95$'
+            why: 'Det er P(positiv | syk). Ikke bytt om betingelsen.'
+          - text: 'P(syk | positiv) $\approx0.16$'
+            correct: true
+            why: 'Bayes: $0.019/0.117$.'
+          - text: 'P(frisk | negativ) $>0.99$'
+            correct: true
+            why: '$0.98\cdot0.9/0.883\approx0.999$.'

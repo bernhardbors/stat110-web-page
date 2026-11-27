@@ -1,5 +1,73 @@
 [
  {
+  "id": "prove1",
+  "title": "Prøveeksamen 1",
+  "short": "Prøve 1",
+  "kind": "prove",
+  "order": 1,
+  "blurb": "Lekkasjer fra et kommunalt register, responstid for ambulanser, teststyrke og fire flervalg. 35 p langsvar + 24 p flervalg.",
+  "featured": "",
+  "totalPoints": 59,
+  "duration_min": 240,
+  "nTasks": 11,
+  "topics": [
+   "sannsynlighet",
+   "poisson-eksp",
+   "andel",
+   "diskrete",
+   "ki-test",
+   "normal",
+   "simultan",
+   "kovarians"
+  ]
+ },
+ {
+  "id": "prove2",
+  "title": "Prøveeksamen 2",
+  "short": "Prøve 2",
+  "kind": "prove",
+  "order": 2,
+  "blurb": "Hemmelig oppskrift (geometrisk ventetid), MLE for Poissondata med eksponering, SGT og fire flervalg.",
+  "featured": "",
+  "totalPoints": 59,
+  "duration_min": 240,
+  "nTasks": 10,
+  "topics": [
+   "diskrete",
+   "sannsynlighet",
+   "poisson-eksp",
+   "mle",
+   "sgt",
+   "kontinuerlig",
+   "ki-test"
+  ]
+ },
+ {
+  "id": "prove3",
+  "title": "Prøveeksamen 3",
+  "short": "Prøve 3",
+  "kind": "prove",
+  "order": 3,
+  "blurb": "Delt passord (lekkasje per uke og test for p), kontinuerlig simultantetthet og fire flervalg.",
+  "featured": "",
+  "totalPoints": 59,
+  "duration_min": 240,
+  "nTasks": 11,
+  "topics": [
+   "sannsynlighet",
+   "andel",
+   "ki-test",
+   "kontinuerlig",
+   "kovarians",
+   "betinget",
+   "mle",
+   "normal",
+   "sgt",
+   "diskrete",
+   "poisson-eksp"
+  ]
+ },
+ {
   "id": "v26",
   "title": "Eksamen vår 2026",
   "short": "V26",
@@ -179,6 +247,214 @@
    "ki-test",
    "kontinuerlig",
    "mle"
+  ]
+ },
+ {
+  "id": "tema-ki-test",
+  "title": "Tema: Konfidensintervall og hypotesetest for µ",
+  "short": "Konfidensintervall og hypotesetest for µ",
+  "kind": "temasett",
+  "order": 10,
+  "blurb": "16 oppgaver fra 10 eksamenssett.",
+  "featured": "",
+  "topic": "ki-test",
+  "totalPoints": 119,
+  "duration_min": 240,
+  "nTasks": 16,
+  "topics": [
+   "ki-test"
+  ]
+ },
+ {
+  "id": "tema-simultan",
+  "title": "Tema: Diskret simultanfordeling (tabell)",
+  "short": "Diskret simultanfordeling (tabell)",
+  "kind": "temasett",
+  "order": 11,
+  "blurb": "10 oppgaver fra 7 eksamenssett.",
+  "featured": "",
+  "topic": "simultan",
+  "totalPoints": 66,
+  "duration_min": 240,
+  "nTasks": 10,
+  "topics": [
+   "simultan"
+  ]
+ },
+ {
+  "id": "tema-mle",
+  "title": "Tema: MLE og estimatoregenskaper",
+  "short": "MLE og estimatoregenskaper",
+  "kind": "temasett",
+  "order": 12,
+  "blurb": "10 oppgaver fra 7 eksamenssett.",
+  "featured": "",
+  "topic": "mle",
+  "totalPoints": 93,
+  "duration_min": 240,
+  "nTasks": 10,
+  "topics": [
+   "mle"
+  ]
+ },
+ {
+  "id": "tema-poisson-eksp",
+  "title": "Tema: Poisson, Poissonprosess og eksponential",
+  "short": "Poisson, Poissonprosess og eksponential",
+  "kind": "temasett",
+  "order": 13,
+  "blurb": "14 oppgaver fra 9 eksamenssett.",
+  "featured": "",
+  "topic": "poisson-eksp",
+  "totalPoints": 86,
+  "duration_min": 240,
+  "nTasks": 14,
+  "topics": [
+   "poisson-eksp"
+  ]
+ },
+ {
+  "id": "tema-sannsynlighet",
+  "title": "Tema: Sannsynlighet, uavhengighet og kombinatorikk",
+  "short": "Sannsynlighet, uavhengighet og kombinatorikk",
+  "kind": "temasett",
+  "order": 14,
+  "blurb": "19 oppgaver fra 10 eksamenssett.",
+  "featured": "",
+  "topic": "sannsynlighet",
+  "totalPoints": 114,
+  "duration_min": 240,
+  "nTasks": 19,
+  "topics": [
+   "sannsynlighet"
+  ]
+ },
+ {
+  "id": "tema-kovarians",
+  "title": "Tema: Kovarians, korrelasjon og lineærkombinasjoner",
+  "short": "Kovarians, korrelasjon og lineærkombinasjoner",
+  "kind": "temasett",
+  "order": 15,
+  "blurb": "10 oppgaver fra 9 eksamenssett.",
+  "featured": "",
+  "topic": "kovarians",
+  "totalPoints": 63,
+  "duration_min": 240,
+  "nTasks": 10,
+  "topics": [
+   "kovarians"
+  ]
+ },
+ {
+  "id": "tema-kontinuerlig",
+  "title": "Tema: Kontinuerlige fordelinger og tettheter",
+  "short": "Kontinuerlige fordelinger og tettheter",
+  "kind": "temasett",
+  "order": 16,
+  "blurb": "12 oppgaver fra 7 eksamenssett.",
+  "featured": "",
+  "topic": "kontinuerlig",
+  "totalPoints": 77,
+  "duration_min": 240,
+  "nTasks": 12,
+  "topics": [
+   "kontinuerlig"
+  ]
+ },
+ {
+  "id": "tema-diskrete",
+  "title": "Tema: Binomisk, geometrisk og hypergeometrisk",
+  "short": "Binomisk, geometrisk og hypergeometrisk",
+  "kind": "temasett",
+  "order": 17,
+  "blurb": "13 oppgaver fra 7 eksamenssett.",
+  "featured": "",
+  "topic": "diskrete",
+  "totalPoints": 75,
+  "duration_min": 240,
+  "nTasks": 13,
+  "topics": [
+   "diskrete"
+  ]
+ },
+ {
+  "id": "tema-beskrivende",
+  "title": "Tema: Beskrivende statistikk og plott",
+  "short": "Beskrivende statistikk og plott",
+  "kind": "temasett",
+  "order": 18,
+  "blurb": "8 oppgaver fra 4 eksamenssett.",
+  "featured": "",
+  "topic": "beskrivende",
+  "totalPoints": 52,
+  "duration_min": 240,
+  "nTasks": 8,
+  "topics": [
+   "beskrivende"
+  ]
+ },
+ {
+  "id": "tema-andel",
+  "title": "Tema: Andel p: intervall og test",
+  "short": "Andel p: intervall og test",
+  "kind": "temasett",
+  "order": 19,
+  "blurb": "6 oppgaver fra 6 eksamenssett.",
+  "featured": "",
+  "topic": "andel",
+  "totalPoints": 38,
+  "duration_min": 240,
+  "nTasks": 6,
+  "topics": [
+   "andel"
+  ]
+ },
+ {
+  "id": "tema-normal",
+  "title": "Tema: Normalfordeling, maks og min",
+  "short": "Normalfordeling, maks og min",
+  "kind": "temasett",
+  "order": 20,
+  "blurb": "4 oppgaver fra 4 eksamenssett.",
+  "featured": "",
+  "topic": "normal",
+  "totalPoints": 22,
+  "duration_min": 240,
+  "nTasks": 4,
+  "topics": [
+   "normal"
+  ]
+ },
+ {
+  "id": "tema-sgt",
+  "title": "Tema: Store talls lov og sentralgrenseteoremet",
+  "short": "Store talls lov og sentralgrenseteoremet",
+  "kind": "temasett",
+  "order": 21,
+  "blurb": "7 oppgaver fra 5 eksamenssett.",
+  "featured": "",
+  "topic": "sgt",
+  "totalPoints": 43,
+  "duration_min": 240,
+  "nTasks": 7,
+  "topics": [
+   "sgt"
+  ]
+ },
+ {
+  "id": "tema-betinget",
+  "title": "Tema: Betinget forventning og total varians",
+  "short": "Betinget forventning og total varians",
+  "kind": "temasett",
+  "order": 22,
+  "blurb": "5 oppgaver fra 4 eksamenssett.",
+  "featured": "",
+  "topic": "betinget",
+  "totalPoints": 30,
+  "duration_min": 240,
+  "nTasks": 5,
+  "topics": [
+   "betinget"
   ]
  }
 ]

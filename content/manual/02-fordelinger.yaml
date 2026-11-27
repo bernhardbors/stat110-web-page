@@ -7,7 +7,7 @@ parts:
         title: Punktsannsynlighet, CDF, forventning og varians
         keys: p(x) · F(x) · E(X) · V(X) · regneregler
         topics: [diskrete]
-        practice: ['oppg1:A1b']
+        practice: ['oppg1:A1b', 'h24:3d']
         body: |
           - **Punktsannsynlighet:** $p(x)=P(X=x)$, med $p(x)\ge0$ og $\sum_xp(x)=1$.
           - **Kumulativ fordelingsfunksjon:** $F(x)=P(X\le x)=\sum_{y\le x}p(y)$.
@@ -37,7 +37,7 @@ parts:
         title: Binomisk fordeling
         keys: n uavhengige forsøk · suksess/fiasko · tabell A.1 · E = np
         topics: [diskrete]
-        practice: ['oppg1:O3-7c', 'oppg1:F2']
+        practice: ['oppg1:O3-7c', 'oppg1:F2', 'v24:2', 'h23:3b', 'prove3:4c']
         body: |
           $X\sim\text{Bin}(n,p)$ er antall suksesser i en **binomisk situasjon**:
 
@@ -66,6 +66,7 @@ parts:
         title: Hypergeometrisk og geometrisk fordeling
         keys: trekning uten tilbakelegging · første suksess · E = 1/p
         topics: [diskrete]
+        practice: ['h24:1a', 'h24:1b', 'prove2:4c', 'prove2:1a']
         body: |
           **Hypergeometrisk:** Trekk $m$ elementer *uten tilbakelegging* fra $n$, der $r$ er «spesielle». $X$ = antall spesielle i utvalget (formelarkets notasjon):
           $$P(X=k)=\frac{\binom rk\binom{n-r}{m-k}}{\binom nm},\qquad E(X)=m\frac rn,\qquad V(X)=m\frac rn\Big(1-\frac rn\Big)\frac{n-m}{n-1}.$$
@@ -87,7 +88,7 @@ parts:
         title: Poissonfordelingen
         keys: sjeldne hendelser · E = V = λ · tabell A.2 · Poisson-tilnærming
         topics: [poisson-eksp]
-        practice: ['h25:1', 'oppg1:A1b', 'oppg1:F2']
+        practice: ['h25:1', 'oppg1:A1b', 'oppg1:F2', 'h23:4g', 'prove2:2a']
         body: |
           $$P(X=k)=\frac{\lambda^k}{k!}e^{-\lambda},\quad k=0,1,2,\dots,\qquad E(X)=V(X)=\lambda.$$
           Den brukes for antall hendelser i et fast intervall (tid, areal, side med tekst) når hendelsene skjer uavhengig og sjeldent. Tabell A.2 gir $F(x;\mu)=P(X\le x)$.
@@ -109,7 +110,7 @@ parts:
         title: Poissonprosessen
         keys: intensitet λ · antall i [0,t] ~ Po(λt) · ventetider ~ exp(λ) · tynning
         topics: [poisson-eksp]
-        practice: ['v26:4d', 'oppg1:B1b']
+        practice: ['v26:4d', 'oppg1:B1b', 'h24:2a', 'v23:3b', 'prove1:4b']
         body: |
           En **Poissonprosess med intensitet $\lambda$** (hendelser per tidsenhet) kan beskrives på tre ekvivalente måter. På eksamen holder det å gi én (H24 2a):
 
@@ -135,7 +136,7 @@ parts:
         title: Tetthet, CDF, forventning, varians og median
         keys: f(x) · F(x) = ∫f · E(X) = ∫x f(x) dx · persentiler
         topics: [kontinuerlig]
-        practice: ['v26:2a', 'v25:3c']
+        practice: ['v26:2a', 'v25:3c', 'h23:4f', 'v24:3', 'prove2:4a']
         body: |
           $$P(a\le X\le b)=\int_a^bf(x)\,dx,\qquad f(x)\ge0,\qquad \int_{-\infty}^\infty f(x)\,dx=1.$$
           - $F(x)=P(X\le x)=\int_{-\infty}^xf(t)\,dt$ og $f(x)=F'(x)$.
@@ -162,7 +163,7 @@ parts:
         title: Uniform-, eksponential- og gammafordelingen
         keys: uniform · exp(λ) · hukommelsesløshet · gamma(α, β)
         topics: [poisson-eksp, kontinuerlig]
-        practice: ['h25:2a', 'v26:4d', 'oppg1:B1b', 'oppg1:C1a']
+        practice: ['h25:2a', 'v26:4d', 'oppg1:B1b', 'oppg1:C1a', 'prove2:1b']
         body: |
           **Uniform på $[A,B]$:** $f(x)=\frac1{B-A}$, $E=\frac{A+B}2$, $V=\frac{(B-A)^2}{12}$, og $F(x)=\frac{x-A}{B-A}$ på intervallet.
 
@@ -188,7 +189,7 @@ parts:
         title: Normalfordelingen
         keys: standardisering · Φ(z) · tabell A.3 · kvantiler z_α · normaltilnærming
         topics: [normal]
-        practice: ['v26:1c', 'h25:4e']
+        practice: ['v26:1c', 'h25:4e', 'prove1:2c', 'prove3:4b']
         body: |
           $X\sim N(\mu,\sigma^2)$ har en symmetrisk, klokkeformet tetthet. **Standardiser:**
           $$Z=\frac{X-\mu}{\sigma}\sim N(0,1),\qquad P(X\le x)=\Phi\!\left(\frac{x-\mu}{\sigma}\right).$$

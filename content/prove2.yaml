@@ -1,0 +1,218 @@
+id: prove2
+title: Prøveeksamen 2
+short: Prøve 2
+kind: prove
+order: 2
+blurb: 'Hemmelig oppskrift (geometrisk ventetid), MLE for Poissondata med eksponering, SGT og fire flervalg.'
+duration_min: 240
+note: |
+  Nylaget prøveeksamen med samme oppbygging som V26. **Oppgave 1** bygger på lekkasjemodellen fra Oblig 3a oppg. 7, men i diskret tid (år for år). Alle tall er oppdiktet.
+
+sections:
+  - title: Den hemmelige oppskriften
+    intro: |
+      $N=60$ ansatte i en bakeribedrift kjenner den hemmelige oppskriften. Hver ansatt røper oppskriften i løpet av et år med sannsynlighet $p=0.002$, uavhengig av de andre og av andre år. La $T$ være året da oppskriften lekker for første gang ($T=1,2,\dots$).
+    tasks:
+      - id: 1a
+        type: langsvar
+        points: 5
+        topics: [diskrete, sannsynlighet]
+        prompt: |
+          Finn sannsynligheten $q$ for at oppskriften lekker (minst én ansatt røper den) i løpet av et gitt år. Forklar hvorfor $T$ er geometrisk fordelt, og finn $E(T)$. Sammenlign med $1/(Np)$.
+        solution: |
+          Ingen lekkasje i et år har sannsynlighet $(1-p)^N=0.998^{60}=0.8868$ (uavhengighet), så
+          $$q=1-(1-p)^N\approx0.113.$$
+          **Geometrisk:** Hvert år er et uavhengig forsøk med «suksess» (lekkasje) med samme sannsynlighet $q$. $T$ er året for første suksess, så $P(T=t)=(1-q)^{t-1}q$ og $T\sim\text{geom}(q)$.
+
+          $E(T)=1/q\approx8.8$ år. Tilnærmingen $1/(Np)=1/0.12=8.3$ år ligner, fordi $q\approx Np$ når $Np$ er lite. Tilnærmingen undervurderer litt, siden $q<Np$.
+        rubric:
+          - [2, '$q=1-(1-p)^N\approx0.113$']
+          - [2, 'Begrunner geometrisk fordeling (uavhengige år, samme $q$)']
+          - [1, '$E(T)=1/q\approx8.8$ og sammenligning']
+
+      - id: 1b
+        type: langsvar
+        points: 5
+        topics: [diskrete, poisson-eksp]
+        prompt: |
+          Finn sannsynligheten for at oppskriften fortsatt er hemmelig etter 10 år, både eksakt og med $e^{-Npt}$. Bedriften har holdt oppskriften hemmelig i 5 år. Hva er sannsynligheten for at den holder i minst 10 år til? Begrunn.
+        solution: |
+          $$P(T>10)=(1-q)^{10}=0.998^{600}\approx0.301,\qquad e^{-60\cdot0.002\cdot10}=e^{-1.2}\approx0.301.$$
+          **Hukommelsesløshet:** Den geometriske fordelingen er hukommelsesløs:
+          $$P(T>15\mid T>5)=\frac{(1-q)^{15}}{(1-q)^5}=(1-q)^{10}=P(T>10)\approx0.30.$$
+          At oppskriften har holdt i 5 år, endrer ikke sjansene fremover (gitt modellens antakelser).
+        rubric:
+          - [2, '$P(T>10)\approx0.30$ med begge metoder']
+          - [3, 'Betinget sannsynlighet via hukommelsesløshet: $\approx0.30$']
+
+      - id: 1c
+        type: langsvar
+        points: 5
+        topics: [diskrete, poisson-eksp]
+        prompt: |
+          La $X$ være antall ansatte som røper oppskriften i løpet av ett bestemt år. Hvilken fordeling har $X$? Finn $P(X\ge2)$ både eksakt og med en passende tilnærming. Diskuter kort om antakelsen om uavhengighet mellom de ansatte er rimelig.
+        solution: |
+          $X\sim\text{Bin}(60,\ 0.002)$. Siden $n$ er stor og $p$ liten, er $X$ tilnærmet Poisson$(\lambda=np=0.12)$.
+
+          - Eksakt: $P(X\ge2)=1-0.998^{60}-60\cdot0.002\cdot0.998^{59}\approx0.0066$
+          - Poisson: $1-e^{-0.12}(1+0.12)\approx0.0066$
+
+          **Uavhengighet:** Lite realistisk. Ansatte snakker sammen, én lekkasje kan utløse flere, og noen ansatte (f.eks. de som slutter i jobben) har høyere risiko. Hendelsene er altså trolig positivt avhengige, og $p$ er neppe lik for alle.
+        rubric:
+          - [1, 'Binomisk med riktige parametre']
+          - [2, '$P(X\ge2)\approx0.0066$ med både binomisk og Poisson']
+          - [2, 'Fornuftig diskusjon av uavhengighet og lik $p$']
+
+  - title: Feil i programvare
+    intro: |
+      En programvarebedrift tester et nytt system. I testperiode nr. $i$, som varer $t_i$ timer, observeres $Y_i$ feil. Vi antar at $Y_1,\dots,Y_n$ er uavhengige og at $Y_i\sim\text{Poisson}(\theta t_i)$, der $\theta>0$ er feilraten per time.
+    tasks:
+      - id: 2a
+        type: langsvar
+        points: 5
+        topics: [poisson-eksp]
+        prompt: |
+          Hva er $E(Y_i)$ og $V(Y_i)$? Hva er sannsynligheten for ingen feil i en testperiode på $t=2$ timer når $\theta=0.5$? Hvilken fordeling har $Y_1+Y_2$?
+        solution: |
+          $E(Y_i)=V(Y_i)=\theta t_i$.
+
+          Med $\theta=0.5$ og $t=2$ er forventningen 1, så $P(Y=0)=e^{-1}\approx0.368$.
+
+          Summen av uavhengige Poissonvariabler er Poisson: $Y_1+Y_2\sim\text{Poisson}(\theta(t_1+t_2))$.
+        rubric:
+          - [2, '$E=V=\theta t_i$']
+          - [2, '$P(Y=0)=e^{-1}\approx0.37$']
+          - [1, 'Summen er Poisson$(\theta(t_1+t_2))$']
+
+      - id: 2b
+        type: langsvar
+        points: 10
+        topics: [mle]
+        prompt: |
+          Vis at sannsynlighetsmaksimeringsestimatoren for $\theta$ er
+          $$\hat\theta=\frac{\sum_{i=1}^nY_i}{\sum_{i=1}^nt_i}.$$
+          Regn ut $\hat\theta$ for dataene under. Er $\hat\theta$ forventningsrett? Finn $V(\hat\theta)$.
+
+          | Periode $i$ | 1 | 2 | 3 | 4 | 5 | 6 |
+          |---|---|---|---|---|---|---|
+          | $t_i$ (timer) | 2 | 3 | 1 | 4 | 2 | 3 |
+          | $y_i$ (feil) | 1 | 2 | 0 | 3 | 1 | 2 |
+        solution: |
+          **Likelihood:** $L(\theta)=\prod_{i=1}^n\dfrac{(\theta t_i)^{y_i}}{y_i!}e^{-\theta t_i}$
+
+          **Log-likelihood:**
+          $$\ell(\theta)=\sum y_i\ln\theta+\sum y_i\ln t_i-\sum\ln y_i!-\theta\sum t_i.$$
+          **Deriver og sett lik 0:**
+          $$\ell'(\theta)=\frac{\sum y_i}{\theta}-\sum t_i=0\ \Rightarrow\ \hat\theta=\frac{\sum y_i}{\sum t_i}.$$
+          **Med tall:** $\sum y_i=9$, $\sum t_i=15$, så $\hat\theta=0.6$ feil per time.
+
+          **Forventningsrett:** $E(\hat\theta)=\dfrac{\sum E(Y_i)}{\sum t_i}=\dfrac{\theta\sum t_i}{\sum t_i}=\theta$. Ja.
+
+          **Varians** (uavhengighet): $V(\hat\theta)=\dfrac{\sum V(Y_i)}{(\sum t_i)^2}=\dfrac{\theta}{\sum t_i}$, her $\theta/15$.
+        rubric:
+          - [2, 'Riktig likelihood']
+          - [2, 'Riktig log-likelihood']
+          - [2, 'Deriverer og løser']
+          - [1, '$\hat\theta=0.6$']
+          - [2, 'Viser forventningsretthet']
+          - [1, '$V(\hat\theta)=\theta/\sum t_i$']
+
+  - title: Gjennomsnitt av terningkast
+    tasks:
+      - id: '3'
+        label: '3'
+        type: langsvar
+        points: 5
+        topics: [sgt]
+        prompt: |
+          En rettferdig terning kastes 50 ganger, og $\bar X$ er gjennomsnittlig antall øyne. Forklar hvorfor $\bar X$ er tilnærmet normalfordelt, og finn tilnærmet $P(\bar X>4)$. (Ett kast har $E=3.5$ og $V=35/12$.)
+        solution: |
+          Kastene er uavhengige og likt fordelte. Sentralgrenseteoremet sier at gjennomsnittet er tilnærmet normalfordelt for store $n$, uansett fordelingen til ett kast. $n=50$ er stort nok.
+          $$E(\bar X)=3.5,\qquad SD(\bar X)=\sqrt{\frac{35/12}{50}}\approx0.2415,$$
+          $$P(\bar X>4)\approx P\!\left(Z>\frac{4-3.5}{0.2415}\right)=P(Z>2.07)=1-0.9808\approx0.019.$$
+        rubric:
+          - [2, 'Begrunner med SGT (i.i.d., stor $n$)']
+          - [2, 'Riktig forventning og standardavvik for $\bar X$']
+          - [1, 'Svar $\approx0.019$']
+
+  - title: Flervalg
+    tasks:
+      - id: 4a
+        type: flervalg
+        points: 6
+        topics: [kontinuerlig]
+        prompt: |
+          $X$ har tetthet $f(x)=2x$ for $0\le x\le1$. Hvilke utsagn er korrekte?
+        options:
+          - text: '$E(X)=2/3$'
+            correct: true
+            why: '$\int_0^12x^2dx$.'
+          - text: '$E(X)=1/2$'
+          - text: '$V(X)=1/18$'
+            correct: true
+            why: '$E(X^2)=1/2$, så $1/2-4/9=1/18$.'
+          - text: 'Medianen er $1/\sqrt2\approx0.71$'
+            correct: true
+            why: '$F(x)=x^2=0.5$.'
+          - text: '$P(X=0.5)=0.5$'
+            why: 'Punktsannsynligheter er 0 for kontinuerlige variabler.'
+          - text: '$F(0.5)=0.25$'
+            correct: true
+
+      - id: 4b
+        type: flervalg
+        points: 6
+        topics: [ki-test]
+        prompt: |
+          En tosidig $t$-test av $H_0:\mu=\mu_0$ gir p-verdi $0.03$. Hvilke utsagn er korrekte?
+        options:
+          - text: 'Vi forkaster $H_0$ på 5 % nivå'
+            correct: true
+          - text: 'Vi forkaster $H_0$ på 1 % nivå'
+            why: '$0.03>0.01$.'
+          - text: 'Sannsynligheten for at $H_0$ er sann, er $0.03$'
+            why: 'p-verdien er en sannsynlighet for data gitt $H_0$, ikke for $H_0$.'
+          - text: 'Et 95 % konfidensintervall for $\mu$ (fra samme data) inneholder ikke $\mu_0$'
+            correct: true
+            why: 'Tosidig test og intervall henger sammen.'
+          - text: 'Sannsynligheten for type I-feil med en test på 5 % nivå er 0.05'
+            correct: true
+
+      - id: 4c
+        type: flervalg
+        points: 6
+        topics: [diskrete]
+        prompt: |
+          Et parti har 20 enheter, hvorav 4 er defekte. Vi trekker 5 enheter uten tilbakelegging. La $X$ være antall defekte i utvalget. Hvilke utsagn er korrekte?
+        options:
+          - text: '$X$ er hypergeometrisk fordelt'
+            correct: true
+          - text: '$X\sim\text{Bin}(5,\ 0.2)$ eksakt'
+            why: 'Uten tilbakelegging endres sannsynlighetene. Binomisk er bare en tilnærming.'
+          - text: '$P(X=0)\approx0.282$'
+            correct: true
+            why: '$\binom{16}{5}/\binom{20}{5}=4368/15504$.'
+          - text: '$E(X)=1$'
+            correct: true
+            why: '$5\cdot4/20$.'
+          - text: '$V(X)=0.8$'
+            why: '$5\cdot0.2\cdot0.8\cdot\frac{15}{19}=0.63$. Binomisk varians mangler korreksjonsfaktoren.'
+
+      - id: 4d
+        type: flervalg
+        points: 6
+        topics: [mle]
+        prompt: |
+          $X_1,\dots,X_n$ er uavhengige og $\exp(\lambda)$-fordelte. Hvilke utsagn er korrekte?
+        options:
+          - text: 'MLE for $\lambda$ er $\hat\lambda=1/\bar X$'
+            correct: true
+          - text: 'MLE for $\lambda$ er $\hat\lambda=\bar X$'
+          - text: '$\bar X$ er forventningsrett for $1/\lambda$'
+            correct: true
+            why: '$E(\bar X)=E(X)=1/\lambda$.'
+          - text: '$V(\bar X)=\dfrac{1}{n\lambda^2}$'
+            correct: true
+          - text: 'MLE for medianen $\ln2/\lambda$ er $\bar X\ln2$'
+            correct: true
+            why: 'Invariansprinsippet: sett inn $\hat\lambda$.'

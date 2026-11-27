@@ -38,6 +38,7 @@ def check_text(where, s):
 
 index = []
 exam_tasks = {}
+built = {}
 warnings = []
 for path in sorted(SRC.glob("*.yaml")):
     d = yaml.safe_load(path.read_text())
@@ -107,6 +108,7 @@ for path in sorted(SRC.glob("*.yaml")):
         "tasks": {str(t["id"]): t.get("label", t["id"]) for sec in d["sections"] for t in sec["tasks"]},
     }
     d["totalPoints"] = round(total, 2)
+    built[eid] = d
     (OUT / f"{eid}.json").write_text(json.dumps(d, ensure_ascii=False, separators=(",", ":")))
     index.append(
         {
@@ -123,6 +125,53 @@ for path in sorted(SRC.glob("*.yaml")):
             "topics": sorted(set(topics_used), key=topics_used.index),
         }
     )
+
+# ---------- Automatiske temasett ----------
+topic_list = json.loads((ROOT / "data" / "topics.json").read_text())
+auto_ids = set()
+for ti, tp in enumerate(topic_list):
+    sections = []
+    total = 0
+    n = 0
+    sources = [e for e in sorted(built.values(), key=lambda e: (KIND_ORDER.get(e["kind"], 9), e.get("order", 0))) if e["kind"] in ("tidligere", "prove")]
+    for ex in sources:
+        for sec in ex["sections"]:
+            picked = []
+            for t in sec["tasks"]:
+                if tp["id"] in t.get("topics", []):
+                    c = dict(t)
+                    c["id"] = f"{ex['id']}-{t['id']}"
+                    c["label"] = f"{ex.get('short', ex['id'])} {t.get('label', t['id'])}"
+                    picked.append(c)
+            if picked:
+                sections.append({"title": f"{ex.get('short', ex['id'])} · {sec['title']}", "intro": sec.get("intro", ""), "tasks": picked})
+                total += sum(t["points"] for t in picked)
+                n += len(picked)
+    if n < 3:
+        continue
+    sid = f"tema-{tp['id']}"
+    auto_ids.add(sid)
+    d = {
+        "id": sid,
+        "title": f"Tema: {tp['name']}",
+        "short": tp["name"],
+        "kind": "temasett",
+        "kindLabel": "Temasett",
+        "order": 10 + ti,
+        "duration_min": 240,
+        "note": f"Alle oppgaver om **{tp['name'].lower()}** fra tidligere eksamener og prøveeksamener, samlet på ett sted. "
+                + (f"Les først [manualen](manual.html#{tp['manual']}). " if tp.get("manual") else "")
+                + "Resultatene teller med i studieradaren.",
+        "sections": sections,
+        "totalPoints": round(total, 2),
+    }
+    (OUT / f"{sid}.json").write_text(json.dumps(d, ensure_ascii=False, separators=(",", ":")))
+    index.append({
+        "id": sid, "title": d["title"], "short": tp["name"], "kind": "temasett", "order": d["order"],
+        "blurb": f"{n} oppgaver fra {len({s['title'].split(' · ')[0] for s in sections})} eksamenssett.",
+        "featured": "", "topic": tp["id"], "totalPoints": d["totalPoints"], "duration_min": 240, "nTasks": n,
+        "topics": [tp["id"]],
+    })
 
 # ---------- Manual ----------
 man_path = ROOT / "content" / "manual" / "manual.yaml"
@@ -170,7 +219,7 @@ index.sort(key=lambda e: (KIND_ORDER.get(e["kind"], 9), e["order"], e["id"]))
 
 # Fjern JSON for sett som ikke lenger har kilde
 for f in OUT.glob("*.json"):
-    if f.name != "index.json" and not (SRC / f"{f.stem}.yaml").exists():
+    if f.name != "index.json" and not (SRC / f"{f.stem}.yaml").exists() and f.stem not in auto_ids:
         f.unlink()
 
 for w_ in warnings:

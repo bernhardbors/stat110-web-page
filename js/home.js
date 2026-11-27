@@ -148,7 +148,7 @@ function renderRadar(runs, topics, index, manual) {
     }</p>
     <div class="radar">${rows
       .map((r) => {
-        const set = sets.find((s) => (s.topics || []).includes(r.id));
+        const set = sets.find((s) => s.topic === r.id) || sets.find((s) => (s.topics || []).includes(r.id));
         return `<div class="radar-row ${r.p === null ? "unseen" : r.p < 50 ? "low" : r.p < 75 ? "mid" : "high"}">
           <div class="radar-name">${esc(r.name)}<span class="freq" title="Antall av de sju siste eksamenene der temaet var med">${"●".repeat(r.freq)}${"○".repeat(7 - r.freq)}</span></div>
           <div class="radar-bar"><span style="width:${r.p ?? 0}%"></span></div>
